@@ -145,6 +145,15 @@ html {
 .note-creation-section {
 }
 
+textarea {
+  border: none;
+  outline: none;
+  min-width: 80vw;
+  height: 100%;
+  resize: none;
+  padding: 4rem;
+}
+
 .hidden {
   display: none;
 }

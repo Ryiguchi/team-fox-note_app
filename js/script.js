@@ -3,6 +3,7 @@
 // SELECTORS
 const btnCloseWelcome = document.querySelector(".welcome-close-btn");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
+const noteTextarea = document.querySelector(".note-textarea");
 
 // State = data representing the current state of the app
 const state = {
@@ -35,6 +36,8 @@ const toggleWelcome = function () {
   welcomePopUp.classList.toggle("hidden");
 };
 
+const createNoteTextarea = function () {};
+
 /**
  * Anything in here will be executed when the page loads
  * @author Ryan Iguchi
@@ -42,6 +45,7 @@ const toggleWelcome = function () {
 const init = function () {
   const data = getLocalStorage();
   if (data === null || data.firstLogIn === true) toggleWelcome();
+  createNoteTextarea();
 };
 
 init();
