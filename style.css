@@ -15,9 +15,22 @@ html {
   min-width: 100vw;
 }
 
+/* REUSEABLE */
+
 .icon {
   cursor: pointer;
 }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  padding: 1rem 2rem;
+}
+
+/* HEADER */
 
 .side-header {
   display: flex;
@@ -52,8 +65,10 @@ html {
   width: 3rem;
 }
 
+/* NOTE PREVIEW SECTION */
+
 .notes-preview-section {
-  width: 15%;
+  min-width: 18rem;
   background-color: #ccc;
 }
 
@@ -94,5 +109,42 @@ html {
   grid-row: 3;
 }
 
+/* WELCOME POP-UP */
+
+.welcome-pop-up {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #eee;
+  height: 80%;
+  width: 50%;
+
+  border-radius: 5px;
+
+  padding: 4rem 3rem 2rem 3rem;
+  margin: 4rem auto;
+}
+
+.welcome-pop-up h1 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.welcome-description {
+  font-size: 1.6rem;
+}
+
+.welcome-close-btn {
+  align-self: flex-end;
+  color: #fff;
+  background-color: rgb(70, 42, 173);
+  width: 10rem;
+}
+
+/* NOTE CREATION SECTION */
 .note-creation-section {
+}
+
+.hidden {
+  display: none;
 }
