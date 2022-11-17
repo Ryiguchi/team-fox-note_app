@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.side-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+
+  background-color: rgb(70, 42, 173);
+
+  width: 6rem;
+  min-height: 100%;
+  padding: 1rem;
+}
+
+.logo-box {
+}
+
+.logo {
+  height: 5rem;
+  width: 5rem;
+}
+
+.header-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.icon-side-bar {
+  width: 3rem;
+}
+
+.notes-preview-section {
+  width: 15%;
+  background-color: #ccc;
+}
+
+.note-preview {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  column-gap: 0.5rem;
+  width: 100%;
+  height: 8rem;
+
+  padding: 0.8rem;
+  border-bottom: 1px solid #888;
+}
+
+.note-preview--date {
+  font-size: 1rem;
+}
+
+.icon-tag--fill-preview {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.icon-preview {
+  width: 2rem;
+}
+
+.note-preview--title {
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.note-preview--text {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.note-creation-section {
+}
