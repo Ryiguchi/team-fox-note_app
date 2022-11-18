@@ -1,6 +1,11 @@
 "use strict";
 
+let quill = new Quill("#note-textarea", {
+  theme: "snow",
+});
+
 // SELECTORS
+const toolbar = document.querySelector(".ql-toolbar");
 const btnCloseWelcome = document.querySelector(".welcome-close-btn");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
 const noteTextarea = document.querySelector("#note-textarea");
@@ -34,9 +39,8 @@ const getLocalStorage = function () {
  */
 const toggleWelcome = function () {
   welcomePopUp.classList.toggle("hidden");
+  toolbar.classList.toggle("hidden");
 };
-
-const createNoteTextarea = function () { };
 
 /**
  * Anything in here will be executed when the page loads
@@ -45,7 +49,6 @@ const createNoteTextarea = function () { };
 const init = function () {
   const data = getLocalStorage();
   if (data === null || data.firstLogIn === true) toggleWelcome();
-  createNoteTextarea();
 };
 
 init();
@@ -58,10 +61,6 @@ btnCloseWelcome.addEventListener("click", (e) => {
   toggleWelcome();
 });
 
-
 /* As a user, I want to be able to create headings, bulleted lists, numbered lists and make text italic or bold
-*  @AUTHOr Revan Toma
-*/
-let quill = new Quill('#note-textarea', {
-  theme: 'snow'
-});
+ *  @AUTHOr Revan Toma
+ */

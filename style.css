@@ -28,6 +28,7 @@ html {
   border: none;
   border-radius: 5px;
   padding: 1rem 2rem;
+  cursor: pointer;
 }
 
 /* HEADER */
@@ -45,7 +46,8 @@ html {
   padding: 1rem;
 }
 
-.logo-box {}
+.logo-box {
+}
 
 .logo {
   height: 5rem;
@@ -145,7 +147,6 @@ html {
   width: 100%;
 
   overflow-y: hidden;
-
 }
 
 #note-textarea {
@@ -155,8 +156,6 @@ html {
   height: 100%;
   resize: none;
   margin: 4rem;
-
-
 }
 
 .hidden {
