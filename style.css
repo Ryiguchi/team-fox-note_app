@@ -45,8 +45,7 @@ html {
   padding: 1rem;
 }
 
-.logo-box {
-}
+.logo-box {}
 
 .logo {
   height: 5rem;
@@ -143,15 +142,21 @@ html {
 
 /* NOTE CREATION SECTION */
 .note-creation-section {
+  width: 100%;
+
+  overflow-y: hidden;
+
 }
 
-textarea {
+#note-textarea {
   border: none;
   outline: none;
   min-width: 80vw;
   height: 100%;
   resize: none;
-  padding: 4rem;
+  margin: 4rem;
+
+
 }
 
 .hidden {
