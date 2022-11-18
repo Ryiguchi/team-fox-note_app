@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
 
+    <script src="https://unpkg.com/phosphor-icons"></script>
     <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 
@@ -20,163 +21,17 @@
           <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo" />
         </div>
         <nav class="header-nav">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="#fff"
-            viewBox="0 0 256 256"
-            class="icon-search icon-side-bar icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <circle
-              cx="116"
-              cy="116"
-              r="84"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></circle>
-            <line
-              x1="175.4"
-              y1="175.4"
-              x2="224"
-              y2="224"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></line>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="#fff"
-            viewBox="0 0 256 256"
-            class="icon-star--fill icon-side-bar icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M239.2,97.4A16.4,16.4,0,0,0,224.6,86l-59.4-4.1-22-55.5A16.4,16.4,0,0,0,128,16h0a16.4,16.4,0,0,0-15.2,10.4L90.4,82.2,31.4,86A16.5,16.5,0,0,0,16.8,97.4,16.8,16.8,0,0,0,22,115.5l45.4,38.4L53.9,207a18.5,18.5,0,0,0,7,19.6,18,18,0,0,0,20.1.6l46.9-29.7h.2l50.5,31.9a16.1,16.1,0,0,0,8.7,2.6,16.5,16.5,0,0,0,15.8-20.8l-14.3-58.1L234,115.5A16.8,16.8,0,0,0,239.2,97.4Z"
-            ></path>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="#fff"
-            viewBox="0 0 256 256"
-            class="icon-tag--fill icon-side-bar icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M240,126.9,135.5,22.4A15.9,15.9,0,0,0,121.1,18L40.4,34.2a7.9,7.9,0,0,0-6.2,6.2L18,121.1a15.9,15.9,0,0,0,4.4,14.4L126.9,240a15.9,15.9,0,0,0,22.6,0L240,149.5a15.9,15.9,0,0,0,0-22.6ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"
-            ></path>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="#fff"
-            viewBox="0 0 256 256"
-            class="icon-plus icon-side-bar icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <line
-              x1="40"
-              y1="128"
-              x2="216"
-              y2="128"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></line>
-            <line
-              x1="128"
-              y1="40"
-              x2="128"
-              y2="216"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></line>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="#fff"
-            viewBox="0 0 256 256"
-            class="icon-save icon-side-bar icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M216,91.3V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8H164.7a7.9,7.9,0,0,1,5.6,2.3l43.4,43.4A7.9,7.9,0,0,1,216,91.3Z"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></path>
-            <path
-              d="M80,216V152a8,8,0,0,1,8-8h80a8,8,0,0,1,8,8v64"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></path>
-            <line
-              x1="152"
-              y1="72"
-              x2="96"
-              y2="72"
-              fill="none"
-              stroke="#fff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="16"
-            ></line>
-          </svg>
+          <i class="ph-magnifying-glass icon-side-bar icon"></i>
+          <i class="ph-star-fill ph-star-fill-preview icon-side-bar icon"></i>
+          <i class="ph-tag-fill ph-tag-fill-preview icon-side-bar icon"></i>
+          <i class="ph-plus icon-side-bar icon"></i>
         </nav>
       </header>
       <section class="notes-preview-section">
         <div class="note-preview">
           <div class="note-preview--date">17 Nov 2022</div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="#fff"
-            viewBox="0 0 256 256"
-            class="icon-tag--fill-preview icon-preview icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M240,126.9,135.5,22.4A15.9,15.9,0,0,0,121.1,18L40.4,34.2a7.9,7.9,0,0,0-6.2,6.2L18,121.1a15.9,15.9,0,0,0,4.4,14.4L126.9,240a15.9,15.9,0,0,0,22.6,0L240,149.5a15.9,15.9,0,0,0,0-22.6ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"
-            ></path>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="#000000"
-            viewBox="0 0 256 256"
-            class="icon-star--fill icon-preview icon"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M239.2,97.4A16.4,16.4,0,0,0,224.6,86l-59.4-4.1-22-55.5A16.4,16.4,0,0,0,128,16h0a16.4,16.4,0,0,0-15.2,10.4L90.4,82.2,31.4,86A16.5,16.5,0,0,0,16.8,97.4,16.8,16.8,0,0,0,22,115.5l45.4,38.4L53.9,207a18.5,18.5,0,0,0,7,19.6,18,18,0,0,0,20.1.6l46.9-29.7h.2l50.5,31.9a16.1,16.1,0,0,0,8.7,2.6,16.5,16.5,0,0,0,15.8-20.8l-14.3-58.1L234,115.5A16.8,16.8,0,0,0,239.2,97.4Z"
-            ></path>
-          </svg>
+          <i class="ph-tag-fill icon-preview icon"></i>
+          <i class="ph-star-fill icon-preview icon"></i>
           <div class="note-preview--title">Just a Test</div>
           <p class="note-preview--text">
             Just need some text to be able to style it with CSS so that...
