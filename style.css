@@ -63,7 +63,8 @@ html {
 }
 
 .icon-side-bar {
-  width: 3rem;
+  font-size: 3rem;
+  color: #fff;
 }
 
 /* NOTE PREVIEW SECTION */
@@ -88,13 +89,13 @@ html {
   font-size: 1rem;
 }
 
-.icon-tag--fill-preview {
+.icon-tag-fill-preview {
   grid-column: 2;
   grid-row: 1;
 }
 
 .icon-preview {
-  width: 2rem;
+  font-size: 1.2rem;
 }
 
 .note-preview--title {
