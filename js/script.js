@@ -1,7 +1,22 @@
 "use strict";
 
+const toolbarOptions = [
+  [{ font: [] }],
+  [{ size: ["small", "medium", "large", "huge"] }],
+  [{ color: [] }, { background: [] }],
+  ["bold", "italic", "underline"],
+  [{ align: [] }],
+  [{ list: "ordered" }, { list: "bullet" }],
+  ["code-block"],
+  ["link", "image", "video"],
+  ["clean"],
+];
+
 let quill = new Quill("#note-textarea", {
   theme: "snow",
+  modules: {
+    toolbar: toolbarOptions,
+  },
 });
 
 // SELECTORS
