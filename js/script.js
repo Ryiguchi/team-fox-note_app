@@ -3,7 +3,7 @@
 // SELECTORS
 const btnCloseWelcome = document.querySelector(".welcome-close-btn");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
-const noteTextarea = document.querySelector(".note-textarea");
+const noteTextarea = document.querySelector("#note-textarea");
 
 // State = data representing the current state of the app
 const state = {
@@ -36,7 +36,7 @@ const toggleWelcome = function () {
   welcomePopUp.classList.toggle("hidden");
 };
 
-const createNoteTextarea = function () {};
+const createNoteTextarea = function () { };
 
 /**
  * Anything in here will be executed when the page loads
@@ -56,4 +56,12 @@ btnCloseWelcome.addEventListener("click", (e) => {
   state.firstLogIn = false;
   setLocalStorage(state);
   toggleWelcome();
+});
+
+
+/* As a user, I want to be able to create headings, bulleted lists, numbered lists and make text italic or bold
+*  @AUTHOr Revan Toma
+*/
+let quill = new Quill('#note-textarea', {
+  theme: 'snow'
 });

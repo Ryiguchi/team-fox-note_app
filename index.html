@@ -6,6 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+
+  <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+  <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
   <title>Document</title>
   <script defer src="./js/script.js"></script>
 </head>
@@ -87,11 +92,13 @@
         </div>
         <button class="welcome-close-btn btn">Dismiss</button>
       </div>
-      <textarea name="note-textarea" id="note-textarea" spellcheck="true"
-        placeholder="start typing to create your note ...">
-        </textarea>
+      <div id="note-textarea">
+        <p></p>
+      </div>
+
     </main>
   </div>
+
 </body>
 
 </html>
