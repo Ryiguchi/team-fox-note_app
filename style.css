@@ -71,6 +71,7 @@ html {
 
 .notes-preview-section {
   min-width: 18rem;
+  max-width: 25rem;
   background-color: #ccc;
 }
 
