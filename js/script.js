@@ -10,7 +10,6 @@ const toolbarOptions = [
   ["code-block"],
   ["link", "image", "video"],
   ["clean"],
-  [{ tags: ["Personal", "Work", "Custom"] }],
 ];
 
 let quill = new Quill("#note-textarea", {
@@ -39,17 +38,15 @@ let state = {
     id: null,
     bookmarked: false,
   },
-  firstLogIn: true,
   savedNotes: [],
-  preview: "saved",
+  previewType: "allSaved",
 };
-let listen = true;
 
 // FUNCTIONS ///////////////////////////
 
-const wait = function (handler, sec) {
-  setTimeout(handler, sec * 1000);
-};
+// const wait = function (handler, sec) {
+//   setTimeout(handler, sec * 1000);
+// };
 
 /**
  *
@@ -66,7 +63,9 @@ const setLocalStorage = function (data) {
  * @author Ryan Iguchi
  */
 const getLocalStorage = function () {
-  return JSON.parse(localStorage.getItem("state"));
+  const savedState = _.cloneDeep(JSON.parse(localStorage.getItem("state")));
+  savedState.curNote = {};
+  return savedState;
 };
 
 /**
@@ -89,28 +88,28 @@ const getNoteIndexByID = function (id) {
   return state.savedNotes.findIndex((note) => note.id === id);
 };
 
-const updateNote = function (delta, i) {
-  state.savedNotes[i].delta = delta;
-  setLocalStorage(state);
-};
-
 const saveNewNote = function (delta) {
-  state.curNote.date = getDate();
-  state.curNote.id = createID();
-  state.curNote.delta = delta;
-  createSavedNote();
+  setNewNotePrperties(delta);
+  state.savedNotes.unshift(_.cloneDeep(state.curNote));
+  previewRender(state.savedNotes);
   setLocalStorage(state);
 };
 
 // create a deep copy of the current Note
-const createSavedNote = function () {
+const setNewNotePrperties = function (delta) {
+  state.curNote.date = getDate();
+  state.curNote.id = createID();
+  state.curNote.delta = delta;
   state.curNote.title = state.curNote.delta.ops[0].insert.slice(0, 30);
   state.curNote.preview = `${state.curNote.delta.ops[0].insert.slice(
     0,
-    145
+    150
   )}...`;
-  state.savedNotes.push(_.cloneDeep(state.curNote));
-  previewRender(state.savedNotes);
+};
+
+const updateNote = function (delta, i) {
+  state.savedNotes[i].delta = delta;
+  setLocalStorage(state);
 };
 
 const getDate = function () {
@@ -121,15 +120,9 @@ const createID = function () {
   return Date.now().toString().slice(5);
 };
 
-const clearCurID = function () {
-  state.curNote.id = createID();
-};
-
-const updateState = function (data) {
-  if (!data) return;
-  const { firstLogIn, savedNotes } = data;
-  state.firstLogIn = firstLogIn;
-  state.savedNotes = [...savedNotes];
+const updateState = function (newState) {
+  if (!newState) return;
+  state = _.cloneDeep(newState);
 };
 
 const previewRender = function (notesArr) {
@@ -176,10 +169,10 @@ const toggleStarHeader = function () {
  * @author Ryan Iguchi
  */
 const init = function () {
-  const data = getLocalStorage();
-  updateState(data);
+  const savedState = getLocalStorage();
+  if (!savedState) toggleWelcome();
+  updateState(savedState);
   previewRender(state.savedNotes);
-  if (data === null || state.firstLogIn === true) toggleWelcome();
 };
 
 init();
@@ -187,21 +180,15 @@ init();
 // EVENT HANDLERS //////////////////////////
 
 btnCloseWelcome.addEventListener("click", (e) => {
-  state.firstLogIn = false;
   setLocalStorage(state);
   toggleWelcome();
 });
 
 saveBtn.addEventListener("click", saveNote);
 
-// quill.on("text-change", () => {
-//   if(!listen) return
-//   wait(saveNote, 2);
-//   listen = false;
-// });
-
 btnNewNote.addEventListener("click", () => {
-  clearCurID();
+  saveNote();
+  state.curNote.id = createID();
   quill.setContents([{ insert: "\n" }]);
 });
 
