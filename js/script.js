@@ -10,6 +10,7 @@ const toolbarOptions = [
   ["code-block"],
   ["link", "image", "video"],
   ["clean"],
+  [{ tags: ["Personal", "Work", "Custom"] }],
 ];
 
 let quill = new Quill("#note-textarea", {
@@ -27,7 +28,9 @@ const welcomePopUp = document.querySelector(".welcome-pop-up");
 const saveBtn = document.querySelector(".icon-save");
 const noteTextarea = document.querySelector("#note-textarea");
 const previewSection = document.querySelector(".notes-preview-section");
-const btnShowBookmarks = document.querySelector(".ph-star-fill");
+const btnBookmarksActive = document.querySelector(".ph-star-fill");
+const btnBookmarksNotActive = document.querySelector(".ph-star");
+const starContainer = document.querySelector(".star-container");
 
 // State = data representing the current state of the app
 let state = {
@@ -97,22 +100,16 @@ const saveNewNote = function (delta) {
   state.curNote.delta = delta;
   createSavedNote();
   setLocalStorage(state);
-  console.log(state);
 };
 
 // create a deep copy of the current Note
 const createSavedNote = function () {
-  const title = state.curNote.delta.ops[0].insert.slice(0, 30);
-  const preview = `${state.curNote.delta.ops[0].insert.slice(0, 145)}...`;
-  const tempNote = {
-    title: title,
-    preview: preview,
-    date: state.curNote.date,
-    id: state.curNote.id,
-    delta: state.curNote.delta,
-    tags: [...state.curNote.tags],
-  };
-  state.savedNotes.push(tempNote);
+  state.curNote.title = state.curNote.delta.ops[0].insert.slice(0, 30);
+  state.curNote.preview = `${state.curNote.delta.ops[0].insert.slice(
+    0,
+    145
+  )}...`;
+  state.savedNotes.push(_.cloneDeep(state.curNote));
   previewRender(state.savedNotes);
 };
 
@@ -142,7 +139,7 @@ const previewRender = function (notesArr) {
     markup += `
       <div class="note-preview" data-id="${note.id}">
         <div class="note-preview--date">${note.date}</div>
-        <i class="ph-tag-fill icon-preview icon"></i>
+        <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
         ${
           note.bookmarked
             ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
@@ -161,6 +158,17 @@ const toggleBookmark = function (id) {
   note.bookmarked = note.bookmarked ? false : true;
   previewRender(state.savedNotes);
   setLocalStorage();
+};
+
+const renderNote = function (id) {
+  const note = state.savedNotes[getNoteIndexByID(id)];
+  quill.setContents(note.delta.ops);
+  state.curNote = _.cloneDeep(note);
+};
+
+const toggleStarHeader = function () {
+  btnBookmarksNotActive.classList.toggle("hidden");
+  btnBookmarksActive.classList.toggle("hidden");
 };
 
 /**
@@ -198,13 +206,13 @@ btnNewNote.addEventListener("click", () => {
 });
 
 previewSection.addEventListener("click", (e) => {
-  console.log("click");
   const noteID = e.target.closest(".note-preview").dataset.id;
-  console.log(noteID);
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
+  if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
+    renderNote(noteID);
 });
 
-btnShowBookmarks.addEventListener("click", (e) => {
+starContainer.addEventListener("click", (e) => {
   const bookmarkedNotes = state.savedNotes.filter(
     (note) => note.bookmarked === true
   );
@@ -212,8 +220,10 @@ btnShowBookmarks.addEventListener("click", (e) => {
   if (state.preview !== "bookmarks") {
     previewRender(bookmarkedNotes);
     state.preview = "bookmarks";
+    toggleStarHeader();
   } else {
     previewRender(state.savedNotes);
     state.preview = "saved";
+    toggleStarHeader();
   }
 });

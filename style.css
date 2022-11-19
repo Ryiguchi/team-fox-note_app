@@ -72,7 +72,9 @@ html {
 .notes-preview-section {
   min-width: 18rem;
   max-width: 25rem;
+  height: 100vh;
   background-color: #ccc;
+  overflow-y: scroll;
 }
 
 .note-preview {
@@ -161,5 +163,5 @@ html {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
