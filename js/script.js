@@ -63,9 +63,7 @@ const setLocalStorage = function (data) {
  * @author Ryan Iguchi
  */
 const getLocalStorage = function () {
-  const savedState = _.cloneDeep(JSON.parse(localStorage.getItem("state")));
-  // savedState.curNote = {};
-  return savedState;
+  return _.cloneDeep(JSON.parse(localStorage.getItem("state")));
 };
 
 /**
@@ -133,19 +131,10 @@ const renderPreview = function (notesArr) {
   previewSection.insertAdjacentHTML("afterbegin", markup);
 };
 
-// const renderToolbar = function () {
-// const markup = "";
-// state.userTags.forEach((tag) => {
-//   html += `
-//       <li class="tag-selection" data-tag="${tag}">${tag}</li>
-//   `;
-// });
-// }
-
 const toggleBookmark = function (id) {
   const note = state.savedNotes[getNoteIndexByID(id)];
   note.bookmarked = note.bookmarked ? false : true;
-  previewRender(state.savedNotes);
+  renderPreview(state.savedNotes);
   setLocalStorage();
 };
 
@@ -163,8 +152,8 @@ const renderNote = function (id) {
 };
 
 const updateTagListToolbar = function (note) {
+  resetTagList();
   note.tags.forEach((tag) => {
-    console.log("hi");
     document
       .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
       .forEach((icon) => icon.classList.toggle("hidden"));
@@ -175,37 +164,42 @@ const toggleStarHeader = function () {
   btnBookmarksActive.classList.toggle("hidden");
 };
 
-// const toggleTagMenu = function () {
-//   tagMenu.classList.toggle("hidden");
-// };
+const toggleTagMenu = function () {
+  tagMenu.classList.toggle("hidden");
+};
 
-// const toggleTagToNote = function (tag) {
-//   const tags = state.savedNotes[0].tags;
-//   tags.includes(tag)
-//     ? tags.splice(
-//         tags.findIndex((t) => t === tag),
-//         1
-//       )
-//     : tags.push(tag);
-//   console.log(state.savedNotes[0]);
-// };
+const toggleTagToNote = function (tag) {
+  const tags = state.savedNotes[0].tags;
+  tags.includes(tag)
+    ? tags.splice(
+        tags.findIndex((t) => t === tag),
+        1
+      )
+    : tags.push(tag);
+  console.log(state.savedNotes[0]);
+};
 
-// const toggleActiveTag = function (el) {
-//   const [...children] = el.closest(".tag-selection").children;
-//   console.log(children);
-//   children.forEach((el) => el.classList.toggle("hidden"));
-//   // el.(".ph-tag-fill").classList.toggle("hidden");
-//   // el.closest(".ph-tag").classList.toggle("hidden");
-// };
+const toggleActiveTag = function (el) {
+  const [...children] = el.closest(".tag-selection").children;
+  console.log(children);
+  children.forEach((el) => el.classList.toggle("hidden"));
+};
 
 const createNewNote = function () {
   quill.setContents([{ insert: "\n" }]);
-  // document.querySelectorAll(".tag-icon-tag-menu-fill").classList.add("hidden");
-  // document
-  //   .querySelectorAll(".tag-icon-tag-menu-line")
-  //   .classList.remove("hidden");
+  resetTagList();
+
   const newNote = initNoteValues();
   state.savedNotes.unshift(newNote);
+};
+
+const resetTagList = function () {
+  document
+    .querySelectorAll(".tag-icon-tag-menu-fill")
+    .forEach((el) => el.classList.add("hidden"));
+  document
+    .querySelectorAll(".tag-icon-tag-menu-line")
+    .forEach((el) => el.classList.remove("hidden"));
 };
 
 const initNoteValues = function () {
@@ -277,11 +271,11 @@ starContainer.addEventListener("click", (e) => {
   );
   console.log(state);
   if (state.preview !== "bookmarks") {
-    previewRender(bookmarkedNotes);
+    renderPreview(bookmarkedNotes);
     state.preview = "bookmarks";
     toggleStarHeader();
   } else {
-    previewRender(state.savedNotes);
+    renderPreview(state.savedNotes);
     state.preview = "saved";
     toggleStarHeader();
   }
@@ -291,8 +285,8 @@ btnTagToolbar.addEventListener("click", (e) => {
   if (e.target.classList.contains("tag-icon-toolbar")) toggleTagMenu();
 });
 
-// tagMenu.addEventListener("click", (e) => {
-//   const chosenTag = e.target.closest(".tag-selection").dataset.tag;
-//   toggleTagToNote(chosenTag);
-//   toggleActiveTag(e.target);
-// });
+tagMenu.addEventListener("click", (e) => {
+  const chosenTag = e.target.closest(".tag-selection").dataset.tag;
+  toggleTagToNote(chosenTag);
+  toggleActiveTag(e.target);
+});
