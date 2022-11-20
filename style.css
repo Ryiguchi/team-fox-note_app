@@ -46,8 +46,7 @@ html {
   padding: 1rem;
 }
 
-.logo-box {
-}
+.logo-box {}
 
 .logo {
   height: 5rem;
@@ -161,6 +160,7 @@ html {
   resize: none;
   margin: 4rem;
 }
+
 /* TOOLBAR */
 
 #custom-button {
@@ -230,4 +230,85 @@ html {
 
 .hidden {
   display: none !important;
+}
+
+
+
+.ql-editor ul[data-checked="true"] {
+  color: green;
+  opacity: 0.7;
+  font-size: 1.5rem;
+}
+
+/* Templade drop-down menu section */
+
+.select {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 0.5em;
+  padding: 0.5em;
+  cursor: pointer;
+  transform: background 0.3s;
+  opacity: 0.8;
+}
+
+.select-clicked {
+  border: 2px #26489a solid;
+  box-shadow: 0 0 0.8em #26489a;
+}
+
+.select:hover {
+  opacity: 1;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #fff;
+  transform: 0.3s;
+}
+
+/* Rotate template */
+
+.caret-rotate {
+  transform: rotate(180deg);
+}
+
+.menu {
+  list-style: none;
+  padding: 0.2em 0.5em;
+  background: blueviolet;
+  border: 1px white solid;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0, 2);
+  border-radius: 0.5em;
+  color: #c5cad9;
+  position: absolute;
+  opacity: 0;
+  display: none;
+}
+
+.menu li {
+  padding: 0.8em 0.5em;
+  margin: 0.3em 0;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+.menu li:hover {
+  background: #888;
+}
+
+.active {
+  background-color: rgb(70, 42, 173);
+
+}
+
+.menu-open {
+  display: block;
+  opacity: 1;
 }
