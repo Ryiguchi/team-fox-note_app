@@ -1,22 +1,23 @@
 "use strict";
 
-const toolbarOptions = [
-  [{ font: [] }],
-  [{ size: ["small", "medium", "large", "huge"] }],
-  [{ color: [] }, { background: [] }],
-  ["bold", "italic", "underline"],
-  [{ align: [] }],
-  [{ list: "ordered" }, { list: "bullet" }],
-  ["code-block"],
-  ["link", "image", "video"],
-  ["clean"],
-];
+// const toolbarOptions = [
+//   [{ font: [] }],
+//   [{ size: ["small", "medium", "large", "huge"] }],
+//   [{ color: [] }, { background: [] }],
+//   ["bold", "italic", "underline"],
+//   [{ align: [] }],
+//   [{ list: "ordered" }, { list: "bullet" }],
+//   ["code-block"],
+//   ["link", "image", "video"],
+//   ["clean"],
+// ];
 
-let quill = new Quill("#note-textarea", {
+let quill = new Quill("#editor", {
   theme: "snow",
   modules: {
-    toolbar: toolbarOptions,
+    toolbar: "#toolbar",
   },
+  placeholder: "Start typing here ...",
 });
 
 // SELECTORS
@@ -30,18 +31,17 @@ const previewSection = document.querySelector(".notes-preview-section");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
 const starContainer = document.querySelector(".star-container");
+const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
+const tagMenu = document.querySelector(".tag-selection-container");
+const customTag = document.querySelector(".tag-custom");
 
 // State = data representing the current state of the app
 let state = {
-  curNote: {
-    tags: [],
-    id: null,
-    bookmarked: false,
-  },
   savedNotes: [],
+  userTags: ["Personal", "Work", "Important"],
   previewType: "allSaved",
 };
-
+console.log(state);
 // FUNCTIONS ///////////////////////////
 
 // const wait = function (handler, sec) {
@@ -64,7 +64,7 @@ const setLocalStorage = function (data) {
  */
 const getLocalStorage = function () {
   const savedState = _.cloneDeep(JSON.parse(localStorage.getItem("state")));
-  savedState.curNote = {};
+  // savedState.curNote = {};
   return savedState;
 };
 
@@ -78,38 +78,26 @@ const toggleWelcome = function () {
 };
 
 const saveNote = function () {
-  const delta = quill.getContents();
-  const index = getNoteIndexByID(state.curNote.id);
-
-  index === -1 ? saveNewNote(delta) : updateNote(delta, index);
+  if (!state.savedNotes[0].saved) {
+    saveNoteData(state.savedNotes[0]);
+    renderPreview(state.savedNotes);
+    setLocalStorage(state);
+  }
+  if (state.savedNotes[0].saved) updateNote();
 };
 
-const getNoteIndexByID = function (id) {
-  return state.savedNotes.findIndex((note) => note.id === id);
+const saveNoteData = function (note) {
+  note.delta = quill.getContents();
+  if (!note.delta) return;
+  note.title = note.delta.ops[0].insert.slice(0, 30);
+  note.preview = note.delta.ops[0].insert.slice(0, 150);
+  note.saved = true;
 };
 
-const saveNewNote = function (delta) {
-  setNewNotePrperties(delta);
-  state.savedNotes.unshift(_.cloneDeep(state.curNote));
-  previewRender(state.savedNotes);
+const updateNote = function () {
+  state.savedNotes[0].delta = quill.getContents();
   setLocalStorage(state);
-};
-
-// create a deep copy of the current Note
-const setNewNotePrperties = function (delta) {
-  state.curNote.date = getDate();
-  state.curNote.id = createID();
-  state.curNote.delta = delta;
-  state.curNote.title = state.curNote.delta.ops[0].insert.slice(0, 30);
-  state.curNote.preview = `${state.curNote.delta.ops[0].insert.slice(
-    0,
-    150
-  )}...`;
-};
-
-const updateNote = function (delta, i) {
-  state.savedNotes[i].delta = delta;
-  setLocalStorage(state);
+  console.log(state);
 };
 
 const getDate = function () {
@@ -121,11 +109,10 @@ const createID = function () {
 };
 
 const updateState = function (newState) {
-  if (!newState) return;
   state = _.cloneDeep(newState);
 };
 
-const previewRender = function (notesArr) {
+const renderPreview = function (notesArr) {
   previewSection.innerHTML = "";
   let markup = "";
   notesArr.forEach((note) => {
@@ -140,11 +127,20 @@ const previewRender = function (notesArr) {
         }
         <div class="note-preview--title">${note.title}</div>
         <p class="note-preview--text">${note.preview}</p>
-      </div>
-    `;
+        </div>
+        `;
   });
   previewSection.insertAdjacentHTML("afterbegin", markup);
 };
+
+// const renderToolbar = function () {
+// const markup = "";
+// state.userTags.forEach((tag) => {
+//   html += `
+//       <li class="tag-selection" data-tag="${tag}">${tag}</li>
+//   `;
+// });
+// }
 
 const toggleBookmark = function (id) {
   const note = state.savedNotes[getNoteIndexByID(id)];
@@ -153,17 +149,89 @@ const toggleBookmark = function (id) {
   setLocalStorage();
 };
 
-const renderNote = function (id) {
-  const note = state.savedNotes[getNoteIndexByID(id)];
-  quill.setContents(note.delta.ops);
-  state.curNote = _.cloneDeep(note);
+const getNoteIndexByID = function (id) {
+  return state.savedNotes.findIndex((note) => note.id === id);
 };
 
+const renderNote = function (id) {
+  const index = getNoteIndexByID(id);
+  const note = state.savedNotes[index];
+  quill.setContents(note.delta.ops);
+  updateTagListToolbar(note);
+  state.savedNotes.splice(index, 1);
+  state.savedNotes.unshift(note);
+};
+
+const updateTagListToolbar = function (note) {
+  note.tags.forEach((tag) => {
+    console.log("hi");
+    document
+      .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
+      .forEach((icon) => icon.classList.toggle("hidden"));
+  });
+};
 const toggleStarHeader = function () {
   btnBookmarksNotActive.classList.toggle("hidden");
   btnBookmarksActive.classList.toggle("hidden");
 };
 
+// const toggleTagMenu = function () {
+//   tagMenu.classList.toggle("hidden");
+// };
+
+// const toggleTagToNote = function (tag) {
+//   const tags = state.savedNotes[0].tags;
+//   tags.includes(tag)
+//     ? tags.splice(
+//         tags.findIndex((t) => t === tag),
+//         1
+//       )
+//     : tags.push(tag);
+//   console.log(state.savedNotes[0]);
+// };
+
+// const toggleActiveTag = function (el) {
+//   const [...children] = el.closest(".tag-selection").children;
+//   console.log(children);
+//   children.forEach((el) => el.classList.toggle("hidden"));
+//   // el.(".ph-tag-fill").classList.toggle("hidden");
+//   // el.closest(".ph-tag").classList.toggle("hidden");
+// };
+
+const createNewNote = function () {
+  quill.setContents([{ insert: "\n" }]);
+  // document.querySelectorAll(".tag-icon-tag-menu-fill").classList.add("hidden");
+  // document
+  //   .querySelectorAll(".tag-icon-tag-menu-line")
+  //   .classList.remove("hidden");
+  const newNote = initNoteValues();
+  state.savedNotes.unshift(newNote);
+};
+
+const initNoteValues = function () {
+  const newNote = {
+    date: getDate(),
+    id: createID(),
+    tags: [],
+    bookmarked: false,
+    saved: false,
+  };
+  return newNote;
+};
+
+const renderToolbar = function (parEl) {
+  let markup = "";
+  state.userTags.forEach((tag) => {
+    markup += `
+      <li class="tag-selection" data-tag="${tag.toLowerCase()}">
+        <i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${tag.toLowerCase()} icon hidden"></i>
+        <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${tag.toLowerCase()} icon "></i>
+        ${tag}
+      </li>
+  `;
+  });
+  parEl.insertAdjacentHTML("afterend", markup);
+};
 /**
  * Anything in here will be executed when the page loads
  * @author Ryan Iguchi
@@ -171,8 +239,12 @@ const toggleStarHeader = function () {
 const init = function () {
   const savedState = getLocalStorage();
   if (!savedState) toggleWelcome();
-  updateState(savedState);
-  previewRender(state.savedNotes);
+  if (savedState) {
+    updateState(savedState);
+    renderPreview(state.savedNotes);
+  }
+  renderToolbar(customTag);
+  createNewNote();
 };
 
 init();
@@ -188,8 +260,7 @@ saveBtn.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
   saveNote();
-  state.curNote.id = createID();
-  quill.setContents([{ insert: "\n" }]);
+  createNewNote();
 });
 
 previewSection.addEventListener("click", (e) => {
@@ -197,6 +268,7 @@ previewSection.addEventListener("click", (e) => {
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
   if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
     renderNote(noteID);
+  console.log(state);
 });
 
 starContainer.addEventListener("click", (e) => {
@@ -214,3 +286,13 @@ starContainer.addEventListener("click", (e) => {
     toggleStarHeader();
   }
 });
+
+btnTagToolbar.addEventListener("click", (e) => {
+  if (e.target.classList.contains("tag-icon-toolbar")) toggleTagMenu();
+});
+
+// tagMenu.addEventListener("click", (e) => {
+//   const chosenTag = e.target.closest(".tag-selection").dataset.tag;
+//   toggleTagToNote(chosenTag);
+//   toggleActiveTag(e.target);
+// });

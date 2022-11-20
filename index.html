@@ -60,9 +60,52 @@
           </div>
           <button class="welcome-close-btn btn">Dismiss</button>
         </div>
-        <div id="note-textarea">
-          <p></p>
+        <div id="toolbar">
+          <!-- Add font size dropdown -->
+          <select class="ql-font"></select>
+          <select class="ql-size">
+            <option value="small"></option>
+            <!-- Note a missing, thus falsy value, is used to reset to default -->
+            <option selected></option>
+            <option value="large"></option>
+            <option value="huge"></option>
+          </select>
+          <!-- Add a bold button -->
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+          <select class="ql-align"></select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+          <button class="ql-code-block"></button>
+          <button class="ql-link"></button>
+          <button class="ql-image"></button>
+          <button class="ql-video"></button>
+          <button class="ql-clean"></button>
+          <!-- Add subscript and superscript buttons -->
+
+          <button id="custom-button" class="tag-tb">
+            <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
+            <div class="tag-selection-container hidden">
+              <ul>
+                <li class="tag-selection tag-custom" data-tag="custom">
+                  Custom...
+                </li>
+              </ul>
+            </div>
+          </button>
+          <button id="custom-button" class="tag-name">Tag: None</button>
+          <button id="custom-button">
+            <i class="ph-star-fill icon-toolbar icon hidden"></i>
+            <i class="ph-star icon-toolbar icon"></i>
+          </button>
+          <button id="custom-button">
+            <i class="ph-floppy-disk icon-save icon-toolbar icon"></i>
+          </button>
         </div>
+        <div id="editor"></div>
       </main>
     </div>
   </body>
