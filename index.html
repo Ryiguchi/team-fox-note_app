@@ -29,12 +29,22 @@
             <i class="ph-star-fill icon-side-bar icon hidden"></i>
             <i class="ph-star icon-side-bar icon"></i>
           </div>
-          <i class="ph-tag-fill icon-side-bar icon"></i>
+          <i class="ph-tag-fill icon-side-bar icon-side-bar-tag-fill icon"></i>
+          <div
+            class="tag-selection-container tag-selection-container-sideber tag-selection-container-sidebar hidden"
+          >
+            <ul class="tag-list-sidebar-default">
+              <li data-tag="all" class="tag-selection">All Notes</li>
+              <li data-tag="tags" class="tag-selection">All Notes with tags</li>
+            </ul>
+            <ul class="tag-list-sidebar"></ul>
+          </div>
           <i class="ph-plus icon-plus icon-side-bar icon"></i>
           <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
         </nav>
       </header>
       <section class="notes-preview-section">
+        <div class="preview-section-header"></div>
         <!-- <div class="note-preview">
           <div class="note-preview--date">17 Nov 2022</div>
           <i class="ph-tag-fill icon-preview icon"></i>
@@ -88,15 +98,27 @@
 
           <button id="custom-button" class="tag-tb">
             <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
-            <div class="tag-selection-container hidden">
-              <ul>
+            <div
+              class="tag-selection-container tag-selection-container-toolbar hidden"
+            >
+              <ul class="custom-ul">
                 <li class="tag-selection tag-custom" data-tag="custom">
                   Custom...
                 </li>
+                <li class="custom-tag-list-item custom-tag-input-el hidden">
+                  <div class="custom-tag-container custom-tag-input-el">
+                    <input
+                      type="text"
+                      placeholder="Name of tag"
+                      class="input-custom-tag custom-tag-input-el"
+                    />
+                    <div class="custom-tag-btn custom-tag-input-el">OK</div>
+                  </div>
+                </li>
               </ul>
+              <ul class="tag-list-toolbar"></ul>
             </div>
           </button>
-          <button id="custom-button" class="tag-name">Tag: None</button>
           <button id="custom-button">
             <i class="ph-star-fill icon-toolbar icon hidden"></i>
             <i class="ph-star icon-toolbar icon"></i>
@@ -105,8 +127,18 @@
             <i class="ph-floppy-disk icon-save icon-toolbar icon"></i>
           </button>
         </div>
-        <div id="editor"></div>
+        <div class="note-container">
+          <div class="title-container">
+            <input
+              type="text"
+              class="input-title"
+              placeholder="Untitled Document"
+            />
+          </div>
+          <div id="editor"></div>
+        </div>
       </main>
     </div>
+    <div class="overlay hidden"></div>
   </body>
 </html>
