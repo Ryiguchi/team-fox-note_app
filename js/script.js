@@ -45,6 +45,7 @@ let state = {
   savedNotes: [],
   userTags: ["Personal", "Work", "Important"],
   previewType: "allSaved",
+  themes: 'light'
 };
 // ////////////////////////////////////////
 // FUNCTIONS //////////////////////////////
@@ -203,10 +204,9 @@ const renderPreview = function (notesArr, listType) {
       <div class="note-preview" data-id="${note.id}">
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
-        ${
-          note.bookmarked
-            ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
-            : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
+        ${note.bookmarked
+          ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
+          : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
         }
         <div class="note-preview--title">${note.title}</div>
         <p class="note-preview--text">${note.preview}</p>
@@ -283,9 +283,9 @@ const toggleTagToNote = function (tag) {
   const tags = state.savedNotes[0].tags;
   tags.includes(tag)
     ? tags.splice(
-        tags.findIndex((t) => t === tag),
-        1
-      )
+      tags.findIndex((t) => t === tag),
+      1
+    )
     : tags.push(tag);
 };
 
@@ -327,12 +327,11 @@ const renderTagList = function (parEl) {
     const newTag = tag.replaceAll(/\s+/g, "_");
     markup += `
       <li class="tag-selection tag-selection-${newTag}" data-tag="${newTag}">
-        ${
-          parEl === tagListToolbar
-            ? `<i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${newTag} icon hidden"></i>
+        ${parEl === tagListToolbar
+        ? `<i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${newTag} icon hidden"></i>
           <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${newTag} icon "></i>`
-            : ""
-        }
+        : ""
+      }
         ${tag}
       </li>
   `;
@@ -364,6 +363,7 @@ const init = function () {
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
   createNewNote();
+  initThemeSelector();
 };
 
 /**
@@ -378,7 +378,6 @@ const toggleWelcome = function () {
 };
 
 init();
-initThemeSelector();
 
 ////////////////////////////////////////////
 // EVENT HANDLERS //////////////////////////
@@ -506,19 +505,21 @@ inputTitle.addEventListener("keydown", (key) => {
 function initThemeSelector() {
   const themeSelect = document.querySelector(".themeSelect");
   const themeStylesLink = document.querySelector("#themeStylesLink");
-  const currentTheme = localStorage.getItem("theme") || "light";
+
 
   function activateTheme(themeName) {
     themeStylesLink.setAttribute("href", `themes/${themeName}.css`);
+    state.themes = themeName
+    setLocalStorage(state)
   }
 
   // Listen for change and change the theme then save it to localStorage.
   themeSelect.addEventListener("change", () => {
     activateTheme(themeSelect.value);
-    localStorage.setItem("theme", themeSelect.value);
+
   });
 
   // Set menu selection to current theme
-  themeSelect.value = currentTheme;
-  activateTheme(currentTheme);
+  themeSelect.value = state.themes;
+  activateTheme(state.themes);
 }

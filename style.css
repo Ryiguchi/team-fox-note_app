@@ -12,7 +12,7 @@ html {
 }
 
 .container {
-  background-color: #eee;
+  background-color: var(--side-bar);
   display: flex;
   gap: 0.4rem;
   min-height: 100vh;
@@ -42,18 +42,21 @@ html {
   flex-direction: column;
   align-items: center;
   gap: 3rem;
-  /* background-color: rgb(70, 42, 173); */
-  background-color: var(--side-bar);
-
   width: 6rem;
   min-height: 100%;
   padding: 1rem;
+  background-color: var(--side-menu);
 }
 
 .side-header i,
 .side-header span {
   color: var(--note-section);
   font-weight: bolder;
+  opacity: 0.8;
+}
+
+.side-header i:hover {
+  opacity: 1;
 }
 
 .logo {
@@ -83,8 +86,6 @@ html {
   min-width: 18rem;
   max-width: 25rem;
   height: 100vh;
-  /* background-color: #ccc; */
-  background-color: var(--note-section);
 
   overflow-y: scroll;
 }
@@ -106,9 +107,10 @@ html {
   font-size: 1.6rem;
   width: 100%;
   height: 4rem;
-  border: 1px solid #aaa;
-  background-color: #fff;
+  border: 1px solid var(--primary-background-color);
+  background-color: var(--note-section);
   padding: 0.8rem;
+
 }
 
 .note-preview {
@@ -118,10 +120,9 @@ html {
   width: 100%;
   height: 8rem;
   cursor: pointer;
-  background-color: #ccc;
-
+  background-color: var(--note-section);
   padding: 0.8rem;
-  border: 1px solid #888;
+  border: 1px solid var(--primary-background-color);
   border-radius: 5px;
 }
 
@@ -150,6 +151,7 @@ html {
   grid-column: 1 / -1;
   grid-row: 3;
 }
+
 
 /* WELCOME POP-UP */
 
@@ -186,16 +188,20 @@ html {
 /* NOTE CREATION SECTION */
 .note-creation-section {
   width: 100%;
-
+  background-color: var(--side-bar);
   overflow-y: hidden;
 }
+
+
 
 /* TOOLBAR */
 
 #toolbar {
-  background-color: #fff;
+  background: var(--primary-background-color);
+
+
   border: 1px solid #aaa;
-  height: 4rem;
+
 }
 
 #custom-button {
@@ -206,6 +212,10 @@ html {
 #custom-button:hover,
 .icon-toolbar:hover {
   color: var(--primary-icons-hover);
+}
+
+svg {
+  background: var(--filter-svg);
 }
 
 .ql-picker-options {
@@ -325,10 +335,12 @@ html {
 
 .note-container {
   width: 100%;
+
 }
 
 .title-container {
-  background-color: #fff;
+  background: var(--primary-background-color);
+  color: var(--primary-text-color);
   display: flex;
   justify-content: center;
   width: 70rem;
@@ -345,17 +357,22 @@ html {
   border: none;
   width: 100%;
   margin: 0 auto;
+  background: var(--primary-background-color);
+  color: var(--primary-text-color);
 }
 
 #editor {
   max-width: 70rem;
   min-height: 65vh;
   margin: 0 auto;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 0 0.5rem;
   border: 1px solid #aaa;
   border-top: none;
   border-radius: 0 0 10px 10px;
+  background: var(--primary-background-color);
+  color: var(--primary-text-color);
+
 }
 
 .overlay {
