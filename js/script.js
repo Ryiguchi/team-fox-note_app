@@ -244,6 +244,8 @@ const init = function () {
 };
 
 init();
+initThemeSelector();
+
 
 // EVENT HANDLERS //////////////////////////
 
@@ -296,36 +298,27 @@ tagMenu.addEventListener("click", (e) => {
 /** Dropdown menu for the templates selections.
  * @author Revan Toma
  */
-dropDowns.forEach((dropdown) => {
 
-  const select = dropdown.querySelector('.select');
-  const caret = dropdown.querySelector('.caret');
-  const menu = dropdown.querySelector('.menu');
-  const options = dropdown.querySelectorAll('.menu li');
-  const selected = dropdown.querySelector('.selected');
 
-  // this way we can use multiple dropdown menus in future 
 
-  //Add click event to the select element
-  select.addEventListener('click', () => {
+function initThemeSelector() {
+  const themeSelect = document.querySelector('.themeSelect');
+  const themeStylesLink = document.querySelector('#themeStylesLink');
+  const currentTheme = localStorage.getItem('theme') || "light";
 
-    select.classList.toggle('select-clicked');
-    caret.classList.toggle('caret-rotate');
-    menu.classList.toggle('menu-open');
+  function activateTheme(themeName) {
+
+    themeStylesLink.setAttribute('href', `themes/${themeName}.css`);
+  }
+
+  themeSelect.addEventListener('change', () => {
+    activateTheme(themeSelect.value);
+    localStorage.setItem('theme', themeSelect.value);
   });
 
-  options.forEach((option) => {
-    option.addEventListener('click', () => {
-      selected.innerText = option.innerText;
-      select.classList.remove('select-clicked');
-      caret.classList.remove('caret-rotate');
-      menu.classList.remove('menu-open');
+  themeSelect.value = currentTheme;
+  activateTheme(currentTheme);
 
-      options.forEach((option) => {
-        option.classList.remove('active');
-      });
-      option.classList.add('active');
-    })
-  })
 
-});
+
+}

@@ -1,0 +1,10 @@
+:root {
+    --primary-background-color: #FBFACD;
+    --primary-text-color: #000000;
+    --primary-icons-hover: #7F669D;
+    --svg-color: #7F669D;
+    --filter-svg: brightness(100%);
+    --note-section: #FBFACD;
+    --side-bar: #7F669D;
+
+}
