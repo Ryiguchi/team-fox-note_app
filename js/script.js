@@ -1,17 +1,6 @@
 "use strict";
 
-// const toolbarOptions = [
-//   [{ font: [] }],
-//   [{ size: ["small", "medium", "large", "huge"] }],
-//   [{ color: [] }, { background: [] }],
-//   ["bold", "italic", "underline"],
-//   [{ align: [] }],
-//   [{ list: "ordered" }, { list: "bullet" }],
-//   ["code-block"],
-//   ["link", "image", "video"],
-//   ["clean"],
-// ];
-
+// For the Quill library
 let quill = new Quill("#editor", {
   theme: "snow",
   modules: {
@@ -20,7 +9,7 @@ let quill = new Quill("#editor", {
   placeholder: "Start typing here ...",
 });
 
-// SELECTORS
+// SELECTORS ////////////////////////////////////
 const toolbar = document.querySelector("#toolbar");
 const noteSection = document.querySelector(".note-container");
 const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
@@ -65,16 +54,17 @@ let state = {
 
 // LOCAL STORAGE /////////////////////////////////////////
 /**
- *
- * @param {Object | Object[]} data The state to be saved for the user (e.g. bookmarks, tags, etc.)
+ * This function saves data to Local Storage
+ * @param {Object | Object[]} data Pass in the state object to be saved for the user (e.g. bookmarks, tags, etc.)
  * @author Ryan Iguchi
+ * @
  */
 const setLocalStorage = function (data) {
   localStorage.setItem("state", JSON.stringify(state));
 };
 
 /**
- *
+ * This function gets a deep clone of the saved object in Local Storage
  * @returns {Object | Object[]} The users saved settings (e.g. bookmarks, tags, etc.)
  * @author Ryan Iguchi
  */
@@ -83,6 +73,10 @@ const getLocalStorage = function () {
 };
 
 // SAVING NEW NOTES AND UPDATING EXISTING NOTES ///////////////
+/**
+ *  This function saves the current note to the state and Local Storage. If the note doesn't have any content, then it won't save the note.If the note has content but hasn't been saved before, then it will create a title and preview and render the note in the preview section.  If the note has content and has been saved before, it will just update the saved note.
+ * @author Ryan Iguchi
+ */
 const saveNote = function () {
   const note = state.savedNotes[0];
   note.delta = quill.getContents();
@@ -99,23 +93,32 @@ const saveNote = function () {
   setLocalStorage(state);
 };
 
+/**
+ *  This function takes a note object that already has DELTA data and creates a preview of the text. If the note doesn't have a title then one will be created. If it does have a title then the title will be preserved.
+ * @param {Object} note - the note object with DELTA data
+ */
 const saveNoteData = function (note) {
   if (inputTitle.value === "Untitled note") console.log("hi");
   note.title = note.delta.ops[0].insert.slice(0, 25);
   if (inputTitle.value !== "Untitled note") {
-    console.log("bye");
     note.title = inputTitle.value;
   }
   note.preview = note.delta.ops[0].insert.slice(0, 150);
   note.saved = true;
 };
 
+/**
+ * This function takes the content of the current note and updates the content and title in the 'state'.
+ */
 const updateNote = function () {
   state.savedNotes[0].delta = quill.getContents();
   state.savedNotes[0].title = inputTitle.value;
 };
 // CREATING A NEW NOTE /////////////////////////////
 
+/**
+ *  This function creates a new note by displaying an empty page, resetting the tag list for the current note, resetting the title, setting initial values of the new note and saving the note to the 'state'
+ */
 const createNewNote = function () {
   // display empty page
   quill.setContents([{ insert: "\n" }]);
@@ -126,7 +129,9 @@ const createNewNote = function () {
   state.savedNotes.unshift(newNote);
 };
 
-// hides all acitve tags
+/**
+ *  This function hides all of the filled tag icons and shows all of the unfilled tag icons in the toolbar list
+ */
 const resetTagList = function () {
   document
     .querySelectorAll(".tag-icon-tag-menu-fill")
@@ -136,6 +141,10 @@ const resetTagList = function () {
     .forEach((el) => el.classList.remove("hidden"));
 };
 
+/**
+ * This function creates a new note Object and gives it initial values
+ * @returns {Object} returns a new note Object with initial values
+ */
 const initNoteValues = function () {
   const newNote = {
     date: getDate(),
@@ -148,23 +157,35 @@ const initNoteValues = function () {
   return newNote;
 };
 
+/**
+ *  This function gets the date and creates and returns a usable string for the date
+ * @returns {String} returns thte date in 'Mmm dd yyyy' format
+ */
 const getDate = function () {
   return new Date().toString().slice(4, 15);
 };
 
+/**
+ *  This function creates a unique 8 digit ID from the current timestamp
+ * @returns {number} returns a unique 8 digit ID
+ */
 const createID = function () {
   return Date.now().toString().slice(5);
 };
 
+/**
+ * This function sets the title of the passed in note Object to the contents of the title input field
+ * @param {Object} note Object that you want to change the title for
+ */
 const setTitle = function (note) {
   inputTitle.value = note.title;
 };
 
-// ///////////////////////////////////////////////
-const updateState = function (newState) {
-  state = _.cloneDeep(newState);
-};
-
+/**
+ * This function takes an array of note Objects, which could be all saved notes or a filtered list of notes, and displays them in the note preview section. It also will take the name of the list as a parameter and display it on the top of the section.
+ * @param {Array} notesArr Array of note Objects to render previews for
+ * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
+ */
 const renderPreview = function (notesArr, listType) {
   let markup = "";
   previewSection.innerHTML = "";
@@ -193,6 +214,10 @@ const renderPreview = function (notesArr, listType) {
   previewSection.insertAdjacentHTML("afterbegin", markup);
 };
 
+/**
+ *  this function toggles the 'bookmarked' value of the passed in note when the user presses the star icon
+ * @param {Number} id the ID number of the note
+ */
 const toggleBookmark = function (id) {
   const note = state.savedNotes[getNoteIndexByID(id)];
   note.bookmarked = note.bookmarked ? false : true;
@@ -200,11 +225,20 @@ const toggleBookmark = function (id) {
   setLocalStorage();
 };
 
+/**
+ * This function returns the index number of a note based off of the passed in ID number
+ * @param {Number} id The ID number of the note
+ * @returns {Number} returns the index number of the searched for note from the saved notes array
+ */
 const getNoteIndexByID = function (id) {
   return state.savedNotes.findIndex((note) => note.id === id);
 };
 
 // DISPLAY SELECTED NOTE //////////////////////////////
+/**
+ *  This function finds a note in the saved notes array from the passed in ID and renders it in the note section.  It also will update the tag list to display the notes tags and will move the note to index[0] of the array
+ * @param {Number} id the ID number of the note to render
+ */
 const renderNote = function (id) {
   const index = getNoteIndexByID(id);
   const note = state.savedNotes[index];
@@ -215,6 +249,9 @@ const renderNote = function (id) {
   state.savedNotes.unshift(note);
 };
 
+/**
+ * This function toggles the star icon in the sidebar between filled and not filled
+ */
 const toggleStarHeader = function () {
   btnBookmarksNotActive.classList.toggle("hidden");
   btnBookmarksActive.classList.toggle("hidden");
@@ -222,6 +259,10 @@ const toggleStarHeader = function () {
 
 // TAGS //////////////////////////////////////////
 
+/**
+ * This function takes the currently diplayed note's list of tags and displays them in the tag list in the toolbar.  It will first reset all of the tags.
+ * @param {Object} note Object for the currently displayed note
+ */
 const updateTagListToolbar = function (note) {
   resetTagList();
   note.tags.forEach((tag) => {
@@ -232,6 +273,10 @@ const updateTagListToolbar = function (note) {
   });
 };
 
+/**
+ *  This function takes tag and either adds or removes it from the current note based off of if it already exists or not
+ * @param {String} tag name of the tag
+ */
 const toggleTagToNote = function (tag) {
   const tags = state.savedNotes[0].tags;
   tags.includes(tag)
@@ -242,22 +287,37 @@ const toggleTagToNote = function (tag) {
     : tags.push(tag);
 };
 
+/**
+ * This function toggles the filled and not filled tag icons in the tag list in the toolbar.
+ * @param {Node} el the user clicked element which corresponds to a tag from the tag list
+ */
 const toggleActiveTag = function (el) {
   const [...children] = el.closest(".tag-selection").children;
   children.forEach((el) => el.classList.toggle("hidden"));
 };
 
+/**
+ * This function takes the user created tag name and displays it in both tag lists
+ * @param {String} tag Name of the new user created tag
+ */
 const toggleNewTagToolbar = function (tag) {
   document
     .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
     .forEach((el) => el.classList.toggle("hidden"));
 };
 
+/**
+ * This function toggles between the 'custom ...' list item and the input field in the tag list in the toolbar
+ */
 const toggleCustomTagListItems = function () {
   customTagInputEl.classList.toggle("hidden");
   customTagEl.classList.toggle("hidden");
 };
 
+/**
+ * This function takes the parent element of a tag list, creates the markup fo the list and then displays it
+ * @param {Node} parEl the parent element of a tag list
+ */
 const renderTagList = function (parEl) {
   parEl.innerHTML = "";
   let markup = "";
@@ -279,8 +339,17 @@ const renderTagList = function (parEl) {
 };
 
 // INITIALIZES WHEN PAGE LOADS //////////////////////
+// ///////////////////////////////////////////////
 /**
- * Anything in here will be executed when the page loads
+ * This function takes a 'state' Object and saves a deep clone to the 'state' object variable
+ * @param {Object} newState state Object that you want to save
+ */
+const updateState = function (newState) {
+  state = _.cloneDeep(newState);
+};
+
+/**
+ * This function automatically runs when the page loads.  It first will display the welcome screen if its the first time the user has visited.  Then it will get the state data from Local storage and render the saved notes in the preview section, as well as the tag lists.  Finally, it will create a new note so the user can start writing.
  * @author Ryan Iguchi
  */
 const init = function () {
@@ -303,6 +372,7 @@ const toggleWelcome = function () {
   welcomePopUp.classList.toggle("hidden");
   toolbar.classList.toggle("hidden");
   noteSection.classList.toggle("hidden");
+  previewSection.classList.toggle("hidden");
 };
 
 init();
