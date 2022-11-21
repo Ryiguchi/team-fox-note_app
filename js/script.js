@@ -36,7 +36,7 @@ const tagMenu = document.querySelector(".tag-selection-container");
 const customTag = document.querySelector(".tag-custom");
 const addNewNoteBtn = document.querySelector('.icon-plus');
 const customSelect = document.querySelector('.custom-select');
-const dropDowns = document.querySelectorAll('.dropdown');
+
 
 // State = data representing the current state of the app
 let state = {
@@ -295,12 +295,9 @@ tagMenu.addEventListener("click", (e) => {
   toggleActiveTag(e.target);
 });
 
-/** Dropdown menu for the templates selections.
+/** Dropdown menu for the theme selections.
  * @author Revan Toma
  */
-
-
-
 function initThemeSelector() {
   const themeSelect = document.querySelector('.themeSelect');
   const themeStylesLink = document.querySelector('#themeStylesLink');
@@ -311,11 +308,13 @@ function initThemeSelector() {
     themeStylesLink.setAttribute('href', `themes/${themeName}.css`);
   }
 
+  // Listen for change and change the theme then save it to localStorage.
   themeSelect.addEventListener('change', () => {
     activateTheme(themeSelect.value);
     localStorage.setItem('theme', themeSelect.value);
   });
 
+  // Set menu selection to current theme
   themeSelect.value = currentTheme;
   activateTheme(currentTheme);
 
