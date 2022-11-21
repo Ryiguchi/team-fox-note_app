@@ -5,7 +5,9 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" id="themeStylesLink" href="themes/light.css">
+  <link rel="stylesheet" href="style.css">
+
 
   <script type="text/JavaScript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
   <script src="https://unpkg.com/phosphor-icons"></script>
@@ -32,15 +34,14 @@
         <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
         <div class="dropdown">
           <div class="select">
-            <span class="selected">Templates</span>
-            <div class="caret"></div>
+            <span class="selected">Themes</span>
           </div>
-          <ul class="menu">
-            <li>Template-1</li>
-            </script>
-            <li>Template-2</li>
-            <li class="active">Template-3</li>
-          </ul>
+          <!-- Add theme dropdown -->
+          <select class="themeSelect">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="aqua">Aqua</option>
+          </select>
         </div>
       </nav>
 
@@ -111,10 +112,10 @@
         <button id="custom-button" class="tag-name">Tag: None</button>
         <button id="custom-button">
           <i class="ph-star-fill icon-toolbar icon hidden"></i>
-          <i class="ph-star icon-toolbar icon"></i>
+          <i class="ph-star icon-toolbar icon" title="Bookmark"></i>
         </button>
         <button id="custom-button">
-          <i class="ph-floppy-disk icon-save icon-toolbar icon"></i>
+          <i class="ph-floppy-disk icon-save icon-toolbar icon" title="save"></i>
         </button>
       </div>
       <div id="editor"></div>

@@ -36,7 +36,7 @@ const tagMenu = document.querySelector(".tag-selection-container");
 const customTag = document.querySelector(".tag-custom");
 const addNewNoteBtn = document.querySelector('.icon-plus');
 const customSelect = document.querySelector('.custom-select');
-const dropDowns = document.querySelectorAll('.dropdown');
+
 
 // State = data representing the current state of the app
 let state = {
@@ -244,6 +244,8 @@ const init = function () {
 };
 
 init();
+initThemeSelector();
+
 
 // EVENT HANDLERS //////////////////////////
 
@@ -293,39 +295,29 @@ tagMenu.addEventListener("click", (e) => {
   toggleActiveTag(e.target);
 });
 
-/** Dropdown menu for the templates selections.
+/** Dropdown menu for the theme selections.
  * @author Revan Toma
  */
-dropDowns.forEach((dropdown) => {
+function initThemeSelector() {
+  const themeSelect = document.querySelector('.themeSelect');
+  const themeStylesLink = document.querySelector('#themeStylesLink');
+  const currentTheme = localStorage.getItem('theme') || "light";
 
-  const select = dropdown.querySelector('.select');
-  const caret = dropdown.querySelector('.caret');
-  const menu = dropdown.querySelector('.menu');
-  const options = dropdown.querySelectorAll('.menu li');
-  const selected = dropdown.querySelector('.selected');
+  function activateTheme(themeName) {
 
-  // this way we can use multiple dropdown menus in future 
+    themeStylesLink.setAttribute('href', `themes/${themeName}.css`);
+  }
 
-  //Add click event to the select element
-  select.addEventListener('click', () => {
-
-    select.classList.toggle('select-clicked');
-    caret.classList.toggle('caret-rotate');
-    menu.classList.toggle('menu-open');
+  // Listen for change and change the theme then save it to localStorage.
+  themeSelect.addEventListener('change', () => {
+    activateTheme(themeSelect.value);
+    localStorage.setItem('theme', themeSelect.value);
   });
 
-  options.forEach((option) => {
-    option.addEventListener('click', () => {
-      selected.innerText = option.innerText;
-      select.classList.remove('select-clicked');
-      caret.classList.remove('caret-rotate');
-      menu.classList.remove('menu-open');
+  // Set menu selection to current theme
+  themeSelect.value = currentTheme;
+  activateTheme(currentTheme);
 
-      options.forEach((option) => {
-        option.classList.remove('active');
-      });
-      option.classList.add('active');
-    })
-  })
 
-});
+
+}
