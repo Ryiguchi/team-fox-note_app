@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" id="themeStylesLink" href="themes/light.css" />
+    <link rel="stylesheet" href="style.css" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" id="themeStylesLink" href="themes/light.css">
-  <link rel="stylesheet" href="style.css">
+    <script
+      type="text/JavaScript"
+      src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"
+    ></script>
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 
+    <title>Document</title>
+    <script defer src="./js/script.js"></script>
+  </head>
 
-  <script type="text/JavaScript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
-  <script src="https://unpkg.com/phosphor-icons"></script>
-  <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-  <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
-
-  <title>Document</title>
-  <script defer src="./js/script.js"></script>
-</head>
-
-<body>
-  <div class="container">
-    <header class="side-header">
-      <div class="logo-box">
-        <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo" />
-      </div>
-      <nav class="header-nav">
-        <div class="star-container">
-          <i class="ph-star-fill icon-side-bar icon hidden"></i>
-          <i class="ph-star icon-side-bar icon"></i>
+  <body>
+    <div class="container">
+      <header class="side-header">
+        <div class="logo-box">
+          <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo" />
         </div>
-        <i class="ph-tag-fill icon-side-bar icon"></i>
-        <i class="ph-plus icon-plus icon-side-bar icon"></i>
-        <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
-        <div class="dropdown">
-          <div class="select">
-            <span class="selected">Themes</span>
+        <nav class="header-nav">
+          <div class="star-container">
+            <i class="ph-star-fill icon-side-bar icon hidden"></i>
+            <i class="ph-star icon-side-bar icon"></i>
           </div>
-          <!-- Add theme dropdown -->
-          <select class="themeSelect">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="aqua">Aqua</option>
-          </select>
-        </div>
-      </nav>
-
-    </header>
-    <section class="notes-preview-section">
-      <!-- <div class="note-preview">
+          <i class="ph-tag-fill icon-side-bar icon-side-bar-tag-fill icon"></i>
+          <div
+            class="tag-selection-container tag-selection-container-sideber tag-selection-container-sidebar hidden"
+          >
+            <ul class="tag-list-sidebar-default">
+              <li data-tag="all" class="tag-selection">All Notes</li>
+              <li data-tag="tags" class="tag-selection">All Notes with tags</li>
+            </ul>
+            <ul class="tag-list-sidebar"></ul>
+          </div>
+          <i class="ph-plus icon-plus icon-side-bar icon"></i>
+          <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
+          <div class="dropdown">
+            <div class="select">
+              <span class="selected">Themes</span>
+            </div>
+            <!-- Add theme dropdown -->
+            <select class="themeSelect">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="aqua">Aqua</option>
+            </select>
+          </div>
+        </nav>
+      </header>
+      <section class="notes-preview-section">
+        <div class="preview-section-header">My Notes</div>
+        <!-- <div class="note-preview">
           <div class="note-preview--date">17 Nov 2022</div>
           <i class="ph-tag-fill icon-preview icon"></i>
           <i class="ph-star-fill icon-preview icon"></i>
@@ -56,71 +66,92 @@
             Just need some text to be able to style it with CSS so that...
           </p>
         </div> -->
-    </section>
-    <main class="note-creation-section">
-      <div class="welcome-pop-up hidden">
-        <div class="welcome-pop-up-text">
-          <h1>Welcome to NAME OF PROJECT!</h1>
-          <p class="welcome-description">
-            PROJECT NAME helps you easily keep track of your notes! You can
-            mark notes as "favorites" as well as give your notes searchable
-            "tags" to organize them. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Nulla cumque in, excepturi adipisci error totam
-            maiores debitis eius est, reiciendis eos vel quia, eaque
-            temporibus quo? Ipsum distinctio corrupti praesentium.
-          </p>
-        </div>
-        <button class="welcome-close-btn btn">Dismiss</button>
-      </div>
-      <div id="toolbar">
-        <!-- Add font size dropdown -->
-        <select class="ql-font"></select>
-        <select class="ql-size">
-          <option value="small"></option>
-          <!-- Note a missing, thus falsy value, is used to reset to default -->
-          <option selected></option>
-          <option value="large"></option>
-          <option value="huge"></option>
-        </select>
-        <!-- Add a bold button -->
-        <select class="ql-color"></select>
-        <select class="ql-background"></select>
-        <button class="ql-bold"></button>
-        <button class="ql-italic"></button>
-        <button class="ql-underline"></button>
-        <select class="ql-align"></select>
-        <button class="ql-list" value="ordered"></button>
-        <button class="ql-list" value="bullet"></button>
-        <button class="ql-list" value="check"></button>
-        <button class="ql-code-block"></button>
-        <button class="ql-link"></button>
-        <button class="ql-image"></button>
-        <button class="ql-video"></button>
-        <button class="ql-clean"></button>
-        <!-- Add subscript and superscript buttons -->
-
-        <button id="custom-button" class="tag-tb">
-          <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
-          <div class="tag-selection-container hidden">
-            <ul>
-              <li class="tag-selection tag-custom" data-tag="custom">
-                Custom...
-              </li>
-            </ul>
+      </section>
+      <main class="note-creation-section">
+        <div class="welcome-pop-up hidden">
+          <div class="welcome-pop-up-text">
+            <h1>Welcome to NAME OF PROJECT!</h1>
+            <p class="welcome-description">
+              PROJECT NAME helps you easily keep track of your notes! You can
+              mark notes as "favorites" as well as give your notes searchable
+              "tags" to organize them. Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Nulla cumque in, excepturi adipisci error totam
+              maiores debitis eius est, reiciendis eos vel quia, eaque
+              temporibus quo? Ipsum distinctio corrupti praesentium.
+            </p>
           </div>
-        </button>
-        <button id="custom-button" class="tag-name">Tag: None</button>
-        <button id="custom-button">
-          <i class="ph-star-fill icon-toolbar icon hidden"></i>
-          <i class="ph-star icon-toolbar icon" title="Bookmark"></i>
-        </button>
-        <button id="custom-button">
-          <i class="ph-floppy-disk icon-save icon-toolbar icon" title="save"></i>
-        </button>
-      </div>
-      <div id="editor"></div>
-    </main>
-  </div>
-</body>
+          <button class="welcome-close-btn btn">Dismiss</button>
+        </div>
+        <div id="toolbar">
+          <!-- Add font size dropdown -->
+          <select class="ql-font"></select>
+          <select class="ql-size">
+            <option value="small"></option>
+            <!-- Note a missing, thus falsy value, is used to reset to default -->
+            <option selected></option>
+            <option value="large"></option>
+            <option value="huge"></option>
+          </select>
+          <!-- Add a bold button -->
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+          <select class="ql-align"></select>
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+          <button class="ql-list" value="check"></button>
+          <button class="ql-code-block"></button>
+          <button class="ql-link"></button>
+          <button class="ql-image"></button>
+          <button class="ql-video"></button>
+          <button class="ql-clean"></button>
+          <!-- Add subscript and superscript buttons -->
 
+          <button id="custom-button" class="tag-tb">
+            <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
+            <div
+              class="tag-selection-container tag-selection-container-toolbar hidden"
+            >
+              <ul class="custom-ul">
+                <li class="tag-selection tag-custom" data-tag="custom">
+                  Custom...
+                </li>
+                <li class="custom-tag-list-item custom-tag-input-el hidden">
+                  <div class="custom-tag-container custom-tag-input-el">
+                    <input
+                      type="text"
+                      placeholder="Name of tag"
+                      class="input-custom-tag custom-tag-input-el"
+                    />
+                    <div class="custom-tag-btn custom-tag-input-el">OK</div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="tag-list-toolbar"></ul>
+            </div>
+          </button>
+          <button id="custom-button">
+            <i class="ph-star-fill icon-toolbar icon hidden"></i>
+            <i class="ph-star icon-toolbar icon"></i>
+          </button>
+          <button id="custom-button">
+            <i class="ph-floppy-disk icon-save icon-toolbar icon"></i>
+          </button>
+        </div>
+        <div class="note-container">
+          <div class="title-container">
+            <input
+              type="text"
+              class="input-title"
+              placeholder="Untitled Document"
+            />
+          </div>
+          <div id="editor"></div>
+        </div>
+      </main>
+    </div>
+    <div class="overlay hidden"></div>
+  </body>
 </html>

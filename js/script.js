@@ -1,17 +1,6 @@
 "use strict";
 
-// const toolbarOptions = [
-//   [{ font: [] }],
-//   [{ size: ["small", "medium", "large", "huge"] }],
-//   [{ color: [] }, { background: [] }],
-//   ["bold", "italic", "underline"],
-//   [{ align: [] }],
-//   [{ list: "ordered" }, { list: "bullet" }],
-//   ["code-block"],
-//   ["link", "image", "video"],
-//   ["clean"],
-// ];
-
+// For the Quill library
 let quill = new Quill("#editor", {
   theme: "snow",
   modules: {
@@ -20,23 +9,36 @@ let quill = new Quill("#editor", {
   placeholder: "Start typing here ...",
 });
 
-// SELECTORS
-const toolbar = document.querySelector(".ql-toolbar");
-const btnCloseWelcome = document.querySelector(".welcome-close-btn");
+// SELECTORS ////////////////////////////////////
+const toolbar = document.querySelector("#toolbar");
+const noteSection = document.querySelector(".note-container");
+const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
 const btnNewNote = document.querySelector(".icon-plus");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
-const saveBtn = document.querySelector(".icon-save");
+const btnSave = document.querySelector(".icon-save");
 const noteTextarea = document.querySelector("#note-textarea");
 const previewSection = document.querySelector(".notes-preview-section");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
-const starContainer = document.querySelector(".star-container");
+const btnStar = document.querySelector(".star-container");
 const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
-const tagMenu = document.querySelector(".tag-selection-container");
-const customTag = document.querySelector(".tag-custom");
-const addNewNoteBtn = document.querySelector('.icon-plus');
-const customSelect = document.querySelector('.custom-select');
-
+const tagMenuToolbar = document.querySelector(
+  ".tag-selection-container-toolbar"
+);
+const tagMenuSidebar = document.querySelector(
+  ".tag-selection-container-sidebar"
+);
+const tagListSidebar = document.querySelector(".tag-list-sidebar");
+const tagListToolbar = document.querySelector(".tag-list-toolbar");
+const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
+const customTagInputEl = document.querySelector(".custom-tag-list-item");
+const customTagEl = document.querySelector(".tag-custom");
+const customTagBtn = document.querySelector(".custom-tag-btn");
+const customTagInput = document.querySelector(".input-custom-tag");
+const overlay = document.querySelector(".overlay");
+const inputTitle = document.querySelector(".input-title");
+const addNewNoteBtn = document.querySelector(".icon-plus");
+const customSelect = document.querySelector(".custom-select");
 
 // State = data representing the current state of the app
 let state = {
@@ -44,24 +46,27 @@ let state = {
   userTags: ["Personal", "Work", "Important"],
   previewType: "allSaved",
 };
-console.log(state);
-// FUNCTIONS ///////////////////////////
+// ////////////////////////////////////////
+// FUNCTIONS //////////////////////////////
+///////////////////////////////////////////
 
 // const wait = function (handler, sec) {
 //   setTimeout(handler, sec * 1000);
 // };
 
+// LOCAL STORAGE /////////////////////////////////////////
 /**
- *
- * @param {Object | Object[]} data The state to be saved for the user (e.g. bookmarks, tags, etc.)
+ * This function saves data to Local Storage
+ * @param {Object | Object[]} data Pass in the state object to be saved for the user (e.g. bookmarks, tags, etc.)
  * @author Ryan Iguchi
+ * @
  */
 const setLocalStorage = function (data) {
   localStorage.setItem("state", JSON.stringify(state));
 };
 
 /**
- *
+ * This function gets a deep clone of the saved object in Local Storage
  * @returns {Object | Object[]} The users saved settings (e.g. bookmarks, tags, etc.)
  * @author Ryan Iguchi
  */
@@ -69,132 +74,66 @@ const getLocalStorage = function () {
   return _.cloneDeep(JSON.parse(localStorage.getItem("state")));
 };
 
+// SAVING NEW NOTES AND UPDATING EXISTING NOTES ///////////////
 /**
- * Shows or hides the Welcome screen
+ *  This function saves the current note to the state and Local Storage. If the note doesn't have any content, then it won't save the note.If the note has content but hasn't been saved before, then it will create a title and preview and render the note in the preview section.  If the note has content and has been saved before, it will just update the saved note.
  * @author Ryan Iguchi
  */
-const toggleWelcome = function () {
-  welcomePopUp.classList.toggle("hidden");
-  toolbar.classList.toggle("hidden");
-};
-
 const saveNote = function () {
-  if (!state.savedNotes[0].saved) {
-    saveNoteData(state.savedNotes[0]);
-    renderPreview(state.savedNotes);
-    setLocalStorage(state);
+  const note = state.savedNotes[0];
+  note.delta = quill.getContents();
+  // if there isn't any content yet, then doesn't save
+  if (note.delta.ops[0].insert === "\n") return;
+  // if the note has been saved before, updates the savedNote
+  if (note.saved) updateNote();
+  // if the note has never been saved and has content, then saves content and renders note in preview section
+  if (!note.saved) {
+    saveNoteData(note);
   }
-  if (state.savedNotes[0].saved) updateNote();
+  // setTitle(note);
+  renderPreview(state.savedNotes, "My Notes");
+  setLocalStorage(state);
 };
 
+/**
+ *  This function takes a note object that already has DELTA data and creates a preview of the text. If the note doesn't have a title then one will be created. If it does have a title then the title will be preserved.
+ * @param {Object} note - the note object with DELTA data
+ */
 const saveNoteData = function (note) {
-  note.delta = quill.getContents();
-  if (!note.delta) return;
-  note.title = note.delta.ops[0].insert.slice(0, 30);
+  if (inputTitle.value === "Untitled note") console.log("hi");
+  note.title = note.delta.ops[0].insert.slice(0, 25);
+  if (inputTitle.value !== "Untitled note") {
+    note.title = inputTitle.value;
+  }
   note.preview = note.delta.ops[0].insert.slice(0, 150);
   note.saved = true;
 };
 
+/**
+ * This function takes the content of the current note and updates the content and title in the 'state'.
+ */
 const updateNote = function () {
   state.savedNotes[0].delta = quill.getContents();
-  setLocalStorage(state);
-  console.log(state);
+  state.savedNotes[0].title = inputTitle.value;
 };
+// CREATING A NEW NOTE /////////////////////////////
 
-const getDate = function () {
-  return new Date().toString().slice(4, 15);
-};
-
-const createID = function () {
-  return Date.now().toString().slice(5);
-};
-
-const updateState = function (newState) {
-  state = _.cloneDeep(newState);
-};
-
-const renderPreview = function (notesArr) {
-  previewSection.innerHTML = "";
-  let markup = "";
-  notesArr.forEach((note) => {
-    markup += `
-      <div class="note-preview" data-id="${note.id}">
-        <div class="note-preview--date">${note.date}</div>
-        <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
-        ${note.bookmarked
-        ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
-        : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
-      }
-        <div class="note-preview--title">${note.title}</div>
-        <p class="note-preview--text">${note.preview}</p>
-        </div>
-        `;
-  });
-  previewSection.insertAdjacentHTML("afterbegin", markup);
-};
-
-const toggleBookmark = function (id) {
-  const note = state.savedNotes[getNoteIndexByID(id)];
-  note.bookmarked = note.bookmarked ? false : true;
-  renderPreview(state.savedNotes);
-  setLocalStorage();
-};
-
-const getNoteIndexByID = function (id) {
-  return state.savedNotes.findIndex((note) => note.id === id);
-};
-
-const renderNote = function (id) {
-  const index = getNoteIndexByID(id);
-  const note = state.savedNotes[index];
-  quill.setContents(note.delta.ops);
-  updateTagListToolbar(note);
-  state.savedNotes.splice(index, 1);
-  state.savedNotes.unshift(note);
-};
-
-const updateTagListToolbar = function (note) {
-  resetTagList();
-  note.tags.forEach((tag) => {
-    document
-      .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
-      .forEach((icon) => icon.classList.toggle("hidden"));
-  });
-};
-const toggleStarHeader = function () {
-  btnBookmarksNotActive.classList.toggle("hidden");
-  btnBookmarksActive.classList.toggle("hidden");
-};
-
-const toggleTagMenu = function () {
-  tagMenu.classList.toggle("hidden");
-};
-
-const toggleTagToNote = function (tag) {
-  const tags = state.savedNotes[0].tags;
-  tags.includes(tag)
-    ? tags.splice(
-      tags.findIndex((t) => t === tag),
-      1
-    )
-    : tags.push(tag);
-  console.log(state.savedNotes[0]);
-};
-
-const toggleActiveTag = function (el) {
-  const [...children] = el.closest(".tag-selection").children;
-  console.log(children);
-  children.forEach((el) => el.classList.toggle("hidden"));
-};
-
+/**
+ *  This function creates a new note by displaying an empty page, resetting the tag list for the current note, resetting the title, setting initial values of the new note and saving the note to the 'state'
+ */
 const createNewNote = function () {
+  // display empty page
   quill.setContents([{ insert: "\n" }]);
   resetTagList();
-
+  inputTitle.value = "Untitled note";
+  // give the new note some initial values
   const newNote = initNoteValues();
   state.savedNotes.unshift(newNote);
 };
 
+/**
+ *  This function hides all of the filled tag icons and shows all of the unfilled tag icons in the toolbar list
+ */
 const resetTagList = function () {
   document
     .querySelectorAll(".tag-icon-tag-menu-fill")
@@ -204,6 +143,10 @@ const resetTagList = function () {
     .forEach((el) => el.classList.remove("hidden"));
 };
 
+/**
+ * This function creates a new note Object and gives it initial values
+ * @returns {Object} returns a new note Object with initial values
+ */
 const initNoteValues = function () {
   const newNote = {
     date: getDate(),
@@ -211,25 +154,204 @@ const initNoteValues = function () {
     tags: [],
     bookmarked: false,
     saved: false,
+    title: "Untitled note",
   };
   return newNote;
 };
 
-const renderToolbar = function (parEl) {
+/**
+ *  This function gets the date and creates and returns a usable string for the date
+ * @returns {String} returns thte date in 'Mmm dd yyyy' format
+ */
+const getDate = function () {
+  return new Date().toString().slice(4, 15);
+};
+
+/**
+ *  This function creates a unique 8 digit ID from the current timestamp
+ * @returns {number} returns a unique 8 digit ID
+ */
+const createID = function () {
+  return Date.now().toString().slice(5);
+};
+
+/**
+ * This function sets the title of the passed in note Object to the contents of the title input field
+ * @param {Object} note Object that you want to change the title for
+ */
+const setTitle = function (note) {
+  inputTitle.value = note.title;
+};
+
+/**
+ * This function takes an array of note Objects, which could be all saved notes or a filtered list of notes, and displays them in the note preview section. It also will take the name of the list as a parameter and display it on the top of the section.
+ * @param {Array} notesArr Array of note Objects to render previews for
+ * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
+ */
+const renderPreview = function (notesArr, listType) {
+  let markup = "";
+  previewSection.innerHTML = "";
+  markup = `
+    <div class="preview-section-header">
+    ${listType}</div>
+    
+    `;
+  notesArr
+    .filter((note) => note.delta)
+    .forEach((note) => {
+      markup += `
+      <div class="note-preview" data-id="${note.id}">
+        <div class="note-preview--date">${note.date}</div>
+        <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
+        ${
+          note.bookmarked
+            ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
+            : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
+        }
+        <div class="note-preview--title">${note.title}</div>
+        <p class="note-preview--text">${note.preview}</p>
+        </div>
+        `;
+    });
+  previewSection.insertAdjacentHTML("afterbegin", markup);
+};
+
+/**
+ *  this function toggles the 'bookmarked' value of the passed in note when the user presses the star icon
+ * @param {Number} id the ID number of the note
+ */
+const toggleBookmark = function (id) {
+  const note = state.savedNotes[getNoteIndexByID(id)];
+  note.bookmarked = note.bookmarked ? false : true;
+  renderPreview(state.savedNotes, "My Notes");
+  setLocalStorage();
+};
+
+/**
+ * This function returns the index number of a note based off of the passed in ID number
+ * @param {Number} id The ID number of the note
+ * @returns {Number} returns the index number of the searched for note from the saved notes array
+ */
+const getNoteIndexByID = function (id) {
+  return state.savedNotes.findIndex((note) => note.id === id);
+};
+
+// DISPLAY SELECTED NOTE //////////////////////////////
+/**
+ *  This function finds a note in the saved notes array from the passed in ID and renders it in the note section.  It also will update the tag list to display the notes tags and will move the note to index[0] of the array
+ * @param {Number} id the ID number of the note to render
+ */
+const renderNote = function (id) {
+  const index = getNoteIndexByID(id);
+  const note = state.savedNotes[index];
+  quill.setContents(note.delta.ops);
+  setTitle(note);
+  updateTagListToolbar(note);
+  state.savedNotes.splice(index, 1);
+  state.savedNotes.unshift(note);
+};
+
+/**
+ * This function toggles the star icon in the sidebar between filled and not filled
+ */
+const toggleStarHeader = function () {
+  btnBookmarksNotActive.classList.toggle("hidden");
+  btnBookmarksActive.classList.toggle("hidden");
+};
+
+// TAGS //////////////////////////////////////////
+
+/**
+ * This function takes the currently diplayed note's list of tags and displays them in the tag list in the toolbar.  It will first reset all of the tags.
+ * @param {Object} note Object for the currently displayed note
+ */
+const updateTagListToolbar = function (note) {
+  resetTagList();
+  note.tags.forEach((tag) => {
+    const newTag = tag.replaceAll(/\s+/g, "_");
+    document
+      .querySelectorAll(`.tag-icon-tag-menu-${newTag}`)
+      .forEach((icon) => icon.classList.toggle("hidden"));
+  });
+};
+
+/**
+ *  This function takes tag and either adds or removes it from the current note based off of if it already exists or not
+ * @param {String} tag name of the tag
+ */
+const toggleTagToNote = function (tag) {
+  const tags = state.savedNotes[0].tags;
+  tags.includes(tag)
+    ? tags.splice(
+        tags.findIndex((t) => t === tag),
+        1
+      )
+    : tags.push(tag);
+};
+
+/**
+ * This function toggles the filled and not filled tag icons in the tag list in the toolbar.
+ * @param {Node} el the user clicked element which corresponds to a tag from the tag list
+ */
+const toggleActiveTag = function (el) {
+  const [...children] = el.closest(".tag-selection").children;
+  children.forEach((el) => el.classList.toggle("hidden"));
+};
+
+/**
+ * This function takes the user created tag name and displays it in both tag lists
+ * @param {String} tag Name of the new user created tag
+ */
+const toggleNewTagToolbar = function (tag) {
+  document
+    .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
+    .forEach((el) => el.classList.toggle("hidden"));
+};
+
+/**
+ * This function toggles between the 'custom ...' list item and the input field in the tag list in the toolbar
+ */
+const toggleCustomTagListItems = function () {
+  customTagInputEl.classList.toggle("hidden");
+  customTagEl.classList.toggle("hidden");
+};
+
+/**
+ * This function takes the parent element of a tag list, creates the markup fo the list and then displays it
+ * @param {Node} parEl the parent element of a tag list
+ */
+const renderTagList = function (parEl) {
+  parEl.innerHTML = "";
   let markup = "";
   state.userTags.forEach((tag) => {
+    const newTag = tag.replaceAll(/\s+/g, "_");
     markup += `
-      <li class="tag-selection" data-tag="${tag.toLowerCase()}">
-        <i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${tag.toLowerCase()} icon hidden"></i>
-        <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${tag.toLowerCase()} icon "></i>
+      <li class="tag-selection tag-selection-${newTag}" data-tag="${newTag}">
+        ${
+          parEl === tagListToolbar
+            ? `<i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${newTag} icon hidden"></i>
+          <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${newTag} icon "></i>`
+            : ""
+        }
         ${tag}
       </li>
   `;
   });
-  parEl.insertAdjacentHTML("afterend", markup);
+  parEl.insertAdjacentHTML("beforeend", markup);
 };
+
+// INITIALIZES WHEN PAGE LOADS //////////////////////
+// ///////////////////////////////////////////////
 /**
- * Anything in here will be executed when the page loads
+ * This function takes a 'state' Object and saves a deep clone to the 'state' object variable
+ * @param {Object} newState state Object that you want to save
+ */
+const updateState = function (newState) {
+  state = _.cloneDeep(newState);
+};
+
+/**
+ * This function automatically runs when the page loads.  It first will display the welcome screen if its the first time the user has visited.  Then it will get the state data from Local storage and render the saved notes in the preview section, as well as the tag lists.  Finally, it will create a new note so the user can start writing.
  * @author Ryan Iguchi
  */
 const init = function () {
@@ -237,87 +359,166 @@ const init = function () {
   if (!savedState) toggleWelcome();
   if (savedState) {
     updateState(savedState);
-    renderPreview(state.savedNotes);
+    renderPreview(state.savedNotes, "My Notes");
   }
-  renderToolbar(customTag);
+  renderTagList(tagListSidebar);
+  renderTagList(tagListToolbar);
   createNewNote();
+};
+
+/**
+ * Shows or hides the Welcome screen
+ * @author Ryan Iguchi
+ */
+const toggleWelcome = function () {
+  welcomePopUp.classList.toggle("hidden");
+  toolbar.classList.toggle("hidden");
+  noteSection.classList.toggle("hidden");
+  previewSection.classList.toggle("hidden");
 };
 
 init();
 initThemeSelector();
 
-
+////////////////////////////////////////////
 // EVENT HANDLERS //////////////////////////
+////////////////////////////////////////////
 
-btnCloseWelcome.addEventListener("click", (e) => {
+btnCloseWelcomeScreen.addEventListener("click", (e) => {
   setLocalStorage(state);
   toggleWelcome();
 });
 
-saveBtn.addEventListener("click", saveNote);
+btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
   saveNote();
+  // if the current note is empty, then do nothing
+  if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
 });
 
 previewSection.addEventListener("click", (e) => {
+  // return if clicked on an empty space
+  if (e.target.classList.contains("notes-preview-section")) return;
+
+  // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
+  // If clicked on a note to display
   if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
     renderNote(noteID);
-  console.log(state);
 });
 
-starContainer.addEventListener("click", (e) => {
+btnStar.addEventListener("click", (e) => {
   const bookmarkedNotes = state.savedNotes.filter(
     (note) => note.bookmarked === true
   );
-  console.log(state);
   if (state.preview !== "bookmarks") {
-    renderPreview(bookmarkedNotes);
+    renderPreview(bookmarkedNotes, "Starred Notes");
     state.preview = "bookmarks";
     toggleStarHeader();
   } else {
-    renderPreview(state.savedNotes);
+    renderPreview(state.savedNotes, "My Notes");
     state.preview = "saved";
     toggleStarHeader();
   }
 });
 
 btnTagToolbar.addEventListener("click", (e) => {
-  if (e.target.classList.contains("tag-icon-toolbar")) toggleTagMenu();
+  if (e.target.classList.contains("tag-icon-toolbar")) {
+    tagMenuToolbar.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+  }
 });
 
-tagMenu.addEventListener("click", (e) => {
-  const chosenTag = e.target.closest(".tag-selection").dataset.tag;
-  toggleTagToNote(chosenTag);
-  toggleActiveTag(e.target);
+tagMenuToolbar.addEventListener("click", (e) => {
+  if (e.target.classList.contains("custom-tag-input-el")) return;
+  const chosenTag = e.target.closest(".tag-selection")?.dataset.tag;
+  if (chosenTag !== "custom") {
+    toggleTagToNote(chosenTag);
+    toggleActiveTag(e.target);
+    setLocalStorage(state);
+  }
+  if (chosenTag === "custom") {
+    toggleCustomTagListItems();
+  }
+});
+
+btnTagSidebar.addEventListener("click", (e) => {
+  tagMenuSidebar.classList.toggle("hidden");
+  overlay.classList.remove("hidden");
+});
+
+tagMenuSidebar.addEventListener("click", (e) => {
+  saveNote();
+  const chosenTag = e.target
+    .closest(".tag-selection")
+    .dataset.tag.replaceAll("_", " ");
+  if (chosenTag === "all") renderPreview(state.savedNotes, "My Notes");
+  if (chosenTag === "tags")
+    renderPreview(
+      state.savedNotes.filter((note) => note.tags.length > 0),
+      "Tagged Notes"
+    );
+  if (chosenTag !== "all" && chosenTag !== "tags") {
+    const notesWithChosenTag = state.savedNotes.filter((note) =>
+      note.tags.includes(chosenTag)
+    );
+    if (state.preview === "bookmarks") toggleStarHeader();
+    renderPreview(notesWithChosenTag, `Tag: ${chosenTag.replaceAll("_", " ")}`);
+    state.preview = "tags";
+  }
+  tagMenuSidebar.classList.toggle("hidden");
+});
+
+customTagBtn.addEventListener("click", (e) => {
+  const newTag = customTagInput.value;
+  // 1. add tag to state
+  if (state.userTags.includes(newTag)) return;
+  state.userTags.push(newTag);
+  // 2 rerender tag lists
+  toggleTagToNote(newTag);
+  renderTagList(tagListSidebar);
+  renderTagList(tagListToolbar);
+  //  3. add tag to note
+  updateTagListToolbar(state.savedNotes[0]);
+  setLocalStorage(state);
+});
+
+overlay.addEventListener("click", (e) => {
+  tagMenuToolbar.classList.add("hidden");
+  tagMenuSidebar.classList.add("hidden");
+  overlay.classList.add("hidden");
+});
+
+inputTitle.addEventListener("keydown", (key) => {
+  if (key.key === "Enter") {
+    const title = inputTitle.value;
+    state.savedNotes[0].title = title;
+    renderPreview(state.savedNotes, "My Notes");
+  }
 });
 
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
  */
 function initThemeSelector() {
-  const themeSelect = document.querySelector('.themeSelect');
-  const themeStylesLink = document.querySelector('#themeStylesLink');
-  const currentTheme = localStorage.getItem('theme') || "light";
+  const themeSelect = document.querySelector(".themeSelect");
+  const themeStylesLink = document.querySelector("#themeStylesLink");
+  const currentTheme = localStorage.getItem("theme") || "light";
 
   function activateTheme(themeName) {
-
-    themeStylesLink.setAttribute('href', `themes/${themeName}.css`);
+    themeStylesLink.setAttribute("href", `themes/${themeName}.css`);
   }
 
   // Listen for change and change the theme then save it to localStorage.
-  themeSelect.addEventListener('change', () => {
+  themeSelect.addEventListener("change", () => {
     activateTheme(themeSelect.value);
-    localStorage.setItem('theme', themeSelect.value);
+    localStorage.setItem("theme", themeSelect.value);
   });
 
   // Set menu selection to current theme
   themeSelect.value = currentTheme;
   activateTheme(currentTheme);
-
-
-
 }
