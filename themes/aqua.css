@@ -1,10 +1,10 @@
 :root {
-    --primary-background-color: #00FFF6;
+    --primary-background-color: #CFF5E7;
     --primary-text-color: #00000;
     --primary-icons-hover: #009EFF;
-    --svg-color: #0014FF;
+    --svg-color: #0D4C92;
     --filter-svg: brightness(100%);
-    --note-section: #009EFF;
-    --side-bar: #0014FF;
-    --side-menu: #0e155e;
+    --note-section: #A0E4CB;
+    --side-bar: #0D4C92;
+    --side-menu: #59C1BD;
 }
