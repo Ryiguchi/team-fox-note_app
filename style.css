@@ -403,19 +403,6 @@ span.ql-picker-item:hover {
 
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: 100vw;
-  height: 100vh;
-  background-color: transparent;
-}
-
-.hidden {
-  display: none !important;
-}
 
 .ql-editor ul[data-checked="true"] {
   color: green;
@@ -463,4 +450,32 @@ select.themeSelect {
 
 .notes-preview-section::-webkit-scrollbar-thumb {
   background-color: var(--note-section);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.hidden {
+  display: none !important;
 }

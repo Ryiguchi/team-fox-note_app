@@ -31,6 +31,9 @@ const tagMenuSidebar = document.querySelector(
 const tagListSidebar = document.querySelector(".tag-list-sidebar");
 const tagListToolbar = document.querySelector(".tag-list-toolbar");
 const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
+const btnCaretSidebar = document.querySelector(".caret-contanier")
+const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left")
+const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right")
 const customTagInputEl = document.querySelector(".custom-tag-list-item");
 const customTagEl = document.querySelector(".tag-custom");
 const customTagBtn = document.querySelector(".custom-tag-btn");
@@ -39,6 +42,8 @@ const overlay = document.querySelector(".overlay");
 const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
+
+
 
 // State = data representing the current state of the app
 let state = {
@@ -339,6 +344,17 @@ const renderTagList = function (parEl) {
   parEl.insertAdjacentHTML("beforeend", markup);
 };
 
+/**
+ * This function hides the save notes on the screen and makes them come back again.
+ * Changes the carot icon from closed and open. 
+ * @author Aman Said 
+ */
+const togglePreviewSection = function (){
+  previewSection.classList.toggle("hidden")
+  btnCaretLeftSidebar.classList.toggle("hidden")
+  btnCaretRightSidebar.classList.toggle("hidden")
+}
+
 // INITIALIZES WHEN PAGE LOADS //////////////////////
 // ///////////////////////////////////////////////
 /**
@@ -498,6 +514,18 @@ inputTitle.addEventListener("keydown", (key) => {
     renderPreview(state.savedNotes, "My Notes");
   }
 });
+
+/**
+ * marks the input field so you can write your title.
+ * @author Aman Said
+ */
+inputTitle.addEventListener("focus", () => {
+  inputTitle.select()
+});
+
+btnCaretSidebar.addEventListener("click", ()=> {
+  togglePreviewSection()
+})
 
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
