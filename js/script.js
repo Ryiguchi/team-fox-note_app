@@ -515,6 +515,14 @@ inputTitle.addEventListener("keydown", (key) => {
   }
 });
 
+/**
+ * marks the input field so you can write your title.
+ * @author Aman Said
+ */
+inputTitle.addEventListener("focus", () => {
+  inputTitle.select()
+});
+
 btnCaretSidebar.addEventListener("click", ()=> {
   togglePreviewSection()
 })
