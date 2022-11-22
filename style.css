@@ -48,15 +48,22 @@ html {
   background-color: var(--side-menu);
 }
 
-.side-header i,
+
 .side-header span {
-  color: var(--note-section);
+  color: var(--primary-background-color);
   font-weight: bolder;
   opacity: 0.8;
 }
 
+.side-header i {
+  color: var(--side-bar);
+
+}
+
+
 .side-header i:hover {
-  opacity: 1;
+
+  color: var(--note-section);
 }
 
 .logo {
@@ -124,7 +131,10 @@ html {
   padding: 0.8rem;
   border: 1px solid var(--primary-background-color);
   border-radius: 5px;
+
 }
+
+
 
 .note-preview--date {
   font-size: 1rem;
@@ -218,8 +228,26 @@ svg {
   background: var(--filter-svg);
 }
 
-.ql-picker-options {
+span.ql-picker-label {
   color: var(--primary-text-color);
+}
+
+span.ql-picker-item {
+  color: var(--side-bar);
+  opacity: 0.5;
+}
+
+span.ql-picker-item:hover {
+  opacity: 1;
+}
+
+
+/* .ql-picker-options {
+  color: var(--primary-text-color);
+}  */
+
+.ql-font {
+  color: red;
 }
 
 .ql-picker-label:hover {
@@ -421,19 +449,33 @@ select.themeSelect {
 }
 
 .notes-preview-section::-webkit-scrollbar-thumb {
-  background-color: var(--side-bar);
+  background-color: var(--note-section);
 }
 
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 50;
-    width: 100vw;
-    height: 100vh;
-    background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
 }
-  
+
 .hidden {
-    display: none !important;
+  display: none !important;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.hidden {
+  display: none !important;
 }
