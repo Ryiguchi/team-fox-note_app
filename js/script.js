@@ -20,6 +20,10 @@ const noteTextarea = document.querySelector("#note-textarea");
 const previewSection = document.querySelector(".notes-preview-section");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
+const phStarIconToolbar = document.querySelector("#custom-button .ph-star");
+const phStarIconToolbarActive = document.querySelector(
+  "#custom-button .ph-star-fill"
+);
 const btnStar = document.querySelector(".star-container");
 const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
 const tagMenuToolbar = document.querySelector(
@@ -31,9 +35,9 @@ const tagMenuSidebar = document.querySelector(
 const tagListSidebar = document.querySelector(".tag-list-sidebar");
 const tagListToolbar = document.querySelector(".tag-list-toolbar");
 const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
-const btnCaretSidebar = document.querySelector(".caret-contanier")
-const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left")
-const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right")
+const btnCaretSidebar = document.querySelector(".caret-contanier");
+const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
+const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right");
 const customTagInputEl = document.querySelector(".custom-tag-list-item");
 const customTagEl = document.querySelector(".tag-custom");
 const customTagBtn = document.querySelector(".custom-tag-btn");
@@ -43,14 +47,12 @@ const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
 
-
-
 // State = data representing the current state of the app
 let state = {
   savedNotes: [],
   userTags: ["Personal", "Work", "Important"],
   previewType: "allSaved",
-  themes: 'light'
+  themes: "light",
 };
 // ////////////////////////////////////////
 // FUNCTIONS //////////////////////////////
@@ -209,9 +211,10 @@ const renderPreview = function (notesArr, listType) {
       <div class="note-preview" data-id="${note.id}">
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
-        ${note.bookmarked
-          ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
-          : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
+        ${
+          note.bookmarked
+            ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
+            : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
         }
         <div class="note-preview--title">${note.title}</div>
         <p class="note-preview--text">${note.preview}</p>
@@ -263,7 +266,6 @@ const toggleStarHeader = function () {
   btnBookmarksNotActive.classList.toggle("hidden");
   btnBookmarksActive.classList.toggle("hidden");
 };
-
 // TAGS //////////////////////////////////////////
 
 /**
@@ -288,9 +290,9 @@ const toggleTagToNote = function (tag) {
   const tags = state.savedNotes[0].tags;
   tags.includes(tag)
     ? tags.splice(
-      tags.findIndex((t) => t === tag),
-      1
-    )
+        tags.findIndex((t) => t === tag),
+        1
+      )
     : tags.push(tag);
 };
 
@@ -332,11 +334,12 @@ const renderTagList = function (parEl) {
     const newTag = tag.replaceAll(/\s+/g, "_");
     markup += `
       <li class="tag-selection tag-selection-${newTag}" data-tag="${newTag}">
-        ${parEl === tagListToolbar
-        ? `<i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${newTag} icon hidden"></i>
+        ${
+          parEl === tagListToolbar
+            ? `<i class="ph-tag-fill tag-icon-tag-menu tag-icon-tag-menu-fill tag-icon-tag-menu-${newTag} icon hidden"></i>
           <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${newTag} icon "></i>`
-        : ""
-      }
+            : ""
+        }
         ${tag}
       </li>
   `;
@@ -346,14 +349,14 @@ const renderTagList = function (parEl) {
 
 /**
  * This function hides the save notes on the screen and makes them come back again.
- * Changes the carot icon from closed and open. 
- * @author Aman Said 
+ * Changes the carot icon from closed and open.
+ * @author Aman Said
  */
-const togglePreviewSection = function (){
-  previewSection.classList.toggle("hidden")
-  btnCaretLeftSidebar.classList.toggle("hidden")
-  btnCaretRightSidebar.classList.toggle("hidden")
-}
+const togglePreviewSection = function () {
+  previewSection.classList.toggle("hidden");
+  btnCaretLeftSidebar.classList.toggle("hidden");
+  btnCaretRightSidebar.classList.toggle("hidden");
+};
 
 // INITIALIZES WHEN PAGE LOADS //////////////////////
 // ///////////////////////////////////////////////
@@ -454,6 +457,11 @@ tagMenuToolbar.addEventListener("click", (e) => {
     toggleTagToNote(chosenTag);
     toggleActiveTag(e.target);
     setLocalStorage(state);
+    /**
+     * @author Aman
+     */
+    // save note onClick tags
+    saveNote();
   }
   if (chosenTag === "custom") {
     toggleCustomTagListItems();
@@ -499,6 +507,13 @@ customTagBtn.addEventListener("click", (e) => {
   //  3. add tag to note
   updateTagListToolbar(state.savedNotes[0]);
   setLocalStorage(state);
+  /**
+   * @author alexander
+   */
+  // 4.clear input field, switch back to the "custom" label.
+  customTagInput.value = "";
+  toggleCustomTagListItems();
+  saveNote();
 });
 
 overlay.addEventListener("click", (e) => {
@@ -520,12 +535,12 @@ inputTitle.addEventListener("keydown", (key) => {
  * @author Aman Said
  */
 inputTitle.addEventListener("focus", () => {
-  inputTitle.select()
+  inputTitle.select();
 });
 
-btnCaretSidebar.addEventListener("click", ()=> {
-  togglePreviewSection()
-})
+btnCaretSidebar.addEventListener("click", () => {
+  togglePreviewSection();
+});
 
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
@@ -534,17 +549,15 @@ function initThemeSelector() {
   const themeSelect = document.querySelector(".themeSelect");
   const themeStylesLink = document.querySelector("#themeStylesLink");
 
-
   function activateTheme(themeName) {
     themeStylesLink.setAttribute("href", `themes/${themeName}.css`);
-    state.themes = themeName
-    setLocalStorage(state)
+    state.themes = themeName;
+    setLocalStorage(state);
   }
 
   // Listen for change and change the theme then save it to localStorage.
   themeSelect.addEventListener("change", () => {
     activateTheme(themeSelect.value);
-
   });
 
   // Set menu selection to current theme

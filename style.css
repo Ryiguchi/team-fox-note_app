@@ -48,7 +48,6 @@ html {
   background-color: var(--side-menu);
 }
 
-
 .side-header span {
   color: var(--primary-background-color);
   font-weight: bolder;
@@ -57,12 +56,9 @@ html {
 
 .side-header i {
   color: var(--side-bar);
-
 }
 
-
 .side-header i:hover {
-
   color: var(--note-section);
 }
 
@@ -117,7 +113,6 @@ html {
   border: 1px solid var(--primary-background-color);
   background-color: var(--note-section);
   padding: 0.8rem;
-
 }
 
 .note-preview {
@@ -131,10 +126,7 @@ html {
   padding: 0.8rem;
   border: 1px solid var(--primary-background-color);
   border-radius: 5px;
-
 }
-
-
 
 .note-preview--date {
   font-size: 1rem;
@@ -161,7 +153,6 @@ html {
   grid-column: 1 / -1;
   grid-row: 3;
 }
-
 
 /* WELCOME POP-UP */
 
@@ -202,16 +193,12 @@ html {
   overflow-y: hidden;
 }
 
-
-
 /* TOOLBAR */
 
 #toolbar {
   background: var(--primary-background-color);
 
-
   border: 1px solid #aaa;
-
 }
 
 #custom-button {
@@ -240,7 +227,6 @@ span.ql-picker-item {
 span.ql-picker-item:hover {
   opacity: 1;
 }
-
 
 /* .ql-picker-options {
   color: var(--primary-text-color);
@@ -363,7 +349,6 @@ span.ql-picker-item:hover {
 
 .note-container {
   width: 100%;
-
 }
 
 .title-container {
@@ -400,9 +385,7 @@ span.ql-picker-item:hover {
   border-radius: 0 0 10px 10px;
   background: var(--primary-background-color);
   color: var(--primary-text-color);
-
 }
-
 
 .ql-editor ul[data-checked="true"] {
   color: green;
@@ -474,8 +457,4 @@ select.themeSelect {
   width: 100vw;
   height: 100vh;
   background-color: transparent;
-}
-
-.hidden {
-  display: none !important;
 }
