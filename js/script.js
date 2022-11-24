@@ -20,6 +20,8 @@ const noteTextarea = document.querySelector("#note-textarea");
 const previewSection = document.querySelector(".notes-preview-section");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
+const btnBookMarkActiveToolbar = document.querySelector(".ph-star.icon-toolbar");
+const btnBookMarkNotActiveToolbar = document.querySelector(".ph-star-fill.icon-toolbar");
 const btnStar = document.querySelector(".star-container");
 const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
 const tagMenuToolbar = document.querySelector(
@@ -42,6 +44,12 @@ const overlay = document.querySelector(".overlay");
 const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
+
+
+
+
+
+
 
 
 
@@ -99,6 +107,8 @@ const saveNote = function () {
   // setTitle(note);
   renderPreview(state.savedNotes, "My Notes");
   setLocalStorage(state);
+  location.reload();
+
 };
 
 /**
@@ -164,7 +174,6 @@ const initNoteValues = function () {
   };
   return newNote;
 };
-
 /**
  *  This function gets the date and creates and returns a usable string for the date
  * @returns {String} returns thte date in 'Mmm dd yyyy' format
@@ -198,15 +207,22 @@ const renderPreview = function (notesArr, listType) {
   let markup = "";
   previewSection.innerHTML = "";
   markup = `
+ 
     <div class="preview-section-header">
-    ${listType}</div>
-    
+    ${listType}        
+    </div>        
+    <input type="text" class="searchNotesInput" id="searchNotesInput" placeholder="search for notes...">
+   
+   
     `;
   notesArr
     .filter((note) => note.delta)
     .forEach((note) => {
       markup += `
+      
       <div class="note-preview" data-id="${note.id}">
+       
+
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
         ${note.bookmarked
@@ -220,6 +236,7 @@ const renderPreview = function (notesArr, listType) {
     });
   previewSection.insertAdjacentHTML("afterbegin", markup);
 };
+
 
 /**
  *  this function toggles the 'bookmarked' value of the passed in note when the user presses the star icon
@@ -254,7 +271,10 @@ const renderNote = function (id) {
   updateTagListToolbar(note);
   state.savedNotes.splice(index, 1);
   state.savedNotes.unshift(note);
+
 };
+
+
 
 /**
  * This function toggles the star icon in the sidebar between filled and not filled
@@ -349,7 +369,7 @@ const renderTagList = function (parEl) {
  * Changes the carot icon from closed and open. 
  * @author Aman Said 
  */
-const togglePreviewSection = function (){
+const togglePreviewSection = function () {
   previewSection.classList.toggle("hidden")
   btnCaretLeftSidebar.classList.toggle("hidden")
   btnCaretRightSidebar.classList.toggle("hidden")
@@ -380,6 +400,7 @@ const init = function () {
   renderTagList(tagListToolbar);
   createNewNote();
   initThemeSelector();
+
 };
 
 /**
@@ -391,6 +412,7 @@ const toggleWelcome = function () {
   toolbar.classList.toggle("hidden");
   noteSection.classList.toggle("hidden");
   previewSection.classList.toggle("hidden");
+
 };
 
 init();
@@ -402,7 +424,10 @@ init();
 btnCloseWelcomeScreen.addEventListener("click", (e) => {
   setLocalStorage(state);
   toggleWelcome();
+
+
 });
+
 
 btnSave.addEventListener("click", saveNote);
 
@@ -414,16 +439,21 @@ btnNewNote.addEventListener("click", () => {
 });
 
 previewSection.addEventListener("click", (e) => {
+  // return if clicked on empty search field
+  if (e.target.classList.contains("searchNotesInput")) return;
+  // return if clicked on empty space
+  if (e.target.classList.contains("preview-section-header")) return;
   // return if clicked on an empty space
   if (e.target.classList.contains("notes-preview-section")) return;
-
   // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
+
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
   // If clicked on a note to display
   if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
     renderNote(noteID);
 });
+
 
 btnStar.addEventListener("click", (e) => {
   const bookmarkedNotes = state.savedNotes.filter(
@@ -439,6 +469,7 @@ btnStar.addEventListener("click", (e) => {
     toggleStarHeader();
   }
 });
+
 
 btnTagToolbar.addEventListener("click", (e) => {
   if (e.target.classList.contains("tag-icon-toolbar")) {
@@ -501,6 +532,7 @@ customTagBtn.addEventListener("click", (e) => {
   setLocalStorage(state);
 });
 
+
 overlay.addEventListener("click", (e) => {
   tagMenuToolbar.classList.add("hidden");
   tagMenuSidebar.classList.add("hidden");
@@ -512,6 +544,7 @@ inputTitle.addEventListener("keydown", (key) => {
     const title = inputTitle.value;
     state.savedNotes[0].title = title;
     renderPreview(state.savedNotes, "My Notes");
+
   }
 });
 
@@ -523,7 +556,7 @@ inputTitle.addEventListener("focus", () => {
   inputTitle.select()
 });
 
-btnCaretSidebar.addEventListener("click", ()=> {
+btnCaretSidebar.addEventListener("click", () => {
   togglePreviewSection()
 })
 
@@ -551,3 +584,23 @@ function initThemeSelector() {
   themeSelect.value = state.themes;
   activateTheme(state.themes);
 }
+
+
+
+
+const filterNotes = function (e) {
+  const value = e.target.value.toLowerCase();
+  const notePreview = document.querySelectorAll(".note-preview");
+  notePreview.forEach((note) => {
+    if (note.innerText.toLowerCase().includes(value)) return note.style.display = '';
+    return note.style.display = 'none';
+  })
+
+}
+searchNotesInput.addEventListener('input', filterNotes);
+
+btnBookMarkActiveToolbar.addEventListener('click', () => {
+  saveNote();
+
+})
+
