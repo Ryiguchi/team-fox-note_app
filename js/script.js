@@ -20,6 +20,7 @@ const noteTextarea = document.querySelector("#note-textarea");
 const previewSection = document.querySelector(".notes-preview-section");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
+const bookmarkToolbar = document.querySelector(".bookmark-toolbar");
 const btnBookMarkActiveToolbar = document.querySelector(".ph-star.icon-toolbar");
 const btnBookMarkNotActiveToolbar = document.querySelector(".ph-star-fill.icon-toolbar");
 const btnStar = document.querySelector(".star-container");
@@ -44,7 +45,6 @@ const overlay = document.querySelector(".overlay");
 const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
-
 
 
 
@@ -107,7 +107,6 @@ const saveNote = function () {
   // setTitle(note);
   renderPreview(state.savedNotes, "My Notes");
   setLocalStorage(state);
-  location.reload();
 
 };
 
@@ -145,6 +144,7 @@ const createNewNote = function () {
   // give the new note some initial values
   const newNote = initNoteValues();
   state.savedNotes.unshift(newNote);
+  // removeStarHeaderToolbar();
 };
 
 /**
@@ -283,6 +283,25 @@ const toggleStarHeader = function () {
   btnBookmarksNotActive.classList.toggle("hidden");
   btnBookmarksActive.classList.toggle("hidden");
 };
+const toggleStarHeaderToolbar = function () {
+  btnBookMarkNotActiveToolbar.classList.toggle("hidden");
+  btnBookMarkActiveToolbar.classList.toggle("hidden");
+}
+
+
+// fill out the star on toolbar
+const addStarHeaderToolbar = function () {
+  btnBookMarkNotActiveToolbar.classList.remove("hidden");
+  btnBookMarkActiveToolbar.classList.add("hidden");
+
+}
+// outline the star on toolbar
+const removeStarHeaderToolbar = function () {
+  btnBookMarkNotActiveToolbar.classList.add("hidden");
+  btnBookMarkActiveToolbar.classList.remove("hidden");
+}
+
+
 
 // TAGS //////////////////////////////////////////
 
@@ -421,6 +440,20 @@ init();
 // EVENT HANDLERS //////////////////////////
 ////////////////////////////////////////////
 
+// Bookmark Star on toolbar handler.
+bookmarkToolbar.addEventListener('click', (e) => {
+  state.savedNotes[0].bookmarked = true;
+  setLocalStorage(state);
+  saveNote();
+  toggleStarHeaderToolbar();
+  if (e.target.classList.contains("ph-star-fill")) {
+    state.savedNotes[0].bookmarked = false;
+    setLocalStorage(state);
+    saveNote();
+
+  }
+});
+
 btnCloseWelcomeScreen.addEventListener("click", (e) => {
   setLocalStorage(state);
   toggleWelcome();
@@ -436,6 +469,7 @@ btnNewNote.addEventListener("click", () => {
   // if the current note is empty, then do nothing
   if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
+
 });
 
 previewSection.addEventListener("click", (e) => {
@@ -447,13 +481,15 @@ previewSection.addEventListener("click", (e) => {
   if (e.target.classList.contains("notes-preview-section")) return;
   // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
-
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
+
   // If clicked on a note to display
   if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
     renderNote(noteID);
-});
+  // toggle ph-star-fill on toolbar if the active note is bookmarked.
+  state.savedNotes[0].bookmarked ? addStarHeaderToolbar() : removeStarHeaderToolbar();
 
+});
 
 btnStar.addEventListener("click", (e) => {
   const bookmarkedNotes = state.savedNotes.filter(
@@ -463,10 +499,12 @@ btnStar.addEventListener("click", (e) => {
     renderPreview(bookmarkedNotes, "Starred Notes");
     state.preview = "bookmarks";
     toggleStarHeader();
+
   } else {
     renderPreview(state.savedNotes, "My Notes");
     state.preview = "saved";
     toggleStarHeader();
+
   }
 });
 
@@ -599,8 +637,5 @@ const filterNotes = function (e) {
 }
 searchNotesInput.addEventListener('input', filterNotes);
 
-btnBookMarkActiveToolbar.addEventListener('click', () => {
-  saveNote();
 
-})
 
