@@ -210,9 +210,7 @@ const renderPreview = function (notesArr, listType) {
  
     <div class="preview-section-header">
     ${listType}        
-    </div>        
-    <input type="text" class="searchNotesInput" id="searchNotesInput" placeholder="search for notes...">
-   
+    </div>  
    
     `;
   notesArr
@@ -473,8 +471,7 @@ btnNewNote.addEventListener("click", () => {
 });
 
 previewSection.addEventListener("click", (e) => {
-  // return if clicked on empty search field
-  if (e.target.classList.contains("searchNotesInput")) return;
+
   // return if clicked on empty space
   if (e.target.classList.contains("preview-section-header")) return;
   // return if clicked on an empty space
@@ -626,16 +623,6 @@ function initThemeSelector() {
 
 
 
-const filterNotes = function (e) {
-  const value = e.target.value.toLowerCase();
-  const notePreview = document.querySelectorAll(".note-preview");
-  notePreview.forEach((note) => {
-    if (note.innerText.toLowerCase().includes(value)) return note.style.display = '';
-    return note.style.display = 'none';
-  })
-
-}
-searchNotesInput.addEventListener('input', filterNotes);
 
 
 
