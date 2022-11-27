@@ -211,7 +211,7 @@ const renderPreview = function (notesArr, listType) {
     <div class="preview-section-header">
     ${listType}
     </div>  
-    <input type="text" class="searchNotesInput" id="searchNotesInput" placeholder="search for notes...">
+    <input type="search" class="searchNotesInput" id="searchNotesInput" placeholder="search for notes...">
     `;
   notesArr
     .filter((note) => note.delta)
@@ -622,20 +622,21 @@ function initThemeSelector() {
   activateTheme(state.themes);
 }
 
-
-const filterNotes = function (e) {
-  const value = e.target.value.toLowerCase();
+/**
+ * @author Revan
+ */
+// Function  > search field under "My Notes" on preview section, to search for notes.
+function filterNotes() {
+  // select all notes in preview note seciton
   const notePreview = document.querySelectorAll(".note-preview");
-  notePreview.forEach((note) => {
-    if (note.innerText.toLowerCase().includes(value)) return note.style.display = '';
-    return note.style.display = 'none';
-  });
 
+  // foreach note check and make sure to convert all letters to lower case.
+  notePreview.forEach(note => {
+    if (note.innerText.toLowerCase().includes(searchNotesInput.value.toLowerCase())) return note.style.display = '';
+    return note.style.display = 'none';
+  })
 }
 searchNotesInput.addEventListener('input', filterNotes);
-
-
-
 
 
 
