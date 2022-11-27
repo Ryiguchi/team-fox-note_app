@@ -47,9 +47,9 @@ const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
 const searchNotesInput = document.querySelector('.searchNotesInput');
 const previewSectionHeader = document.querySelector(".preview-section-header");
-
-
-
+const magnifyingGlass = document.querySelector(".magnifying-glass");
+const magnifyingGlassPluss = document.querySelector(".ph-magnifying-glass-plus");
+const magnifyingGlassMinus = document.querySelector(".ph-magnifying-glass-minus");
 
 
 
@@ -292,6 +292,7 @@ const toggleStarHeaderToolbar = function () {
 }
 
 
+
 // fill out the star on toolbar
 const addStarHeaderToolbar = function () {
   btnBookMarkNotActiveToolbar.classList.remove("hidden");
@@ -444,6 +445,13 @@ init();
 // EVENT HANDLERS //////////////////////////
 ////////////////////////////////////////////
 
+// toggle the search field with  magnifying Glass
+magnifyingGlass.addEventListener("click", () => {
+  searchNotesInput.classList.toggle("hidden");
+  magnifyingGlassPluss.classList.toggle("hidden");
+  magnifyingGlassMinus.classList.toggle("hidden");
+
+});
 // Bookmark Star on toolbar handler.
 bookmarkToolbar.addEventListener('click', (e) => {
   state.savedNotes[0].bookmarked = true;
