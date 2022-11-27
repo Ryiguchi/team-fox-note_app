@@ -45,7 +45,8 @@ const overlay = document.querySelector(".overlay");
 const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
-
+const searchNotesInput = document.querySelector('.searchNotesInput');
+const previewSectionHeader = document.querySelector(".preview-section-header");
 
 
 
@@ -107,6 +108,7 @@ const saveNote = function () {
   // setTitle(note);
   renderPreview(state.savedNotes, "My Notes");
   setLocalStorage(state);
+
 
 };
 
@@ -205,19 +207,19 @@ const setTitle = function (note) {
  */
 const renderPreview = function (notesArr, listType) {
   let markup = "";
+
   previewSection.innerHTML = "";
-  markup = `
- 
+
+  markup = `      
     <div class="preview-section-header">
-    ${listType}
-    </div>  
-    <input type="search" class="searchNotesInput" id="searchNotesInput" placeholder="search for notes...">
+    ${listType}               
+    </div>      
     `;
   notesArr
     .filter((note) => note.delta)
     .forEach((note) => {
       markup += `
-      
+     
       <div class="note-preview" data-id="${note.id}">
        
 
@@ -231,8 +233,11 @@ const renderPreview = function (notesArr, listType) {
         <p class="note-preview--text">${note.preview}</p>
         </div>
         `;
+
     });
+  previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
+
 };
 
 
@@ -415,6 +420,7 @@ const init = function () {
   }
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
+
   createNewNote();
   initThemeSelector();
 
@@ -464,6 +470,7 @@ btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
   saveNote();
+  removeStarHeaderToolbar();
   // if the current note is empty, then do nothing
   if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
@@ -622,11 +629,12 @@ function initThemeSelector() {
   activateTheme(state.themes);
 }
 
-/**
- * @author Revan
- */
-// Function  > search field under "My Notes" on preview section, to search for notes.
+// /**
+//  * @author Revan
+//  */
+// // Function  > search field under "My Notes" on preview section, to search for notes.
 function filterNotes() {
+
   // select all notes in preview note seciton
   const notePreview = document.querySelectorAll(".note-preview");
 
@@ -636,6 +644,7 @@ function filterNotes() {
     return note.style.display = 'none';
   })
 }
+
 searchNotesInput.addEventListener('input', filterNotes);
 
 
