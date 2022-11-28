@@ -103,17 +103,6 @@ html {
   font-size: 1.6rem;
   width: 100%;
   height: 4rem;
-  border: 1px solid #aaa;
-  background-color: #fff;
-  padding: 0.8rem;
-}
-
-.preview-section-header {
-  display: flex;
-  align-items: center;
-  font-size: 1.6rem;
-  width: 100%;
-  height: 4rem;
   border: 1px solid var(--primary-background-color);
   background-color: var(--note-section);
   padding: 0.8rem;
@@ -131,7 +120,7 @@ html {
   padding: 0.8rem;
   border: 1px solid var(--primary-background-color);
   border-radius: 5px;
-
+  order: 1;
 }
 
 
@@ -480,6 +469,10 @@ select.themeSelect {
   display: none !important;
 }
 
+
+#searchNotesInput {
+  cursor: initial;
+
 /* Auto saving style */
 .autosave-msg {
   color: greenyellow;
@@ -489,5 +482,6 @@ select.themeSelect {
 
 .autosave-msg-saving {
   color: white;
+
 
 }

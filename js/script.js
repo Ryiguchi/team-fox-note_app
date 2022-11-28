@@ -45,10 +45,11 @@ const overlay = document.querySelector(".overlay");
 const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
-
-
-
-
+const searchNotesInput = document.querySelector('.searchNotesInput');
+const previewSectionHeader = document.querySelector(".preview-section-header");
+const magnifyingGlass = document.querySelector(".magnifying-glass");
+const magnifyingGlassPluss = document.querySelector(".ph-magnifying-glass-plus");
+const magnifyingGlassMinus = document.querySelector(".ph-magnifying-glass-minus");
 
 
 
@@ -107,6 +108,7 @@ const saveNote = function () {
   // setTitle(note);
   renderPreview(state.savedNotes, "My Notes");
   setLocalStorage(state);
+
 
 };
 
@@ -205,19 +207,19 @@ const setTitle = function (note) {
  */
 const renderPreview = function (notesArr, listType) {
   let markup = "";
+
   previewSection.innerHTML = "";
-  markup = `
- 
+
+  markup = `      
     <div class="preview-section-header">
-    ${listType}        
-    </div>  
-   
+    ${listType}               
+    </div>      
     `;
   notesArr
     .filter((note) => note.delta)
     .forEach((note) => {
       markup += `
-      
+     
       <div class="note-preview" data-id="${note.id}">
        
 
@@ -231,8 +233,11 @@ const renderPreview = function (notesArr, listType) {
         <p class="note-preview--text">${note.preview}</p>
         </div>
         `;
+
     });
+  previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
+
 };
 
 
@@ -285,6 +290,7 @@ const toggleStarHeaderToolbar = function () {
   btnBookMarkNotActiveToolbar.classList.toggle("hidden");
   btnBookMarkActiveToolbar.classList.toggle("hidden");
 }
+
 
 
 // fill out the star on toolbar
@@ -415,6 +421,7 @@ const init = function () {
   }
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
+
   createNewNote();
   initThemeSelector();
 
@@ -438,6 +445,13 @@ init();
 // EVENT HANDLERS //////////////////////////
 ////////////////////////////////////////////
 
+// toggle the search field with  magnifying Glass
+magnifyingGlass.addEventListener("click", () => {
+  searchNotesInput.classList.toggle("hidden");
+  magnifyingGlassPluss.classList.toggle("hidden");
+  magnifyingGlassMinus.classList.toggle("hidden");
+
+});
 // Bookmark Star on toolbar handler.
 bookmarkToolbar.addEventListener('click', (e) => {
   state.savedNotes[0].bookmarked = true;
@@ -464,6 +478,7 @@ btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
   saveNote();
+  removeStarHeaderToolbar();
   // if the current note is empty, then do nothing
   if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
@@ -472,6 +487,8 @@ btnNewNote.addEventListener("click", () => {
 
 previewSection.addEventListener("click", (e) => {
 
+  // return if clicked on search field
+  if (e.target.classList.contains("searchNotesInput")) return;
   // return if clicked on empty space
   if (e.target.classList.contains("preview-section-header")) return;
   // return if clicked on an empty space
@@ -620,6 +637,24 @@ function initThemeSelector() {
   activateTheme(state.themes);
 }
 
+// /**
+//  * @author Revan
+//  */
+// // Function  > search field under "My Notes" on preview section, to search for notes.
+function filterNotes() {
+
+  // select all notes in preview note seciton
+  const notePreview = document.querySelectorAll(".note-preview");
+
+  // foreach note check and make sure to convert all letters to lower case.
+  notePreview.forEach(note => {
+    if (note.innerText.toLowerCase().includes(searchNotesInput.value.toLowerCase())) return note.style.display = '';
+    return note.style.display = 'none';
+  })
+}
+
+
+searchNotesInput.addEventListener('input', filterNotes);
 
 /**
  * @author Revan
@@ -664,6 +699,7 @@ const autoSaving = function () {
 document.addEventListener("DOMContentLoaded", autoSaving);
 let leavePage = false;
 let setLeavePage = function () { leavePage = true; };
+
 
 window.onload = function () {
   window.addEventListener("beforeunload", (e) => {
