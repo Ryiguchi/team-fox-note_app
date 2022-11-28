@@ -621,8 +621,57 @@ function initThemeSelector() {
 }
 
 
+/**
+ * @author Revan
+ */
+// AUTOSAVING
+const autoSaving = function () {
+  let saveTimeoutId;
 
+  const savingMessage = "Saving...";
+  const savedMessage = "All changes saved.";
 
+  // select the autosaving messages and set to default
+  document.querySelectorAll(".autosave-msg").forEach(el => el.textContent = savedMessage);
 
+  // select everything on our textarea and add save function on "change"
+  document.querySelectorAll(".note-creation-section").forEach(textarea => {
+    textarea.addEventListener("keydown", () => {
 
+      // clear the timeout as the user is typing/editing
+      if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
+
+      // here we are storing the timeout id again
+      saveTimeoutId = window.setTimeout(() => {
+        console.log("saved");
+        // change the autosave message to show thats its saving
+        const autosaveMsgEl = textarea.closest(".container").querySelector(".autosave-msg");
+        autosaveMsgEl.classList.add("autosave-msg-saving");
+        autosaveMsgEl.textContent = savingMessage;
+
+        // save the changes
+        setLocalStorage(saveNote());
+
+        // change the text of saved message back to default 
+        autosaveMsgEl.classList.remove("autosave-msg-saving");
+        setTimeout(() => {
+          autosaveMsgEl.textContent = savedMessage;
+        }, 500); // message setTimeout
+      }, 500) // saveTimeoutId timeout
+    });
+  });
+}
+document.addEventListener("DOMContentLoaded", autoSaving);
+let leavePage = false;
+let setLeavePage = function () { leavePage = true; };
+
+window.onload = function () {
+  window.addEventListener("beforeunload", (e) => {
+    if (leavePage) {
+      return undefined;
+    }
+    (e || window.event).returnValue = autoSaving();
+
+  });
+}
 
