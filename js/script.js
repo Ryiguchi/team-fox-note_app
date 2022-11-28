@@ -621,6 +621,42 @@ function initThemeSelector() {
 }
 
 
+// AUTOSAVING
+let saveTimeoutId;
+document.addEventListener("DOMContentLoaded", () => {
+  const SAVING_MESSAGE = "Saving...";
+  const SAVED_MESSAGE = "All changes saved.";
+
+  // select the autosaving messages and set to default
+  document.querySelectorAll(".autosave-msg").forEach(el => el.textContent = SAVED_MESSAGE);
+
+  // select everything on our textarea and add save function on "change"
+  document.querySelectorAll(".note-creation-section").forEach(textarea => {
+    textarea.addEventListener("change", () => {
+
+      // clear the timeout as the user is typing/editing
+      if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
+
+      // here we are storing the timeout id again
+      saveTimeoutId = window.setTimeout(() => {
+        console.log(textarea);
+        // change the autosave message to show thats its saving
+        const autosaveMsgEl = textarea.closest(".container").querySelector(".autosave-msg");
+        autosaveMsgEl.classList.add("autosave-msg-saving");
+        autosaveMsgEl.textContent = SAVING_MESSAGE;
+        // save the changes
+        setLocalStorage(saveNote());
+
+        // change the text of saved message back to default 
+        autosaveMsgEl.classList.remove("autosave-msg-saving");
+        setTimeout(() => {
+          autosaveMsgEl.textContent = SAVED_MESSAGE;
+        }, 1500);
+      }, 1500)
+    });
+  });
+});
+
 
 
 

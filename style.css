@@ -479,3 +479,15 @@ select.themeSelect {
 .hidden {
   display: none !important;
 }
+
+/* Auto saving style */
+.autosave-msg {
+  color: greenyellow;
+  padding: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.autosave-msg-saving {
+  color: white;
+
+}
