@@ -661,7 +661,7 @@ const autoSaving = function () {
 
 document.addEventListener("DOMContentLoaded", autoSaving);
 var leavePage = false;
-var setLeavePage = function () { formSubmitting = true; };
+var setLeavePage = function () { leavePage = true; };
 
 window.onload = function () {
   window.addEventListener("beforeunload", (e) => {
