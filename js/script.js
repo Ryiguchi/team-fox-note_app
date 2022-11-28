@@ -621,6 +621,9 @@ function initThemeSelector() {
 }
 
 
+/**
+ * @author Revan
+ */
 // AUTOSAVING
 const autoSaving = function () {
   let saveTimeoutId;
@@ -653,25 +656,22 @@ const autoSaving = function () {
         autosaveMsgEl.classList.remove("autosave-msg-saving");
         setTimeout(() => {
           autosaveMsgEl.textContent = savedMessage;
-        }, 500);
-      }, 500)
+        }, 500); // message setTimeout
+      }, 500) // saveTimeoutId timeout
     });
   });
 }
-
 document.addEventListener("DOMContentLoaded", autoSaving);
-var leavePage = false;
-var setLeavePage = function () { leavePage = true; };
+let leavePage = false;
+let setLeavePage = function () { leavePage = true; };
 
 window.onload = function () {
   window.addEventListener("beforeunload", (e) => {
     if (leavePage) {
       return undefined;
     }
-    let confirmMessage = "Are you sure u want to leave without saving?";
-    (e || window.event).returnValue = confirmMessage;
-    autoSaving();
-    return confirmMessage;
+    (e || window.event).returnValue = autoSaving();
+
   });
 }
 
