@@ -24,6 +24,10 @@ const phStarIconToolbar = document.querySelector("#custom-button .ph-star");
 const phStarIconToolbarActive = document.querySelector(
   "#custom-button .ph-star-fill"
 );
+
+const bookmarkToolbar = document.querySelector(".bookmark-toolbar");
+const btnBookMarkActiveToolbar = document.querySelector(".ph-star.icon-toolbar");
+const btnBookMarkNotActiveToolbar = document.querySelector(".ph-star-fill.icon-toolbar");
 const btnStar = document.querySelector(".star-container");
 const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
 const tagMenuToolbar = document.querySelector(
@@ -46,6 +50,12 @@ const overlay = document.querySelector(".overlay");
 const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
+const searchNotesInput = document.querySelector('.searchNotesInput');
+const previewSectionHeader = document.querySelector(".preview-section-header");
+const magnifyingGlass = document.querySelector(".magnifying-glass");
+const magnifyingGlassPluss = document.querySelector(".ph-magnifying-glass-plus");
+const magnifyingGlassMinus = document.querySelector(".ph-magnifying-glass-minus");
+
 
 // State = data representing the current state of the app
 let state = {
@@ -101,6 +111,8 @@ const saveNote = function () {
   // setTitle(note);
   renderPreview(state.savedNotes, "My Notes");
   setLocalStorage(state);
+
+
 };
 
 /**
@@ -137,6 +149,7 @@ const createNewNote = function () {
   // give the new note some initial values
   const newNote = initNoteValues();
   state.savedNotes.unshift(newNote);
+  // removeStarHeaderToolbar();
 };
 
 /**
@@ -166,7 +179,6 @@ const initNoteValues = function () {
   };
   return newNote;
 };
-
 /**
  *  This function gets the date and creates and returns a usable string for the date
  * @returns {String} returns thte date in 'Mmm dd yyyy' format
@@ -198,17 +210,22 @@ const setTitle = function (note) {
  */
 const renderPreview = function (notesArr, listType) {
   let markup = "";
+
   previewSection.innerHTML = "";
-  markup = `
+
+  markup = `      
     <div class="preview-section-header">
-    ${listType}</div>
-    
+    ${listType}               
+    </div>      
     `;
   notesArr
     .filter((note) => note.delta)
     .forEach((note) => {
       markup += `
+     
       <div class="note-preview" data-id="${note.id}">
+       
+
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
         ${
@@ -220,9 +237,13 @@ const renderPreview = function (notesArr, listType) {
         <p class="note-preview--text">${note.preview}</p>
         </div>
         `;
+
     });
+  previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
+
 };
+
 
 /**
  *  this function toggles the 'bookmarked' value of the passed in note when the user presses the star icon
@@ -257,7 +278,10 @@ const renderNote = function (id) {
   updateTagListToolbar(note);
   state.savedNotes.splice(index, 1);
   state.savedNotes.unshift(note);
+
 };
+
+
 
 /**
  * This function toggles the star icon in the sidebar between filled and not filled
@@ -266,6 +290,29 @@ const toggleStarHeader = function () {
   btnBookmarksNotActive.classList.toggle("hidden");
   btnBookmarksActive.classList.toggle("hidden");
 };
+
+
+const toggleStarHeaderToolbar = function () {
+  btnBookMarkNotActiveToolbar.classList.toggle("hidden");
+  btnBookMarkActiveToolbar.classList.toggle("hidden");
+}
+
+
+
+// fill out the star on toolbar
+const addStarHeaderToolbar = function () {
+  btnBookMarkNotActiveToolbar.classList.remove("hidden");
+  btnBookMarkActiveToolbar.classList.add("hidden");
+
+}
+// outline the star on toolbar
+const removeStarHeaderToolbar = function () {
+  btnBookMarkNotActiveToolbar.classList.add("hidden");
+  btnBookMarkActiveToolbar.classList.remove("hidden");
+}
+
+
+
 // TAGS //////////////////////////////////////////
 
 /**
@@ -358,6 +405,11 @@ const togglePreviewSection = function () {
   btnCaretRightSidebar.classList.toggle("hidden");
 };
 
+  previewSection.classList.toggle("hidden")
+  btnCaretLeftSidebar.classList.toggle("hidden")
+  btnCaretRightSidebar.classList.toggle("hidden")
+}
+
 // INITIALIZES WHEN PAGE LOADS //////////////////////
 // ///////////////////////////////////////////////
 /**
@@ -381,8 +433,10 @@ const init = function () {
   }
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
+
   createNewNote();
   initThemeSelector();
+
 };
 
 /**
@@ -394,6 +448,7 @@ const toggleWelcome = function () {
   toolbar.classList.toggle("hidden");
   noteSection.classList.toggle("hidden");
   previewSection.classList.toggle("hidden");
+
 };
 
 init();
@@ -402,30 +457,64 @@ init();
 // EVENT HANDLERS //////////////////////////
 ////////////////////////////////////////////
 
+// toggle the search field with  magnifying Glass
+magnifyingGlass.addEventListener("click", () => {
+  searchNotesInput.classList.toggle("hidden");
+  magnifyingGlassPluss.classList.toggle("hidden");
+  magnifyingGlassMinus.classList.toggle("hidden");
+
+});
+// Bookmark Star on toolbar handler.
+bookmarkToolbar.addEventListener('click', (e) => {
+  state.savedNotes[0].bookmarked = true;
+  setLocalStorage(state);
+  saveNote();
+  toggleStarHeaderToolbar();
+  if (e.target.classList.contains("ph-star-fill")) {
+    state.savedNotes[0].bookmarked = false;
+    setLocalStorage(state);
+    saveNote();
+
+  }
+});
+
 btnCloseWelcomeScreen.addEventListener("click", (e) => {
   setLocalStorage(state);
   toggleWelcome();
+
+
 });
+
 
 btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
   saveNote();
+  removeStarHeaderToolbar();
   // if the current note is empty, then do nothing
   if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
+
 });
 
 previewSection.addEventListener("click", (e) => {
+
+  // return if clicked on search field
+  if (e.target.classList.contains("searchNotesInput")) return;
+  // return if clicked on empty space
+  if (e.target.classList.contains("preview-section-header")) return;
   // return if clicked on an empty space
   if (e.target.classList.contains("notes-preview-section")) return;
-
   // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
+
   // If clicked on a note to display
   if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
     renderNote(noteID);
+  // toggle ph-star-fill on toolbar if the active note is bookmarked.
+  state.savedNotes[0].bookmarked ? addStarHeaderToolbar() : removeStarHeaderToolbar();
+
 });
 
 btnStar.addEventListener("click", (e) => {
@@ -436,12 +525,15 @@ btnStar.addEventListener("click", (e) => {
     renderPreview(bookmarkedNotes, "Starred Notes");
     state.preview = "bookmarks";
     toggleStarHeader();
+
   } else {
     renderPreview(state.savedNotes, "My Notes");
     state.preview = "saved";
     toggleStarHeader();
+
   }
 });
+
 
 btnTagToolbar.addEventListener("click", (e) => {
   if (e.target.classList.contains("tag-icon-toolbar")) {
@@ -516,6 +608,7 @@ customTagBtn.addEventListener("click", (e) => {
   saveNote();
 });
 
+
 overlay.addEventListener("click", (e) => {
   tagMenuToolbar.classList.add("hidden");
   tagMenuSidebar.classList.add("hidden");
@@ -527,6 +620,7 @@ inputTitle.addEventListener("keydown", (key) => {
     const title = inputTitle.value;
     state.savedNotes[0].title = title;
     renderPreview(state.savedNotes, "My Notes");
+
   }
 });
 
@@ -541,6 +635,8 @@ inputTitle.addEventListener("focus", () => {
 btnCaretSidebar.addEventListener("click", () => {
   togglePreviewSection();
 });
+  togglePreviewSection()
+})
 
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
@@ -564,3 +660,78 @@ function initThemeSelector() {
   themeSelect.value = state.themes;
   activateTheme(state.themes);
 }
+
+// /**
+//  * @author Revan
+//  */
+// // Function  > search field under "My Notes" on preview section, to search for notes.
+function filterNotes() {
+
+  // select all notes in preview note seciton
+  const notePreview = document.querySelectorAll(".note-preview");
+
+  // foreach note check and make sure to convert all letters to lower case.
+  notePreview.forEach(note => {
+    if (note.innerText.toLowerCase().includes(searchNotesInput.value.toLowerCase())) return note.style.display = '';
+    return note.style.display = 'none';
+  })
+}
+
+
+searchNotesInput.addEventListener('input', filterNotes);
+
+/**
+ * @author Revan
+ */
+// AUTOSAVING
+const autoSaving = function () {
+  let saveTimeoutId;
+
+  const savingMessage = "Saving...";
+  const savedMessage = "All changes saved.";
+
+  // select the autosaving messages and set to default
+  document.querySelectorAll(".autosave-msg").forEach(el => el.textContent = savedMessage);
+
+  // select everything on our textarea and add save function on "change"
+  document.querySelectorAll(".note-creation-section").forEach(textarea => {
+    textarea.addEventListener("keydown", () => {
+
+      // clear the timeout as the user is typing/editing
+      if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
+
+      // here we are storing the timeout id again
+      saveTimeoutId = window.setTimeout(() => {
+        console.log("saved");
+        // change the autosave message to show thats its saving
+        const autosaveMsgEl = textarea.closest(".container").querySelector(".autosave-msg");
+        autosaveMsgEl.classList.add("autosave-msg-saving");
+        autosaveMsgEl.textContent = savingMessage;
+
+        // save the changes
+        setLocalStorage(saveNote());
+
+        // change the text of saved message back to default 
+        autosaveMsgEl.classList.remove("autosave-msg-saving");
+        setTimeout(() => {
+          autosaveMsgEl.textContent = savedMessage;
+        }, 500); // message setTimeout
+      }, 500) // saveTimeoutId timeout
+    });
+  });
+}
+document.addEventListener("DOMContentLoaded", autoSaving);
+let leavePage = false;
+let setLeavePage = function () { leavePage = true; };
+
+
+window.onload = function () {
+  window.addEventListener("beforeunload", (e) => {
+    if (leavePage) {
+      return undefined;
+    }
+    (e || window.event).returnValue = autoSaving();
+
+  });
+}
+
