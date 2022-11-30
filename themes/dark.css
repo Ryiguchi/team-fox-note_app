@@ -1,10 +1,24 @@
 :root {
-    --primary-background-color: #000000;
-    --primary-text-color: #C69749;
-    --primary-icons-hover: #C69749;
-    --svg-color: #735F32;
-    --filter-svg: brightness(500%);
-    --note-section: #444656;
-    --side-bar: #735F32;
-    --side-menu: #6e561f;
+    --primary-background-color: #221e27;
+    --fontSelection-size-color: #221e27;
+    --primary-text-color: #fff ;
+    --primary-icons-hover: #000000;    
+    --svg-color: #fff;
+    --filter-svg: brightness(500%);   
+    --note-section: #1F1B24;
+    --side-bar: #0f0c12;
+    --side-menu: #221e27;;
+    --side-header-i: #fff;
+    --qlStroke-color: #fff;
+    
 }
+
+
+/* #292929  = GRAY
+   #000000
+   #BB86FC = purple primary
+   ##1F1B24 = DARK primary
+
+ #03DAc5 =   secondary teal(ljusblå)
+ #FFFFFF = vit
+*/

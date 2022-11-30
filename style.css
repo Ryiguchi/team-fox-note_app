@@ -50,20 +50,21 @@ html {
 
 
 .side-header span {
-  color: var(--primary-background-color);
+   color: var(--primary-background-color);  
   font-weight: bolder;
   opacity: 0.8;
 }
 
 .side-header i {
-  color: var(--side-bar);
+  color: var(--side-header-i);
+  
 
 }
 
 
 .side-header i:hover {
 
-  color: var(--note-section);
+  opacity: 0.5;
 }
 
 .logo {
@@ -82,6 +83,8 @@ html {
 .icon-side-bar {
   font-size: 3rem;
   color: #fff;
+  /* background: var(--icon-sidebar); */
+
 }
 
 /* NOTE PREVIEW SECTION */
@@ -205,51 +208,58 @@ html {
 
 #custom-button {
   margin-left: 0.5rem;
-  color: var(--svg-color);
+    color: var(--primary-text-color);
+  
+}
+#custom-button .icon:hover{
+  opacity: 0.5; 
+}
+.custom-tag-input-el{
+  color: black !important;
 }
 
-#custom-button:hover,
-.icon-toolbar:hover {
-  color: var(--primary-icons-hover);
-}
 
-svg {
-  background: var(--filter-svg);
-}
+
 
 span.ql-picker-label {
   color: var(--primary-text-color);
 }
 
 span.ql-picker-item {
-  color: var(--side-bar);
-  opacity: 0.5;
+  color: var(--fontSelection-size-color);  
 }
 
 span.ql-picker-item:hover {
-  opacity: 1;
+  /* opacity: 1; */
+  filter: grayscale(200%);
 }
 
-
-/* .ql-picker-options {
-  color: var(--primary-text-color);
-}  */
 
 .ql-font {
   color: red;
 }
 
 .ql-picker-label:hover {
-  filter: hue-rotate(200deg);
-  opacity: 0.8;
+  filter: grayscale(110%)
+  
 }
 
 #ql-picker-options-4 {
-  background-color: var(--svg-color);
+  background-color: var(--primary-background-color);
 }
+
+
 
 #custom-button:focus {
   color: #000;
+}
+.ql-active{
+  color: var(--qlStroke-color)!important; 
+  
+}
+
+polygon.ql-stroke{
+ filter: grayscale(100%);
 }
 
 .ql-color,
@@ -271,14 +281,14 @@ span.ql-picker-item:hover {
   position: absolute;
   z-index: 100;
   font-size: 1.4rem;
-  background-color: #eee;
+  background-color:var(--primary-background-color); 
   border: 1px solid #000;
   width: 18rem;
   margin-top: 1rem;
 }
 
 .tag-list-sidebar-default li {
-  background-color: #fff;
+  background-color:var(--primary-background-color); 
 }
 
 .tag-selection-container-sidebar {
@@ -312,8 +322,9 @@ span.ql-picker-item:hover {
   width: 13rem;
 }
 
-.tag-selection-container:hover {
-  color: #000;
+li.tag-selection:hover {
+  color: var(--primary-text-color);
+  opacity: 0.5;
 }
 
 .tag-selection-container ul {
@@ -325,6 +336,8 @@ span.ql-picker-item:hover {
   border-top: 1px solid #000;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  
+  
 }
 
 .tag-name {
@@ -486,3 +499,10 @@ select.themeSelect {
 
 
 }
+
+
+.ql-editor.ql-blank::before{
+  filter: invert(200%);
+
+}
+

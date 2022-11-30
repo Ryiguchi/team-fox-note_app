@@ -1,13 +1,21 @@
 :root {
     --primary-background-color: #FBFACD;
+    --fontSelection-size-color:  #354532;  
     --primary-text-color: #000000;
     --primary-icons-hover: #5b11b6;
-    --svg-color: #7F669D;
+    --svg-color: #354532;
     --filter-svg: brightness(100%);
     --note-section: #FBFACD;
-    --side-bar: #7F669D;
-    --side-menu: #633897;
-
-
+    --side-bar: #51604e;
+    --side-menu: #687864;
+    --side-header-i: #fff;
+    --qlStroke-color: #51604e;
 
 }
+
+/*
+#687864 : GRÖN
+#31708E : MÖRK BLÅ
+#5085A5 : LJUSARE BLÅ
+#8FC1E3 : LJUS BLÅ
+#F7F9FB : VIT
