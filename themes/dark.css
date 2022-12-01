@@ -10,7 +10,9 @@
     --side-menu: #221e27;;
     --side-header-i: #fff;
     --qlStroke-color: #fff;
-    
+    --filter-blank: invert(100%);
+    --fill-star: #FFF;
+    --fill-tag :#FFF;
 }
 
 

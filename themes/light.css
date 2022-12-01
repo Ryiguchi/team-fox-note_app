@@ -10,7 +10,9 @@
     --side-menu: #687864;
     --side-header-i: #fff;
     --qlStroke-color: #51604e;
-
+    --filter-blank: invert(0%);
+    --fill-star: #51604e;
+    --fill-tag :#51604e;
 }
 
 /*

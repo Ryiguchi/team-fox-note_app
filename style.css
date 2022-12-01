@@ -124,10 +124,17 @@ html {
   border: 1px solid var(--primary-background-color);
   border-radius: 5px;
   order: 1;
+  opacity: 0.8;
 }
-
-
-
+.note-preview:hover{
+  opacity: 1;
+}
+.ph-star-fill{
+  color: var(--fill-star);
+}
+.ph-tag-fill {
+  color: var(--fill-tag);
+}
 .note-preview--date {
   font-size: 1rem;
 }
@@ -135,6 +142,7 @@ html {
 .ph-tag-fill-preview {
   grid-column: 2;
   grid-row: 1;
+  color: var(--fill-tag);
 }
 
 .icon-preview {
@@ -444,6 +452,7 @@ select.themeSelect {
   color: var(--primary-text-color);
   cursor: pointer;
   border-radius: 5px;
+  width: 100%;
 }
 
 .notes-preview-section::-webkit-scrollbar {
@@ -502,7 +511,7 @@ select.themeSelect {
 
 
 .ql-editor.ql-blank::before{
-  filter: invert(200%);
+  filter: var(--filter-blank);
 
 }
 

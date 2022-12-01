@@ -1,3 +1,23 @@
+:root {
+    --primary-background-color: #FFBB00;
+    --fontSelection-size-color:  #354532;  
+    --primary-text-color: #000000;
+    --primary-icons-hover: #5b11b6;
+    --svg-color: #000B99;
+    --filter-svg: brightness(100%);
+    --note-section: #FFBB00;
+    --side-bar: #000B99;
+    --side-menu: #3743DD;
+    --side-header-i: #DDA200;
+    --qlStroke-color: #51604e;
+    --filter-blank: invert(0%);
+    --fill-star: #000B99;
+    --fill-tag :#000B99;
+}
+
+
+
+
 /* CSS - Cascading Style Sheet */
 /* Palette color codes */
 /* Palette URL: http://paletton.com/#uid=23X0X0k++rJrZMYZRLD++jE+R90 */
