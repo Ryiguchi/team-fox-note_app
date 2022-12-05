@@ -479,8 +479,8 @@ previewSection.addEventListener("click", (e) => {
   // return if clicked on an empty space
   if (e.target.classList.contains("notes-preview-section")) return;
   // if clicked on the star icon (bookmark)
-  const noteID = e.target.closest(".note-preview").dataset.id;  
- 
+  const noteID = e.target.closest(".note-preview").dataset.id;
+
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
   // If clicked on a note to display
@@ -491,8 +491,6 @@ previewSection.addEventListener("click", (e) => {
     ? addStarHeaderToolbar()
     : removeStarHeaderToolbar();
 });
-
- 
 
 btnStar.addEventListener("click", (e) => {
   const bookmarkedNotes = state.savedNotes.filter(
@@ -703,4 +701,18 @@ window.onload = function () {
     (e || window.event).returnValue = autoSaving();
   });
 };
-
+/** Highlight notes on click
+ * @author Revan
+ */
+const highlightNotes = function () {
+  let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
+  notesHighlight.forEach((el) =>
+    el.addEventListener("click", (e) => {
+      [...el.parentElement.children].forEach((sib) => {
+        sib.classList.remove("note-Highlights"),
+          el.classList.add("note-Highlights");
+      });
+    })
+  );
+};
+highlightNotes();

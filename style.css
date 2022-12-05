@@ -48,22 +48,17 @@ html {
   background-color: var(--side-menu);
 }
 
-
 .side-header span {
-   color: var(--primary-background-color);  
+  color: var(--primary-background-color);
   font-weight: bolder;
   opacity: 0.8;
 }
 
 .side-header i {
   color: var(--side-header-i);
-  
-
 }
 
-
 .side-header i:hover {
-
   opacity: 0.5;
 }
 
@@ -84,7 +79,6 @@ html {
   font-size: 3rem;
   color: #fff;
   /* background: var(--icon-sidebar); */
-
 }
 
 /* NOTE PREVIEW SECTION */
@@ -109,7 +103,6 @@ html {
   border: 1px solid var(--primary-background-color);
   background-color: var(--note-section);
   padding: 0.8rem;
-
 }
 
 .note-preview {
@@ -126,10 +119,13 @@ html {
   order: 1;
   opacity: 0.8;
 }
-.note-preview:hover{
+.note-preview:hover {
   opacity: 1;
 }
-.ph-star-fill{
+.note-Highlights {
+  opacity: 1;
+}
+.ph-star-fill {
   color: var(--fill-star);
 }
 .ph-tag-fill {
@@ -161,7 +157,6 @@ html {
   grid-column: 1 / -1;
   grid-row: 3;
 }
-
 
 /* WELCOME POP-UP */
 
@@ -202,39 +197,31 @@ html {
   overflow-y: hidden;
 }
 
-
-
 /* TOOLBAR */
 
 #toolbar {
   background: var(--primary-background-color);
 
-
   border: 1px solid #aaa;
-
 }
 
 #custom-button {
   margin-left: 0.5rem;
-    color: var(--primary-text-color);
-  
+  color: var(--primary-text-color);
 }
-#custom-button .icon:hover{
-  opacity: 0.5; 
+#custom-button .icon:hover {
+  opacity: 0.5;
 }
-.custom-tag-input-el{
+.custom-tag-input-el {
   color: black !important;
 }
-
-
-
 
 span.ql-picker-label {
   color: var(--primary-text-color);
 }
 
 span.ql-picker-item {
-  color: var(--fontSelection-size-color);  
+  color: var(--fontSelection-size-color);
 }
 
 span.ql-picker-item:hover {
@@ -242,32 +229,27 @@ span.ql-picker-item:hover {
   filter: grayscale(200%);
 }
 
-
 .ql-font {
   color: red;
 }
 
 .ql-picker-label:hover {
-  filter: grayscale(110%)
-  
+  filter: grayscale(110%);
 }
 
 #ql-picker-options-4 {
   background-color: var(--primary-background-color);
 }
 
-
-
 #custom-button:focus {
   color: #000;
 }
-.ql-active{
-  color: var(--qlStroke-color)!important; 
-  
+.ql-active {
+  color: var(--qlStroke-color) !important;
 }
 
-polygon.ql-stroke{
- filter: grayscale(100%);
+polygon.ql-stroke {
+  filter: grayscale(100%);
 }
 
 .ql-color,
@@ -289,14 +271,14 @@ polygon.ql-stroke{
   position: absolute;
   z-index: 100;
   font-size: 1.4rem;
-  background-color:var(--primary-background-color); 
+  background-color: var(--primary-background-color);
   border: 1px solid #000;
   width: 18rem;
   margin-top: 1rem;
 }
 
 .tag-list-sidebar-default li {
-  background-color:var(--primary-background-color); 
+  background-color: var(--primary-background-color);
 }
 
 .tag-selection-container-sidebar {
@@ -344,8 +326,6 @@ li.tag-selection:hover {
   border-top: 1px solid #000;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  
-  
 }
 
 .tag-name {
@@ -373,7 +353,6 @@ li.tag-selection:hover {
 
 .note-container {
   width: 100%;
-
 }
 
 .title-container {
@@ -410,9 +389,7 @@ li.tag-selection:hover {
   border-radius: 0 0 10px 10px;
   background: var(--primary-background-color);
   color: var(--primary-text-color);
-
 }
-
 
 .ql-editor ul[data-checked="true"] {
   color: green;
@@ -491,7 +468,6 @@ select.themeSelect {
   display: none !important;
 }
 
-
 #searchNotesInput {
   cursor: initial;
 }
@@ -505,13 +481,8 @@ select.themeSelect {
 
 .autosave-msg-saving {
   color: white;
-
-
 }
 
-
-.ql-editor.ql-blank::before{
+.ql-editor.ql-blank::before {
   filter: var(--filter-blank);
-
 }
-
