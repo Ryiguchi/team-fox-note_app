@@ -707,13 +707,12 @@ window.onload = function () {
  */
 function highlightNotes() {
   let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
-  notesHighlight.forEach((el) =>
-    el.addEventListener("click", (e) => {
-      [...el.parentElement.children].forEach((sib) => {
+  notesHighlight.forEach((note) =>
+    note.addEventListener("click", (e) => {
+      [...note.parentElement.children].forEach((sib) => {
         sib.classList.remove("note-Highlights"),
-          el.classList.add("note-Highlights");
+          note.classList.add("note-Highlights");
       });
     })
   );
 }
-// highlightNotes();
