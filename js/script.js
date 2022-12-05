@@ -106,6 +106,7 @@ const saveNote = function () {
   if (note.delta.ops[0].insert === "\n") return;
   // if the note has been saved before, updates the savedNote
   if (note.saved) updateNote();
+
   // if the note has never been saved and has content, then saves content and renders note in preview section
   if (!note.saved) {
     saveNoteData(note);
@@ -214,7 +215,7 @@ const renderPreview = function (notesArr, listType) {
   previewSection.innerHTML = "";
 
   markup = `      
-    <div class="preview-section-header">
+    <div class="preview-section-header render-show">
     ${listType}               
     </div>      
     `;
@@ -223,7 +224,7 @@ const renderPreview = function (notesArr, listType) {
     .forEach((note) => {
       markup += `
      
-      <div class="note-preview" data-id="${note.id}">
+      <div class="note-preview render-show" data-id="${note.id}">
        
 
         <div class="note-preview--date">${note.date}</div>
@@ -240,6 +241,8 @@ const renderPreview = function (notesArr, listType) {
     });
   previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
+
+  highlightNotes();
 };
 
 /**
@@ -449,6 +452,7 @@ bookmarkToolbar.addEventListener("click", (e) => {
   setLocalStorage(state);
   saveNote();
   toggleStarHeaderToolbar();
+
   if (e.target.classList.contains("ph-star-fill")) {
     state.savedNotes[0].bookmarked = false;
     setLocalStorage(state);
@@ -462,7 +466,6 @@ btnCloseWelcomeScreen.addEventListener("click", (e) => {
 });
 
 btnSave.addEventListener("click", saveNote);
-
 btnNewNote.addEventListener("click", () => {
   saveNote();
   removeStarHeaderToolbar();
@@ -688,23 +691,21 @@ const autoSaving = function () {
   });
 };
 document.addEventListener("DOMContentLoaded", autoSaving);
-let leavePage = false;
-let setLeavePage = function () {
-  leavePage = true;
-};
 
+let leavePage = false;
 window.onload = function () {
   window.addEventListener("beforeunload", (e) => {
     if (leavePage) {
-      return undefined;
+      return;
     }
     (e || window.event).returnValue = autoSaving();
   });
 };
+
 /** Highlight notes on click
  * @author Revan
  */
-const highlightNotes = function () {
+function highlightNotes() {
   let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
   notesHighlight.forEach((el) =>
     el.addEventListener("click", (e) => {
@@ -714,5 +715,5 @@ const highlightNotes = function () {
       });
     })
   );
-};
-highlightNotes();
+}
+// highlightNotes();
