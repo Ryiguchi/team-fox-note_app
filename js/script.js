@@ -251,6 +251,7 @@ const renderPreview = function (notesArr, listType) {
     });
   previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
+  highlightNotes();
 };
 
 /**
@@ -678,6 +679,20 @@ function initThemeSelector() {
   themeSelect.value = state.themes;
   activateTheme(state.themes);
 }
+/** Function to highlight notes.
+ * @author Revan
+ */
+const highlightNotes = function () {
+  let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
+  notesHighlight.forEach((el) =>
+    el.addEventListener("click", (e) => {
+      [...el.parentElement.children].forEach((sib) => {
+        sib.classList.remove("note-Highlights"),
+          el.classList.add("note-Highlights");
+      });
+    })
+  );
+};
 
 // /**
 //  * @author Revan

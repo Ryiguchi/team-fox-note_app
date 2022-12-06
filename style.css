@@ -131,6 +131,9 @@ html {
 .note-preview--date {
   font-size: 1rem;
 }
+.note-Highlights {
+  opacity: 1;
+}
 
 .ph-tag-fill-preview {
   grid-column: 2;
