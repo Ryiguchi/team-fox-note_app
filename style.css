@@ -296,7 +296,7 @@ polygon.ql-stroke {
   margin-top: 1rem;
 }
 .stats-selection-container-sidebar {
-  transform: translate(70%, 80%);
+  transform: translate(70%, 120%);
 }
 .stats-list-sidebar-default li {
   background-color: var(--primary-background-color);
@@ -535,4 +535,12 @@ select.themeSelect {
   .side-header {
     display: none;
   }
+}
+
+#counter {
+  font-size: 1.5rem;
+  /* box-shadow: 0px 0px 5px 2px white; */
+  width: 25%;
+  margin-top: 10px;
+  margin-left: 10px;
 }

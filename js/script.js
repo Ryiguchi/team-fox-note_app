@@ -1,15 +1,20 @@
 "use strict";
 
 // For the Quill library
+
 let quill = new Quill("#editor", {
   theme: "snow",
   modules: {
     toolbar: "#toolbar",
   },
   placeholder: "Start typing here ...",
+  // container: "#counter",
+  // unit: "word",
 });
 
 // SELECTORS ////////////////////////////////////
+
+const editor = document.querySelector("#editor");
 const toolbar = document.querySelector("#toolbar");
 const noteSection = document.querySelector(".note-container");
 const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
@@ -62,7 +67,8 @@ const magnifyingGlassPluss = document.querySelector(
 const magnifyingGlassMinus = document.querySelector(
   ".ph-magnifying-glass-minus"
 );
-
+const countToggle = document.querySelector("#counter");
+const wordCountBtn = document.querySelector(".countSpan");
 // State = data representing the current state of the app
 let state = {
   savedNotes: [],
@@ -385,6 +391,7 @@ const renderTagList = function (parEl) {
   });
   parEl.insertAdjacentHTML("beforeend", markup);
 };
+
 const renderStatList = function (stat) {
   stat.innerHTML = "";
   let markup = "";
@@ -443,6 +450,13 @@ const init = function () {
   createNewNote();
   initThemeSelector();
 };
+/** Function to count words.
+ * @AUTHOR alex och rivan
+ */
+function countWords(str) {
+  const arr = str.split(" ");
+  return arr.filter((word) => word !== "").length;
+}
 
 /**
  * Shows or hides the Welcome screen
@@ -460,6 +474,20 @@ init();
 ////////////////////////////////////////////
 // EVENT HANDLERS //////////////////////////
 ////////////////////////////////////////////
+
+// Toggle words counter and stats section container.
+const statSelection = document.querySelector(".stats-selection-Word_Count");
+statSelection.addEventListener("click", (e) => {
+  wordCountBtn.classList.toggle("hidden");
+  statsSidebar.classList.toggle("hidden");
+});
+// Word counter.
+editor.addEventListener("input", () => {
+  let textArea = editor.innerText;
+  document.querySelector("#counter").textContent = `Total Words: ${countWords(
+    textArea
+  )}`;
+});
 
 // toggle the search field with  magnifying Glass
 magnifyingGlass.addEventListener("click", () => {
