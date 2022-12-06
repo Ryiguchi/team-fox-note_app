@@ -682,7 +682,7 @@ function initThemeSelector() {
 /** Function to highlight notes.
  * @author Revan
  */
-const highlightNotes = function () {
+function highlightNotes() {
   let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
   notesHighlight.forEach((el) =>
     el.addEventListener("click", (e) => {
@@ -692,7 +692,7 @@ const highlightNotes = function () {
       });
     })
   );
-};
+}
 
 // /**
 //  * @author Revan
