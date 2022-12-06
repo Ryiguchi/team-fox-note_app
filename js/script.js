@@ -37,6 +37,10 @@ const tagMenuSidebar = document.querySelector(
 );
 const tagListSidebar = document.querySelector(".tag-list-sidebar");
 const tagListToolbar = document.querySelector(".tag-list-toolbar");
+const statsIcon = document.querySelector(".stats-icon");
+const statsSidebar = document.querySelector(
+  ".stats-selection-container-sidebar"
+);
 const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
 const btnCaretSidebar = document.querySelector(".caret-contanier");
 const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
@@ -65,6 +69,7 @@ let state = {
   userTags: ["Personal", "Work", "Important"],
   previewType: "allSaved",
   themes: "light",
+  userStats: ["Word Count", "Overall statistics"],
 };
 // ////////////////////////////////////////
 // FUNCTIONS //////////////////////////////
@@ -380,7 +385,25 @@ const renderTagList = function (parEl) {
   });
   parEl.insertAdjacentHTML("beforeend", markup);
 };
-
+const renderStatList = function (stat) {
+  stat.innerHTML = "";
+  let markup = "";
+  state.userStats.forEach((stat) => {
+    const newStat = stat.replaceAll(/\s+/g, "_");
+    markup += `
+      <li class="hover stats-selection stats-selection-${newStat}"  data-tag="${newStat}">
+        ${
+          stat === statsSidebar
+            ? `<i class="ph-chart-bar ${newStat} icon hidden"></i>
+           <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${newStat} icon "></i>`
+            : ""
+        }
+        ${stat}
+      </li>
+  `;
+  });
+  stat.insertAdjacentHTML("beforeend", markup);
+};
 /**
  * This function hides the save notes on the screen and makes them come back again.
  * Changes the carot icon from closed and open.
@@ -415,7 +438,8 @@ const init = function () {
   }
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
-
+  // renderStatList(statsSidebar);
+  renderStatList(statsSidebar);
   createNewNote();
   initThemeSelector();
 };
@@ -479,8 +503,8 @@ previewSection.addEventListener("click", (e) => {
   // return if clicked on an empty space
   if (e.target.classList.contains("notes-preview-section")) return;
   // if clicked on the star icon (bookmark)
-  const noteID = e.target.closest(".note-preview").dataset.id;  
- 
+  const noteID = e.target.closest(".note-preview").dataset.id;
+
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
   // If clicked on a note to display
@@ -491,8 +515,6 @@ previewSection.addEventListener("click", (e) => {
     ? addStarHeaderToolbar()
     : removeStarHeaderToolbar();
 });
-
- 
 
 btnStar.addEventListener("click", (e) => {
   const bookmarkedNotes = state.savedNotes.filter(
@@ -532,6 +554,11 @@ tagMenuToolbar.addEventListener("click", (e) => {
 btnTagSidebar.addEventListener("click", (e) => {
   tagMenuSidebar.classList.toggle("hidden");
   overlay.classList.remove("hidden");
+});
+
+statsIcon.addEventListener("click", () => {
+  statsSidebar.classList.toggle("hidden");
+  // overlay.classList.remove("hidden");
 });
 
 tagMenuSidebar.addEventListener("click", (e) => {
@@ -703,4 +730,3 @@ window.onload = function () {
     (e || window.event).returnValue = autoSaving();
   });
 };
-

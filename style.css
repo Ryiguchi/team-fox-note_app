@@ -284,6 +284,40 @@ polygon.ql-stroke {
 .tag-selection-container-sidebar {
   transform: translate(70%, -40%);
 }
+/*--- stats container ---*/
+
+.stats-selection-container {
+  position: absolute;
+  z-index: 100;
+  font-size: 1.4rem;
+  background-color: var(--primary-background-color);
+  border: 1px solid #000;
+  width: 18rem;
+  margin-top: 1rem;
+}
+.stats-selection-container-sidebar {
+  transform: translate(70%, 80%);
+}
+.stats-list-sidebar-default li {
+  background-color: var(--primary-background-color);
+}
+.stats-selection-container ul {
+  list-style: none;
+  text-align: left;
+}
+
+.stats-selection-container li {
+  border-top: 1px solid #000;
+  padding: 0.5rem 1rem;
+  list-style: none;
+  cursor: pointer;
+}
+.hover:hover {
+  opacity: 0.5;
+}
+.stats-name {
+  width: auto !important;
+}
 
 .tag-icon-tag-menu {
   font-size: 1.6rem;
