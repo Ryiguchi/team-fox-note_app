@@ -219,8 +219,7 @@ const setTitle = function (note) {
  * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
  */
 const renderPreview = function (notesArr, listType) {
-  
-    let markup = "";
+  let markup = "";
 
   previewSection.innerHTML = "";
 
@@ -239,11 +238,10 @@ const renderPreview = function (notesArr, listType) {
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
           ${
-          
-          note.bookmarked
-            ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
-            : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
-        }
+            note.bookmarked
+              ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
+              : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
+          }
         
         <div class="note-preview--title">${note.title}</div>
         <p class="note-preview--text">${note.preview}</p>
@@ -251,11 +249,11 @@ const renderPreview = function (notesArr, listType) {
         </div>
         `;
     });
-    
-    previewSection.append(searchNotesInput);
+
+  previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
   highlightNotes();
-  deleteNote();
+  // deleteNote();
 };
 
 /**
@@ -538,6 +536,8 @@ previewSection.addEventListener("click", (e) => {
   // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
 
+  if (e.target.classList.contains("delete-note")) deleteNote();
+
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
   // If clicked on a note to display
@@ -778,13 +778,7 @@ window.onload = function () {
   });
 };
 
-function deleteNote  (){
-  const deleteNoteBtn = document.querySelectorAll('.delete-note');
-  deleteNoteBtn.forEach((btn) =>{
-    btn.addEventListener('click', (e) =>{
-      console.log(btn);      
-      console.log(state.savedNotes[0].id);
-    })
-  })
-
-}
+const deleteNote = function () {
+  const note = document.querySelector(".note-preview");
+  note.parentNode.removeChild(note);
+};
