@@ -160,7 +160,6 @@ const createNewNote = function () {
   // give the new note some initial values
   const newNote = initNoteValues();
   state.savedNotes.unshift(newNote);
-  // removeStarHeaderToolbar();
 };
 
 /**
@@ -220,7 +219,8 @@ const setTitle = function (note) {
  * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
  */
 const renderPreview = function (notesArr, listType) {
-  let markup = "";
+  
+    let markup = "";
 
   previewSection.innerHTML = "";
 
@@ -235,23 +235,27 @@ const renderPreview = function (notesArr, listType) {
       markup += `
      
       <div class="note-preview" data-id="${note.id}">
-       
 
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
-        ${
+          ${
+          
           note.bookmarked
             ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
             : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
         }
+        
         <div class="note-preview--title">${note.title}</div>
         <p class="note-preview--text">${note.preview}</p>
+        <button class="delete-note">Delete</button>
         </div>
         `;
     });
-  previewSection.append(searchNotesInput);
+    
+    previewSection.append(searchNotesInput);
   previewSection.insertAdjacentHTML("afterbegin", markup);
   highlightNotes();
+  deleteNote();
 };
 
 /**
@@ -773,3 +777,14 @@ window.onload = function () {
     (e || window.event).returnValue = autoSaving();
   });
 };
+
+function deleteNote  (){
+  const deleteNoteBtn = document.querySelectorAll('.delete-note');
+  deleteNoteBtn.forEach((btn) =>{
+    btn.addEventListener('click', (e) =>{
+      console.log(btn);      
+      console.log(state.savedNotes[0].id);
+    })
+  })
+
+}
