@@ -49,9 +49,8 @@ html {
 }
 
 .side-header span {
-  color: var(--primary-background-color);
+  color: var(--side-header-i);
   font-weight: bolder;
-  opacity: 0.8;
 }
 
 .side-header i {
