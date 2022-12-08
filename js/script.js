@@ -69,6 +69,7 @@ const magnifyingGlassMinus = document.querySelector(
 );
 const countToggle = document.querySelector("#counter");
 const wordCountBtn = document.querySelector(".countSpan");
+const templateModal = document.querySelector(".templateModal");
 // State = data representing the current state of the app
 let state = {
   savedNotes: [],
@@ -773,3 +774,8 @@ window.onload = function () {
     (e || window.event).returnValue = autoSaving();
   });
 };
+templateModal.addEventListener("click", (e) => {
+  if (e.target.classList.contains("template-letter")) console.log("LETTER");
+  if (e.target.classList.contains("template-resume")) console.log("RESUME");
+  if (e.target.classList.contains("template-recipe")) console.log("RECIPE");
+});

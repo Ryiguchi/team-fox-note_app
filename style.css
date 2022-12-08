@@ -72,6 +72,7 @@ html {
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  position: relative;
 }
 
 .icon-side-bar {
@@ -545,4 +546,42 @@ select.themeSelect {
   width: 25%;
   margin-top: 10px;
   margin-left: 10px;
+}
+
+.templateModal img {
+  width: 200px;
+  height: 200px;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.templateModal {
+  z-index: 100;
+  position: absolute;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  left: 12rem;
+  background-color: white;
+  border: 4px solid black;
+  overflow: hidden;
+  grid-gap: 1rem;
+}
+.templateModal h1 {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 1rem;
+}
+/* .templateModal h1 {
+  font-size: 2rem;
+  text-align: center;
+  background-color: #eee;
+  grid-column: 1 / -1;
+  grid-column: span 3;
+  padding: 1rem;
+}
+*/
+.templateModal h2 {
+  font-size: 1.6rem;
+  text-align: center;
+  /* padding: 1rem; */
 }
