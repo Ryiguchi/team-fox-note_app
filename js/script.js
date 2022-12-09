@@ -484,11 +484,11 @@ statSelection.addEventListener("click", (e) => {
   statsSidebar.classList.toggle("hidden");
 });
 // Word counter.
+const counterText = document.querySelector("#counter");
+
 editor.addEventListener("input", () => {
-  let textArea = editor.innerText;
-  document.querySelector("#counter").textContent = `Total Words: ${countWords(
-    textArea
-  )}`;
+  const textArea = editor.innerText;
+  counterText.textContent = `Total Words: ${countWords(textArea)}`;
 });
 
 // toggle the search field with  magnifying Glass
@@ -691,6 +691,7 @@ function highlightNotes() {
       [...el.parentElement.children].forEach((sib) => {
         sib.classList.remove("note-Highlights"),
           el.classList.add("note-Highlights");
+        counterText.textContent = "";
       });
     })
   );
