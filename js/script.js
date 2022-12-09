@@ -1766,3 +1766,18 @@ templateModal.addEventListener("click", (e) => {
   }
   templateModal.classList.toggle("hidden", { passive: true });
 });
+
+// get the localstorage object.
+// loop thruy and get the current objects.
+// access the tags array in that objects
+// get the tags.length
+
+// const object = getLocalStorage();
+// console.log(object);
+// for (let i = 0; i < object.length; i++) {
+//   let currentObject = object.saveNotes[i];
+//   console.log(currentObject);
+// }
+
+// notes = state.savedNotes.length
+// tags = state.userTags.length
