@@ -37,6 +37,25 @@ html {
 
 /* HEADER */
 
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--side-menu);
+
+  padding: 1rem;
+}
+
+.icon-mobile-header {
+  /* display: none; */
+  font-size: 4rem;
+}
+
+.logo-mobile {
+  height: 4rem;
+  width: 4rem;
+}
+
 .side-header {
   display: flex;
   flex-direction: column;
@@ -89,6 +108,7 @@ html {
   min-width: 18rem;
   max-width: 25rem;
   height: 100vh;
+  margin-top: 0.5rem;
 
   overflow-y: scroll;
 }
@@ -100,6 +120,7 @@ html {
   width: 100%;
   height: 4rem;
   border: 1px solid var(--primary-background-color);
+  border-radius: 5px;
   background-color: var(--note-section);
   padding: 0.8rem;
 }
@@ -163,9 +184,9 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1.6rem;
   background-color: #ffffff;
-  height: 80%;
-  width: 50%;
+  width: 75%;
 
   border-radius: 5px;
 
@@ -176,8 +197,6 @@ html {
 .welcome-pop-up h1 {
   text-align: center;
   margin-bottom: 3rem;
-}
-.welcome-pop-up-text {
   font-size: 4rem;
 }
 
@@ -197,6 +216,7 @@ html {
   width: 100%;
   background-color: var(--side-bar);
   overflow-y: hidden;
+  margin-right: 0.5rem;
 }
 
 /* TOOLBAR */
@@ -205,15 +225,18 @@ html {
   background: var(--primary-background-color);
 
   border: 1px solid #aaa;
+  border-radius: 5px;
+  margin-top: 0.5rem;
 }
 
 #custom-button {
-  margin-left: 0.5rem;
   color: var(--primary-text-color);
 }
+
 #custom-button .icon:hover {
   opacity: 0.5;
 }
+
 .custom-tag-input-el {
   color: black !important;
 }
@@ -246,6 +269,7 @@ span.ql-picker-item:hover {
 #custom-button:focus {
   color: #000;
 }
+
 .ql-active {
   color: var(--qlStroke-color) !important;
 }
@@ -254,12 +278,10 @@ polygon.ql-stroke {
   filter: grayscale(100%);
 }
 
-.ql-color,
-.ql-bold,
-.ql-align,
-.ql-code-block,
-.tag-tb {
-  margin-left: 2rem !important;
+.ql-underline,
+.checkbox,
+.ql-clean {
+  margin-right: 1rem !important;
 }
 
 /* TAGS TOOLBAR */
@@ -297,12 +319,15 @@ polygon.ql-stroke {
   width: 18rem;
   margin-top: 1rem;
 }
+
 .stats-selection-container-sidebar {
   transform: translate(70%, 120%);
 }
+
 .stats-list-sidebar-default li {
   background-color: var(--primary-background-color);
 }
+
 .stats-selection-container ul {
   list-style: none;
   text-align: left;
@@ -314,9 +339,11 @@ polygon.ql-stroke {
   list-style: none;
   cursor: pointer;
 }
+
 .hover:hover {
   opacity: 0.5;
 }
+
 .stats-name {
   width: auto !important;
 }
@@ -396,7 +423,7 @@ li.tag-selection:hover {
   color: var(--primary-text-color);
   display: flex;
   justify-content: center;
-  width: 70rem;
+  max-width: 65vw;
   margin: 2rem auto 0 auto;
   border: 1px solid #aaa;
   border-bottom: none;
@@ -415,11 +442,11 @@ li.tag-selection:hover {
 }
 
 #editor {
-  max-width: 70rem;
+  max-width: 65vw;
   min-height: 65vh;
   margin: 0 auto;
   /* background-color: #fff; */
-  padding: 0 0.5rem;
+  /* padding: 0 0.5rem; */
   border: 1px solid #aaa;
   border-top: none;
   border-radius: 0 0 10px 10px;
@@ -500,12 +527,13 @@ select.themeSelect {
   background-color: transparent;
 }
 
-.hidden {
-  display: none !important;
-}
-
-#searchNotesInput {
+#searchNotesInputs {
   cursor: initial;
+  font-size: 1.6rem;
+  height: 4rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.4rem 0.8rem;
 }
 
 /* Auto saving style */
@@ -545,4 +573,65 @@ select.themeSelect {
   width: 25%;
   margin-top: 10px;
   margin-left: 10px;
+}
+
+.hidden {
+  display: none;
+}
+/* ************************************** */
+/* MEDIA QUERIES **************************/
+/* ************************************** */
+
+@media (max-width: 37.5em) {
+  #editor,
+  .title-container {
+    max-width: 80vw;
+  }
+
+  .note-preview {
+    opacity: 1;
+  }
+
+  .notes-preview-section {
+    position: absolute;
+    left: 6rem;
+    z-index: 150;
+    background-color: var(--side-bar);
+    padding: 0 0.5rem;
+    width: 100%;
+    max-width: calc(100vw - 6.5rem);
+  }
+
+  .welcome-pop-up {
+    width: 75%;
+  }
+
+  .welcome-pop-up h1 {
+    font-size: 2.4rem;
+  }
+
+  .welcome-description {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 28.125em) {
+  .container {
+    flex-direction: column;
+  }
+
+  .side-header {
+    position: absolute;
+    z-index: 150;
+    top: 5rem;
+    padding-top: 2rem;
+  }
+
+  .logo-box {
+    display: none;
+  }
+
+  .welcome-pop-up {
+    width: 75%;
+  }
 }
