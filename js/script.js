@@ -14,6 +14,13 @@ let quill = new Quill("#editor", {
 
 // SELECTORS ////////////////////////////////////
 
+const sidebar = document.querySelector(".side-header");
+const burger = document.querySelector(".ph-list");
+const mobileHeader = document.querySelector(".mobile-header");
+const btnCaretToolbarContainer = document.querySelector(
+  ".caret-container-toolbar"
+);
+const caretsMobileToolbar = document.querySelectorAll(".caret-mobile-toolbar");
 const editor = document.querySelector("#editor");
 const toolbar = document.querySelector("#toolbar");
 const noteSection = document.querySelector(".note-container");
@@ -288,6 +295,7 @@ const renderNote = function (id) {
   updateTagListToolbar(note);
   state.savedNotes.splice(index, 1);
   state.savedNotes.unshift(note);
+  // if (screen.width <= 600) togglePreviewSection();
 };
 
 /**
@@ -413,6 +421,7 @@ const renderStatList = function (stat) {
   });
   stat.insertAdjacentHTML("beforeend", markup);
 };
+
 /**
  * This function hides the save notes on the screen and makes them come back again.
  * Changes the carot icon from closed and open.
@@ -422,6 +431,15 @@ const togglePreviewSection = function () {
   previewSection.classList.toggle("hidden");
   btnCaretLeftSidebar.classList.toggle("hidden");
   btnCaretRightSidebar.classList.toggle("hidden");
+};
+
+const toggleSidebar = function () {
+  sidebar.classList.toggle("hidden");
+};
+
+const toggleMobileToolbar = function () {
+  toolbar.classList.toggle("hidden");
+  caretsMobileToolbar.forEach((icon) => icon.classList.toggle("hidden"));
 };
 
 // INITIALIZES WHEN PAGE LOADS //////////////////////
@@ -440,8 +458,17 @@ const updateState = function (newState) {
  */
 const init = function () {
   const savedState = getLocalStorage();
-  if (!savedState) toggleWelcome();
+  if (!savedState) {
+    toggleWelcome();
+    if (screen.width <= 450) toggleSidebar();
+  }
   if (savedState) {
+    if (screen.width <= 600) togglePreviewSection();
+    if (screen.width <= 450) {
+      mobileHeader.classList.remove("hidden");
+      toggleSidebar();
+      toolbar.classList.add("hidden");
+    }
     updateState(savedState);
     renderPreview(state.savedNotes, "My Notes");
   }
@@ -466,8 +493,8 @@ function countWords(str) {
  */
 const toggleWelcome = function () {
   welcomePopUp.classList.toggle("hidden");
-  toolbar.classList.toggle("hidden");
   noteSection.classList.toggle("hidden");
+  toolbar.classList.toggle("hidden");
   previewSection.classList.toggle("hidden");
 };
 
@@ -483,6 +510,7 @@ statSelection.addEventListener("click", (e) => {
   wordCountBtn.classList.toggle("hidden");
   statsSidebar.classList.toggle("hidden");
 });
+
 // Word counter.
 const counterText = document.querySelector("#counter");
 
@@ -496,7 +524,9 @@ magnifyingGlass.addEventListener("click", () => {
   searchNotesInput.classList.toggle("hidden");
   magnifyingGlassPluss.classList.toggle("hidden");
   magnifyingGlassMinus.classList.toggle("hidden");
+  if (previewSection.classList.contains("hidden")) togglePreviewSection();
 });
+
 // Bookmark Star on toolbar handler.
 bookmarkToolbar.addEventListener("click", (e) => {
   state.savedNotes[0].bookmarked = true;
@@ -513,6 +543,11 @@ bookmarkToolbar.addEventListener("click", (e) => {
 btnCloseWelcomeScreen.addEventListener("click", (e) => {
   setLocalStorage(state);
   toggleWelcome();
+  if (screen.width <= 600) togglePreviewSection();
+  if (screen.width <= 450) {
+    mobileHeader.classList.remove("hidden");
+    toolbar.classList.toggle("hidden");
+  }
 });
 
 btnSave.addEventListener("click", saveNote);
@@ -524,6 +559,7 @@ btnNewNote.addEventListener("click", () => {
   // if the current note is empty, then do nothing
   if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
+  if (screen.width <= 450) toggleSidebar();
 });
 
 previewSection.addEventListener("click", (e) => {
@@ -539,8 +575,11 @@ previewSection.addEventListener("click", (e) => {
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
   // If clicked on a note to display
-  if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
+  if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview")) {
     renderNote(noteID);
+    if (screen.width <= 600) togglePreviewSection();
+    if (screen.width <= 450) toggleSidebar();
+  }
   // toggle ph-star-fill on toolbar if the active note is bookmarked.
   state.savedNotes[0].bookmarked
     ? addStarHeaderToolbar()
@@ -659,6 +698,15 @@ btnCaretSidebar.addEventListener("click", () => {
   togglePreviewSection();
 });
 
+burger.addEventListener("click", (e) => {
+  toggleSidebar();
+  previewSection.classList.add("hidden");
+});
+
+btnCaretToolbarContainer.addEventListener("click", (e) => {
+  toggleMobileToolbar();
+});
+
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
  */
@@ -762,6 +810,7 @@ const autoSaving = function () {
     });
   });
 };
+
 document.addEventListener("DOMContentLoaded", autoSaving);
 let leavePage = false;
 let setLeavePage = function () {

@@ -21,6 +21,18 @@
 
   <body>
     <div class="container">
+      <div class="mobile-header hidden">
+        <i class="ph-list icon-mobile-header"></i>
+        <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo-mobile" />
+        <div class="caret-container-toolbar">
+          <i
+            class="ph-caret-double-down caret-mobile-toolbar icon-mobile-header"
+          ></i>
+          <i
+            class="ph-caret-double-up caret-mobile-toolbar hidden icon-mobile-header"
+          ></i>
+        </div>
+      </div>
       <header class="side-header">
         <div class="logo-box">
           <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo" />
@@ -172,7 +184,7 @@
           <select class="ql-align"></select>
           <button class="ql-list" value="ordered"></button>
           <button class="ql-list" value="bullet"></button>
-          <button class="ql-list" value="check"></button>
+          <button class="ql-list checkbox" value="check"></button>
           <button class="ql-code-block"></button>
           <button class="ql-link"></button>
           <button class="ql-image"></button>
