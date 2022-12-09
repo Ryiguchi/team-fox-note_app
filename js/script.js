@@ -46,6 +46,7 @@ const statsIcon = document.querySelector(".stats-icon");
 const statsSidebar = document.querySelector(
   ".stats-selection-container-sidebar"
 );
+
 const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
 const btnCaretSidebar = document.querySelector(".caret-contanier");
 const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
@@ -70,6 +71,7 @@ const magnifyingGlassMinus = document.querySelector(
 const countToggle = document.querySelector("#counter");
 const wordCountBtn = document.querySelector(".countSpan");
 const templateModal = document.querySelector(".templateModal");
+
 // State = data representing the current state of the app
 let state = {
   savedNotes: [],
@@ -413,6 +415,7 @@ const renderStatList = function (stat) {
   });
   stat.insertAdjacentHTML("beforeend", markup);
 };
+
 /**
  * This function hides the save notes on the screen and makes them come back again.
  * Changes the carot icon from closed and open.
@@ -1766,18 +1769,59 @@ templateModal.addEventListener("click", (e) => {
   }
   templateModal.classList.toggle("hidden", { passive: true });
 });
+// overall Stats
 
-// get the localstorage object.
-// loop thruy and get the current objects.
-// access the tags array in that objects
-// get the tags.length
+const overallStats = document.querySelector(
+  ".stats-selection-Overall_statistics"
+);
+overallStats.addEventListener("click", () => {
+  statsSidebar.classList.toggle("hidden");
+  // Create a new element to hold the pop-up module
+  const notePreview = document.querySelectorAll(".note-preview");
 
-// const object = getLocalStorage();
-// console.log(object);
-// for (let i = 0; i < object.length; i++) {
-//   let currentObject = object.saveNotes[i];
-//   console.log(currentObject);
-// }
+  const popup = document.createElement("div");
+  const closeGraph = document.createElement("button");
+  const container = document.querySelector(".container");
 
-// notes = state.savedNotes.length
-// tags = state.userTags.length
+  // Set the pop-up module's class to 'popup' to apply styling
+  popup.className = "popup";
+
+  // close button
+  closeGraph.className = "closeGraph";
+  closeGraph.textContent = "Close";
+
+  // Create the graph element
+  const graph = document.createElement("canvas");
+
+  // Set the graph's ID to 'graph'
+  graph.id = "graph";
+
+  // Add the graph to the pop-up module
+  popup.appendChild(graph);
+  popup.appendChild(closeGraph);
+
+  // Add the pop-up module to the page
+  container.appendChild(popup);
+  // Create the data for the graph
+  const data = {
+    labels: ["Notes", "Tags"],
+
+    datasets: [
+      {
+        label: "Total Used",
+        data: [notePreview.length, state.userTags.length],
+        backgroundColor: ["#ff6384", "#36a2eb"],
+      },
+    ],
+  };
+
+  // Create the graph using the Chart.js library
+  const ctx = document.getElementById("graph").getContext("2d");
+  const myChart = new Chart(ctx, {
+    type: "pie",
+    data: data,
+  });
+  closeGraph.addEventListener("click", () => {
+    popup.remove("hidden");
+  });
+});

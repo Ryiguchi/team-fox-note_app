@@ -586,3 +586,25 @@ select.themeSelect {
   font-size: 1.6rem;
   text-align: center;
 }
+
+.popup {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 100px;
+  text-align: center;
+  width: 50vw;
+  height: 50vh;
+}
+.closeGraph {
+  opacity: 0.5;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  font-weight: bolder;
+  transition: all 0.5s;
+}
+.closeGraph:hover {
+  opacity: 1 !important;
+}
