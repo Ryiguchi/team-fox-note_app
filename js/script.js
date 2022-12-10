@@ -2,6 +2,8 @@
 
 import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
 
+// counter for the timer of time spent.
+let timeSpent = 0;
 // For the Quill library
 
 let quill = new Quill("#editor", {
@@ -55,6 +57,7 @@ const statsIcon = document.querySelector(".stats-icon");
 const statsSidebar = document.querySelector(
   ".stats-selection-container-sidebar"
 );
+
 const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
 const btnCaretSidebar = document.querySelector(".caret-contanier");
 const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
@@ -79,6 +82,7 @@ const magnifyingGlassMinus = document.querySelector(
 const countToggle = document.querySelector("#counter");
 const wordCountBtn = document.querySelector(".countSpan");
 const templateModal = document.querySelector(".templateModal");
+
 // State = data representing the current state of the app
 let state = {
   savedNotes: [],
@@ -513,6 +517,7 @@ const statSelection = document.querySelector(".stats-selection-Word_Count");
 statSelection.addEventListener("click", (e) => {
   wordCountBtn.classList.toggle("hidden");
   statsSidebar.classList.toggle("hidden");
+  overlay.classList.toggle("hidden");
 });
 
 // Word counter.
@@ -642,12 +647,13 @@ btnTagSidebar.addEventListener("click", (e) => {
   overlay.classList.remove("hidden");
 });
 
-statsIcon.addEventListener("click", () => {
+statsIcon.addEventListener("click", (e) => {
   statsSidebar.classList.toggle("hidden");
-  // overlay.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 });
 
 tagMenuSidebar.addEventListener("click", (e) => {
+  overlay.classList.toggle("hidden");
   saveNote();
   const chosenTag = e.target
     .closest(".tag-selection")
@@ -691,6 +697,7 @@ customTagBtn.addEventListener("click", (e) => {
 overlay.addEventListener("click", (e) => {
   tagMenuToolbar.classList.add("hidden");
   tagMenuSidebar.classList.add("hidden");
+  statsSidebar.classList.add("hidden");
   overlay.classList.add("hidden");
 });
 
@@ -857,17 +864,3 @@ templateModal.addEventListener("click", (e) => {
   }
   templateModal.classList.toggle("hidden", { passive: true });
 });
-const deleteNote = function (id) {
-  const index = getNoteIndexByID(id);
-  state.savedNotes.splice(index, 1);
-  setLocalStorage(state);
-  // const note = document.querySelector(".note-preview");
-  // note.parentNode.removeChild(note);
-  renderPreview(state.savedNotes);
-
-  if (state.savedNotes.length >= 1) {
-    renderNote(state.savedNotes[0].id);
-    saveNote();
-  }
-  if (state.savedNotes < 1) createNewNote();
-};
