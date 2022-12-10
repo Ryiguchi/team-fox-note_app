@@ -1,5 +1,7 @@
 "use strict";
 
+// counter for the timer of time spent.
+let timeSpent = 0;
 // For the Quill library
 
 let quill = new Quill("#editor", {
@@ -1804,13 +1806,18 @@ overallStats.addEventListener("click", () => {
   container.appendChild(popup);
   // Create the data for the graph
   const data = {
-    labels: ["Notes", "Tags"],
+    labels: ["Notes", "Tags", "Hours Spent", "Minutes"],
 
     datasets: [
       {
         label: "Total Used",
-        data: [notePreview.length, state.userTags.length],
-        backgroundColor: ["#ff6384", "#36a2eb"],
+        data: [
+          notePreview.length,
+          state.userTags.length,
+          Math.floor(timeSpent / 3600),
+          Math.trunc(Math.floor(timeSpent % 3600) / 60),
+        ],
+        backgroundColor: ["#ff6384", "#36a2eb", "#4b0082", "#32cd32"],
       },
     ],
   };
@@ -1825,3 +1832,14 @@ overallStats.addEventListener("click", () => {
     popup.remove("hidden");
   });
 });
+
+if (localStorage.getItem("timeSpent")) {
+  timeSpent = localStorage.getItem("timeSpent");
+}
+
+function checkTime() {
+  timeSpent++;
+  localStorage.setItem("timeSpent", timeSpent);
+}
+
+setInterval(checkTime, 1000);
