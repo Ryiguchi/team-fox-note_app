@@ -864,3 +864,17 @@ templateModal.addEventListener("click", (e) => {
   }
   templateModal.classList.toggle("hidden", { passive: true });
 });
+const deleteNote = function (id) {
+  const index = getNoteIndexByID(id);
+  state.savedNotes.splice(index, 1);
+  setLocalStorage(state);
+  // const note = document.querySelector(".note-preview");
+  // note.parentNode.removeChild(note);
+  renderPreview(state.savedNotes);
+
+  if (state.savedNotes.length >= 1) {
+    renderNote(state.savedNotes[0].id);
+    saveNote();
+  }
+  if (state.savedNotes < 1) createNewNote();
+};
