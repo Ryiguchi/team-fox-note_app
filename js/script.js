@@ -149,8 +149,8 @@ const saveNote = function () {
  * @param {Object} note - the note object with DELTA data
  */
 const saveNoteData = function (note) {
-  if (inputTitle.value === "Untitled note") console.log("hi");
-  note.title = note.delta.ops[0].insert.slice(0, 25);
+  if (inputTitle.value === "Untitled note")
+    note.title = note.delta.ops[0].insert.slice(0, 25);
   if (inputTitle.value !== "Untitled note") {
     note.title = inputTitle.value;
   }
@@ -177,9 +177,8 @@ const createNewNote = function () {
   inputTitle.value = "Untitled note";
   // give the new note some initial values
   const newNote = initNoteValues();
-  console.log(newNote);
+
   state.savedNotes.unshift(newNote);
-  console.log(state);
 };
 
 /**
@@ -257,6 +256,7 @@ const renderPreview = function (notesArr, listType) {
        
 
         <div class="note-preview--date">${note.date}</div>
+        <i class="ph-trash-bold icon-preview icon"></i>
         <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
         ${
           note.bookmarked
@@ -567,7 +567,6 @@ btnCloseWelcomeScreen.addEventListener("click", (e) => {
 btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
-  console.log(state.savedNotes);
   templateModal.classList.toggle("hidden");
   saveNote();
   removeStarHeaderToolbar();
