@@ -143,6 +143,23 @@ html {
 .note-preview:hover {
   opacity: 1;
 }
+
+.delete-note {
+  place-self: end;
+  grid-column: span 3;
+  padding: 3px;
+  cursor: pointer;
+  background: var(--side-bar);
+  color: var(--side-header-i);
+  border-radius: 3px;
+  border: none;
+}
+.delete-note:hover {
+  padding: 4px;
+}
+.delete-note:active {
+  padding: 3px;
+}
 .ph-star-fill {
   color: var(--fill-star);
 }

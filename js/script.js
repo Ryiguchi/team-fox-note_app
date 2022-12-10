@@ -253,10 +253,12 @@ const renderPreview = function (notesArr, listType) {
           note.bookmarked
             ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
             : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
-        }
+        }        
         <div class="note-preview--title">${note.title}</div>
-        <p class="note-preview--text">${note.preview}</p>
+        <p class="note-preview--text">${note.preview} </p>    
+        <button class="delete-note">Delete</button>    
         </div>
+        
         `;
     });
   previewSection.append(searchNotesInput);
@@ -576,8 +578,20 @@ previewSection.addEventListener("click", (e) => {
 
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
+  // if clicked on delete note button
+  if (e.target.classList.contains("delete-note")) {
+    deleteNote(noteID);
+    return;
+  }
+
   // If clicked on a note to display
-  if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview")) {
+  if (
+    !e.target.classList.contains(
+      "star-icon-preview",
+      "tag-icon-preview",
+      "delete-note"
+    )
+  ) {
     renderNote(noteID);
     if (screen.width <= 600) togglePreviewSection();
     if (screen.width <= 450) toggleSidebar();
@@ -843,3 +857,17 @@ templateModal.addEventListener("click", (e) => {
   }
   templateModal.classList.toggle("hidden", { passive: true });
 });
+const deleteNote = function (id) {
+  const index = getNoteIndexByID(id);
+  state.savedNotes.splice(index, 1);
+  setLocalStorage(state);
+  // const note = document.querySelector(".note-preview");
+  // note.parentNode.removeChild(note);
+  renderPreview(state.savedNotes);
+
+  if (state.savedNotes.length >= 1) {
+    renderNote(state.savedNotes[0].id);
+    saveNote();
+  }
+  if (state.savedNotes < 1) createNewNote();
+};
