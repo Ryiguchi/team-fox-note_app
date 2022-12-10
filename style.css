@@ -659,3 +659,60 @@ select.themeSelect {
   filter: invert(20%);
   filter: opacity(80%);
 }
+
+/* ********************************************* */
+/* MEDIA QUERIES******************************* */
+/* ********************************************* */
+@media (max-width: 37.5em) {
+  #editor,
+  .title-container {
+    max-width: 80vw;
+  }
+
+  .note-preview {
+    opacity: 1;
+  }
+
+  .notes-preview-section {
+    position: absolute;
+    left: 6rem;
+    z-index: 150;
+    background-color: var(--side-bar);
+    padding: 0 0.5rem;
+    width: 100%;
+    max-width: calc(100vw - 6.5rem);
+  }
+
+  .welcome-pop-up {
+    width: 75%;
+  }
+
+  .welcome-pop-up h1 {
+    font-size: 2.4rem;
+  }
+
+  .welcome-description {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 28.125em) {
+  .container {
+    flex-direction: column;
+  }
+
+  .side-header {
+    position: absolute;
+    z-index: 150;
+    top: 5rem;
+    padding-top: 2rem;
+  }
+
+  .logo-box {
+    display: none;
+  }
+
+  .welcome-pop-up {
+    width: 75%;
+  }
+}
