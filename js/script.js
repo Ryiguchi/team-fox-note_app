@@ -82,6 +82,7 @@ const magnifyingGlassMinus = document.querySelector(
 const countToggle = document.querySelector("#counter");
 const wordCountBtn = document.querySelector(".countSpan");
 const templateModal = document.querySelector(".templateModal");
+const autosaveMsgEl = document.querySelector(".autosave-msg");
 
 // State = data representing the current state of the app
 let state = {
@@ -107,6 +108,9 @@ let state = {
  * @
  */
 const setLocalStorage = function (data) {
+  data.savedNotes.forEach((note, i, arr) => {
+    if (!note.delta) data.savedNotes.splice(i, 1);
+  });
   localStorage.setItem("state", JSON.stringify(state));
 };
 
@@ -562,6 +566,7 @@ btnCloseWelcomeScreen.addEventListener("click", (e) => {
 btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
+  console.log(state.savedNotes);
   templateModal.classList.toggle("hidden");
   saveNote();
   removeStarHeaderToolbar();
@@ -752,6 +757,7 @@ function initThemeSelector() {
   themeSelect.value = state.themes;
   activateTheme(state.themes);
 }
+
 /** Function to highlight notes.
  * @author Revan
  */
@@ -806,31 +812,25 @@ const autoSaving = function () {
     .forEach((el) => (el.textContent = savedMessage));
 
   // select everything on our textarea and add save function on "change"
-  document.querySelectorAll(".note-creation-section").forEach((textarea) => {
-    textarea.addEventListener("keydown", () => {
-      // clear the timeout as the user is typing/editing
-      if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
 
-      // here we are storing the timeout id again
-      saveTimeoutId = window.setTimeout(() => {
-        console.log("saved");
-        // change the autosave message to show thats its saving
-        const autosaveMsgEl = textarea
-          .closest(".container")
-          .querySelector(".autosave-msg");
-        autosaveMsgEl.classList.add("autosave-msg-saving");
-        autosaveMsgEl.textContent = savingMessage;
+  editor.addEventListener("keydown", () => {
+    // clear the timeout as the user is typing/editing
+    if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
 
-        // save the changes
-        setLocalStorage(saveNote());
+    // here we are storing the timeout id again
+    saveTimeoutId = window.setTimeout(() => {
+      // change the autosave message to show thats its saving
+      autosaveMsgEl.classList.add("autosave-msg-saving");
+      autosaveMsgEl.textContent = savingMessage;
 
-        // change the text of saved message back to default
-        autosaveMsgEl.classList.remove("autosave-msg-saving");
-        setTimeout(() => {
-          autosaveMsgEl.textContent = savedMessage;
-        }, 500); // message setTimeout
-      }, 500); // saveTimeoutId timeout
-    });
+      // save the changes
+      setLocalStorage(state);
+      // change the text of saved message back to default
+      autosaveMsgEl.classList.remove("autosave-msg-saving");
+      setTimeout(() => {
+        autosaveMsgEl.textContent = savedMessage;
+      }, 500); // message setTimeout
+    }, 500); // saveTimeoutId timeout
   });
 };
 
@@ -848,6 +848,7 @@ window.onload = function () {
     (e || window.event).returnValue = autoSaving();
   });
 };
+
 templateModal.addEventListener("click", (e) => {
   if (e.target.classList.contains("template-empty"));
   if (e.target.classList.contains("template-resume")) {
@@ -864,6 +865,7 @@ templateModal.addEventListener("click", (e) => {
   }
   templateModal.classList.toggle("hidden", { passive: true });
 });
+
 const deleteNote = function (id) {
   const index = getNoteIndexByID(id);
   state.savedNotes.splice(index, 1);
