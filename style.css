@@ -608,3 +608,9 @@ select.themeSelect {
 .closeGraph:hover {
   opacity: 1 !important;
 }
+
+#graph {
+  background-color: var(--primary-background-color);
+  filter: invert(20%);
+  filter: opacity(80%);
+}

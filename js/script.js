@@ -487,6 +487,7 @@ const statSelection = document.querySelector(".stats-selection-Word_Count");
 statSelection.addEventListener("click", (e) => {
   wordCountBtn.classList.toggle("hidden");
   statsSidebar.classList.toggle("hidden");
+  overlay.classList.toggle("hidden");
 });
 // Word counter.
 const counterText = document.querySelector("#counter");
@@ -592,12 +593,13 @@ btnTagSidebar.addEventListener("click", (e) => {
   overlay.classList.remove("hidden");
 });
 
-statsIcon.addEventListener("click", () => {
+statsIcon.addEventListener("click", (e) => {
   statsSidebar.classList.toggle("hidden");
-  // overlay.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 });
 
 tagMenuSidebar.addEventListener("click", (e) => {
+  overlay.classList.toggle("hidden");
   saveNote();
   const chosenTag = e.target
     .closest(".tag-selection")
@@ -641,6 +643,7 @@ customTagBtn.addEventListener("click", (e) => {
 overlay.addEventListener("click", (e) => {
   tagMenuToolbar.classList.add("hidden");
   tagMenuSidebar.classList.add("hidden");
+  statsSidebar.classList.add("hidden");
   overlay.classList.add("hidden");
 });
 
@@ -1777,6 +1780,7 @@ const overallStats = document.querySelector(
   ".stats-selection-Overall_statistics"
 );
 overallStats.addEventListener("click", () => {
+  overlay.classList.toggle("hidden");
   statsSidebar.classList.toggle("hidden");
   // Create a new element to hold the pop-up module
   const notePreview = document.querySelectorAll(".note-preview");
@@ -1825,7 +1829,7 @@ overallStats.addEventListener("click", () => {
   // Create the graph using the Chart.js library
   const ctx = document.getElementById("graph").getContext("2d");
   const myChart = new Chart(ctx, {
-    type: "pie",
+    type: "bar",
     data: data,
   });
   closeGraph.addEventListener("click", () => {
@@ -1833,13 +1837,17 @@ overallStats.addEventListener("click", () => {
   });
 });
 
+/** first check if there is a timeSpent keyname in localStorage. If there is one
+ * the grab it and continue adding to it
+ * @author Revan
+ */
 if (localStorage.getItem("timeSpent")) {
   timeSpent = localStorage.getItem("timeSpent");
 }
-
+// Function to increment the timer and save it to localStorage.
 function checkTime() {
   timeSpent++;
   localStorage.setItem("timeSpent", timeSpent);
 }
-
+// Running the checktime function every second to increment the timer.
 setInterval(checkTime, 1000);
