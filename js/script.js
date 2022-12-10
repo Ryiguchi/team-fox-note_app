@@ -878,3 +878,74 @@ const deleteNote = function (id) {
   }
   if (state.savedNotes < 1) createNewNote();
 };
+const overallStats = document.querySelector(
+  ".stats-selection-Overall_statistics"
+);
+overallStats.addEventListener("click", () => {
+  overlay.classList.toggle("hidden");
+  statsSidebar.classList.toggle("hidden");
+  // Create a new element to hold the pop-up module
+  const notePreview = document.querySelectorAll(".note-preview");
+
+  const popup = document.createElement("div");
+  const closeGraph = document.createElement("button");
+  const container = document.querySelector(".container");
+
+  // Set the pop-up module's class to 'popup' to apply styling
+  popup.className = "popup";
+
+  // close button
+  closeGraph.className = "closeGraph";
+  closeGraph.textContent = "Close";
+
+  // Create the graph element
+  const graph = document.createElement("canvas");
+
+  // Set the graph's ID to 'graph'
+  graph.id = "graph";
+
+  // Add the graph to the pop-up module
+  popup.appendChild(graph);
+  popup.appendChild(closeGraph);
+  popup.style.width = `${window.innerWidth * 0.5}px`;
+  popup.style.height = `${window.innerWidth * 0.5}px`;
+  // Add the pop-up module to the page
+  container.appendChild(popup);
+  // Create the data for the graph
+  const data = {
+    labels: ["Notes", "Tags", "Hours Spent", "Minutes"],
+
+    datasets: [
+      {
+        label: "Total Used",
+        data: [
+          notePreview.length,
+          state.userTags.length,
+          Math.floor(timeSpent / 3600),
+          Math.trunc(Math.floor(timeSpent % 3600) / 60),
+        ],
+        backgroundColor: ["#ff6384", "#36a2eb", "#4b0082", "#32cd32"],
+      },
+    ],
+  };
+
+  // Create the graph using the Chart.js library
+  const ctx = document.getElementById("graph").getContext("2d");
+  const myChart = new Chart(ctx, {
+    type: "bar",
+    data: data,
+  });
+  closeGraph.addEventListener("click", () => {
+    popup.remove("hidden");
+  });
+});
+if (localStorage.getItem("timeSpent")) {
+  timeSpent = localStorage.getItem("timeSpent");
+}
+
+function checkTime() {
+  timeSpent++;
+  localStorage.setItem("timeSpent", timeSpent);
+}
+
+setInterval(checkTime, 1000);
