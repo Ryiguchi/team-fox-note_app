@@ -846,6 +846,7 @@ templateModal.addEventListener("click", (e) => {
 });
 
 const deleteNote = function (id) {
+  if (!confirm("Are you sure you want to delete this note?")) return;
   const index = getNoteIndexByID(id);
   state.savedNotes.splice(index, 1);
   setLocalStorage(state);
