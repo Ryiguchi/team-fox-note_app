@@ -634,12 +634,12 @@ select.themeSelect {
 
 .popup {
   position: absolute;
-  right: 0;
-  left: 0;
-  top: 100px;
+  left: 25%;
+  top: 28%;
+  right: 28%;
   text-align: center;
-  width: 50vw;
-  height: 50vh;
+  width: 100%;
+  height: 100%;
 }
 .closeGraph {
   opacity: 0.5;
@@ -714,5 +714,9 @@ select.themeSelect {
 
   .welcome-pop-up {
     width: 75%;
+  }
+  .popup {
+    width: 100vw;
+    height: 100vh;
   }
 }
