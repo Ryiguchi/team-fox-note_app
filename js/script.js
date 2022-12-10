@@ -108,8 +108,8 @@ let state = {
  * @
  */
 const setLocalStorage = function (data) {
-  data.savedNotes.forEach((note, i, arr) => {
-    if (!note.delta) data.savedNotes.splice(i, 1);
+  data.savedNotes.forEach((note, i) => {
+    if (!note.delta && i !== 0) data.savedNotes.splice(i, 1);
   });
   localStorage.setItem("state", JSON.stringify(state));
 };
@@ -177,8 +177,9 @@ const createNewNote = function () {
   inputTitle.value = "Untitled note";
   // give the new note some initial values
   const newNote = initNoteValues();
+  console.log(newNote);
   state.savedNotes.unshift(newNote);
-  // removeStarHeaderToolbar();
+  console.log(state);
 };
 
 /**
