@@ -128,7 +128,7 @@ html {
 
 .note-preview {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto;
   column-gap: 0.5rem;
   width: 100%;
   height: 8rem;
@@ -144,31 +144,18 @@ html {
   opacity: 1;
 }
 
-.delete-note {
-  place-self: end;
-  grid-column: span 3;
-  padding: 3px;
-  cursor: pointer;
-  background: var(--side-bar);
-  color: var(--side-header-i);
-  border-radius: 3px;
-  border: none;
-}
-.delete-note:hover {
-  padding: 4px;
-}
-.delete-note:active {
-  padding: 3px;
-}
 .ph-star-fill {
   color: var(--fill-star);
 }
+
 .ph-tag-fill {
   color: var(--fill-tag);
 }
+
 .note-preview--date {
   font-size: 1rem;
 }
+
 .note-Highlights {
   opacity: 1;
 }

@@ -134,7 +134,7 @@ const saveNote = function () {
   // if there isn't any content yet, then doesn't save
   if (note.delta.ops[0].insert === "\n") return;
   // if the note has been saved before, updates the savedNote
-  if (note.saved) updateNote();
+  if (note.saved) updateNote(note);
   // if the note has never been saved and has content, then saves content and renders note in preview section
   if (!note.saved) {
     saveNoteData(note);
@@ -161,9 +161,10 @@ const saveNoteData = function (note) {
 /**
  * This function takes the content of the current note and updates the content and title in the 'state'.
  */
-const updateNote = function () {
+const updateNote = function (note) {
   state.savedNotes[0].delta = quill.getContents();
   state.savedNotes[0].title = inputTitle.value;
+  state.savedNotes[0].preview = note.delta.ops[0].insert.slice(0, 150);
 };
 // CREATING A NEW NOTE /////////////////////////////
 
@@ -237,7 +238,7 @@ const setTitle = function (note) {
  * @param {Array} notesArr Array of note Objects to render previews for
  * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
  */
-const renderPreview = function (notesArr, listType) {
+const renderPreview = function (notesArr, listType = "My Notes") {
   let markup = "";
 
   previewSection.innerHTML = "";
@@ -265,7 +266,6 @@ const renderPreview = function (notesArr, listType) {
         }        
         <div class="note-preview--title">${note.title}</div>
         <p class="note-preview--text">${note.preview} </p>    
-        <button class="delete-note">Delete</button>    
         </div>
         
         `;
@@ -589,7 +589,7 @@ previewSection.addEventListener("click", (e) => {
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
   // if clicked on delete note button
-  if (e.target.classList.contains("delete-note")) {
+  if (e.target.classList.contains("ph-trash-bold")) {
     deleteNote(noteID);
     return;
   }
