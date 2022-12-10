@@ -78,6 +78,7 @@ html {
 
 .side-header i:hover {
   opacity: 0.5;
+  transition: all 0.3s;
 }
 
 .logo {
@@ -143,6 +144,7 @@ html {
 }
 .note-preview:hover {
   opacity: 1;
+  transition: all 0.3s;
 }
 
 .ph-star-fill {
@@ -242,6 +244,7 @@ html {
 
 #custom-button .icon:hover {
   opacity: 0.5;
+  transition: all 0.3s;
 }
 
 .custom-tag-input-el {
@@ -267,6 +270,7 @@ span.ql-picker-item:hover {
 
 .ql-picker-label:hover {
   filter: grayscale(110%);
+  transition: all 0.3s;
 }
 
 #ql-picker-options-4 {
@@ -385,6 +389,7 @@ polygon.ql-stroke {
 li.tag-selection:hover {
   color: var(--primary-text-color);
   opacity: 0.5;
+  transition: all 0.3s;
 }
 
 .tag-selection-container ul {

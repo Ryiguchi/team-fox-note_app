@@ -261,7 +261,7 @@ const toggleBookmark = function (id) {
   const note = state.savedNotes[getNoteIndexByID(id)];
   note.bookmarked = note.bookmarked ? false : true;
   renderPreview(state.savedNotes, "My Notes");
-  setLocalStorage();
+  setLocalStorage(state);
 };
 
 /**
