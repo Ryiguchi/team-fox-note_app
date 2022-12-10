@@ -218,7 +218,7 @@ const setTitle = function (note) {
  * @param {Array} notesArr Array of note Objects to render previews for
  * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
  */
-const renderPreview = function (notesArr, listType) {
+const renderPreview = function (notesArr, listType = "My Notes") {
   let markup = "";
 
   previewSection.innerHTML = "";
@@ -536,12 +536,21 @@ previewSection.addEventListener("click", (e) => {
   // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
 
-  if (e.target.classList.contains("delete-note")) deleteNote();
+  if (e.target.classList.contains("delete-note")) {
+    deleteNote(noteID);
+    return;
+  }
 
   if (e.target.classList.contains("star-icon-preview")) toggleBookmark(noteID);
 
   // If clicked on a note to display
-  if (!e.target.classList.contains("star-icon-preview", "tag-icon-preview"))
+  if (
+    !e.target.classList.contains(
+      "star-icon-preview",
+      "tag-icon-preview",
+      "delete-note"
+    )
+  )
     renderNote(noteID);
   // toggle ph-star-fill on toolbar if the active note is bookmarked.
   state.savedNotes[0].bookmarked
@@ -778,7 +787,13 @@ window.onload = function () {
   });
 };
 
-const deleteNote = function () {
-  const note = document.querySelector(".note-preview");
-  note.parentNode.removeChild(note);
+const deleteNote = function (id) {
+  const index = getNoteIndexByID(id);
+  state.savedNotes.splice(index, 1);
+  setLocalStorage(state);
+  // const note = document.querySelector(".note-preview");
+  // note.parentNode.removeChild(note);
+  renderPreview(state.savedNotes);
+  if (state.savedNotes.length >= 1) renderNote(state.savedNotes[0].id);
+  if (state.savedNotes < 1) createNewNote();
 };
