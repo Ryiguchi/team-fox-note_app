@@ -138,6 +138,7 @@ html {
   border: 1px solid var(--primary-background-color);
   border-radius: 5px;
   order: 1;
+  hyphens: auto;
   opacity: 0.8;
 }
 .note-preview:hover {
@@ -175,6 +176,7 @@ html {
   grid-row: 2;
 
   font-size: 1.4rem;
+  font-weight: 600;
   margin-bottom: 0.5rem;
 }
 

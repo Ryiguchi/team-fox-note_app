@@ -133,39 +133,17 @@ const saveNote = function () {
   note.delta = quill.getContents();
   // if there isn't any content yet, then doesn't save
   if (note.delta.ops[0].insert === "\n") return;
-  // if the note has been saved before, updates the savedNote
-  if (note.saved) updateNote(note);
-  // if the note has never been saved and has content, then saves content and renders note in preview section
-  if (!note.saved) {
-    saveNoteData(note);
-  }
-  // setTitle(note);
-  renderPreview(state.savedNotes, "My Notes");
+
+  if (inputTitle.value === "Untitled note")
+    note.title = note.delta.ops[0].insert.slice(0, 25);
+  if (inputTitle.value !== "Untitled note") note.title = inputTitle.value;
+  note.preview = note.delta.ops[0].insert.slice(0, 150);
+
+  setTitle(note);
+  renderPreview(state.savedNotes);
   setLocalStorage(state);
 };
 
-/**
- *  This function takes a note object that already has DELTA data and creates a preview of the text. If the note doesn't have a title then one will be created. If it does have a title then the title will be preserved.
- * @param {Object} note - the note object with DELTA data
- */
-const saveNoteData = function (note) {
-  if (inputTitle.value === "Untitled note")
-    note.title = note.delta.ops[0].insert.slice(0, 25);
-  if (inputTitle.value !== "Untitled note") {
-    note.title = inputTitle.value;
-  }
-  note.preview = note.delta.ops[0].insert.slice(0, 150);
-  note.saved = true;
-};
-
-/**
- * This function takes the content of the current note and updates the content and title in the 'state'.
- */
-const updateNote = function (note) {
-  state.savedNotes[0].delta = quill.getContents();
-  state.savedNotes[0].title = inputTitle.value;
-  state.savedNotes[0].preview = note.delta.ops[0].insert.slice(0, 150);
-};
 // CREATING A NEW NOTE /////////////////////////////
 
 /**
@@ -303,7 +281,7 @@ const getNoteIndexByID = function (id) {
 const renderNote = function (id) {
   const index = getNoteIndexByID(id);
   const note = state.savedNotes[index];
-  quill.setContents(note.delta.ops);
+  quill.setContents(note.delta?.ops);
   setTitle(note);
   updateTagListToolbar(note);
   state.savedNotes.splice(index, 1);
