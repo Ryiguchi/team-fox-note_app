@@ -825,7 +825,8 @@ const autoSaving = function () {
       autosaveMsgEl.textContent = savingMessage;
 
       // save the changes
-      setLocalStorage(state);
+      saveNote();
+
       // change the text of saved message back to default
       autosaveMsgEl.classList.remove("autosave-msg-saving");
       setTimeout(() => {
