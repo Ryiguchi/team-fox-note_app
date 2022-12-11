@@ -126,6 +126,8 @@ html {
   height: 4rem;
   align-items: center;
   padding: 0.8rem;
+  background-color: var(--side-bar);
+  color: var(--side-header-i);
 }
 
 .preview-section-header,
@@ -135,9 +137,9 @@ html {
   justify-content: space-between;
   font-size: 1.6rem;
   width: 100%;
-  border: 1px solid var(--primary-background-color);
+  border: 1px solid var(--side-header-i);
   border-radius: 5px;
-  background-color: var(--note-section);
+  background-color: var(--side-bar);
 }
 
 .filter-menu {
@@ -152,14 +154,20 @@ html {
   padding: 0.6rem 0.8rem;
   cursor: pointer;
   z-index: 100;
+  color: var(--side-header-i);
+  opacity: 0.8;
+  border-bottom: 1px solid var(--side-header-i);
+  transition: all 0.3s;
 }
 
 .filter-menu li:hover {
-  background-color: #fff;
+  text-shadow: 0px 0px 10px var(--side-header-i);
+  opacity: 1;
 }
 
 .filter-menu li i {
   margin-right: 1rem;
+  color: var(--side-header-i);
 }
 
 .note-preview {
