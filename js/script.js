@@ -124,9 +124,9 @@ const saveNote = function () {
   if (note.delta.ops[0].insert === "\n") return;
 
   if (inputTitle.value === "Untitled note")
-    note.title = note.delta.ops[0].insert.slice(0, 25);
+    note.title = note.delta.ops[0].insert;
   if (inputTitle.value !== "Untitled note") note.title = inputTitle.value;
-  note.preview = note.delta.ops[0].insert.slice(0, 150);
+  note.preview = note.delta.ops[0].insert.slice(0, 95);
 
   setTitle(note);
   renderPreview(state.savedNotes);
@@ -227,7 +227,7 @@ const renderPreview = function (notesArr, listType = "All Notes") {
             ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
             : '<i class="ph-star star-icon-preview icon-preview icon"></i>'
         }        
-        <div class="note-preview--title">${note.title}</div>
+        <div class="note-preview--title">${note.title.slice(0, 20)}</div>
         <p class="note-preview--text">${note.preview} </p>    
         </div>
         
