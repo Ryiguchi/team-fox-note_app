@@ -772,4 +772,11 @@ select.themeSelect {
     width: 100vw;
     height: 100vh;
   }
+  .templateModal {
+    grid-template-columns: 200px;
+  }
+  .templateModal img {
+    height: 160px;
+    width: 60vw;
+  }
 }
