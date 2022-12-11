@@ -511,7 +511,7 @@ const toggleWelcome = function () {
   welcomePopUp.classList.toggle("hidden");
   noteSection.classList.toggle("hidden");
   toolbar.classList.toggle("hidden");
-  previewSection.classList.toggle("hidden");
+  previewSectionAll.classList.toggle("hidden");
 };
 
 init();
