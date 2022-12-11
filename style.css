@@ -98,33 +98,68 @@ html {
 .icon-side-bar {
   font-size: 3rem;
   color: #fff;
-  /* background: var(--icon-sidebar); */
 }
 
 /* NOTE PREVIEW SECTION */
 
+.preview-section {
+  margin-top: 0.5rem;
+  overflow-y: scroll;
+  /* height: 100vh; */
+}
+
+.notes-preview-section {
+  z-index: 100;
+}
+
+.preview-section,
 .notes-preview-section {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   min-width: 18rem;
   max-width: 25rem;
-  height: 100vh;
-  margin-top: 0.5rem;
-
-  overflow-y: scroll;
 }
 
-.preview-section-header {
-  display: flex;
+.preview-section-header,
+.filter-select {
+  height: 4rem;
   align-items: center;
+  padding: 0.8rem;
+}
+
+.preview-section-header,
+.filter-select,
+.filter-menu {
+  display: flex;
+  justify-content: space-between;
   font-size: 1.6rem;
   width: 100%;
-  height: 4rem;
   border: 1px solid var(--primary-background-color);
   border-radius: 5px;
   background-color: var(--note-section);
-  padding: 0.8rem;
+}
+
+.filter-menu {
+  flex-direction: column;
+  list-style: none;
+  margin-top: 0.4rem;
+}
+
+.filter-menu li {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.filter-menu li:hover {
+  background-color: #fff;
+}
+
+.filter-menu li i {
+  margin-right: 1rem;
 }
 
 .note-preview {
@@ -302,14 +337,18 @@ polygon.ql-stroke {
   display: flex;
 }
 
-.tag-selection-container {
+.tag-selection-container-toolbar {
   position: absolute;
-  z-index: 100;
+  border: 1px solid #000;
+  margin-top: 1rem;
+}
+
+.tag-selection-container-toolbar,
+.tag-selection-container-sidebar {
   font-size: 1.4rem;
   background-color: var(--primary-background-color);
-  border: 1px solid #000;
   width: 18rem;
-  margin-top: 1rem;
+  z-index: 100;
 }
 
 .tag-list-sidebar-default li {
@@ -317,7 +356,16 @@ polygon.ql-stroke {
 }
 
 .tag-selection-container-sidebar {
-  transform: translate(70%, -40%);
+  font-size: 1.6rem;
+  width: 100%;
+  border: 1px solid var(--primary-background-color);
+  border-radius: 5px;
+  background-color: var(--note-section);
+}
+
+.tag-selection-container-sidebar li {
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
 }
 /*--- stats container ---*/
 
@@ -397,7 +445,7 @@ li.tag-selection:hover {
   text-align: left;
 }
 
-.tag-selection-container li {
+.tag-selection-container-toolbar li {
   border-top: 1px solid #000;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -529,16 +577,6 @@ select.themeSelect {
   display: none !important;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: 100vw;
-  height: 100vh;
-  background-color: transparent;
-}
-
 #searchNotesInputs {
   cursor: initial;
   font-size: 1.6rem;
@@ -667,12 +705,17 @@ select.themeSelect {
     opacity: 1;
   }
 
-  .notes-preview-section {
+  .preview-section {
     position: absolute;
     left: 6rem;
     z-index: 150;
     background-color: var(--side-bar);
     padding: 0 0.5rem;
+    width: 100%;
+    max-width: calc(100vw - 6.5rem);
+  }
+
+  .notes-preview-section {
     width: 100%;
     max-width: calc(100vw - 6.5rem);
   }

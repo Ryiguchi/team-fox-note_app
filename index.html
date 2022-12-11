@@ -42,28 +42,12 @@
           <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo" />
         </div>
         <nav class="header-nav">
-          <div class="magnifying-glass">
-            <i class="ph-magnifying-glass-minus icon icon-side-bar hidden"></i>
-            <i class="ph-magnifying-glass-plus icon icon-side-bar"></i>
-          </div>
+         
           <div class="caret-contanier">
             <i class="ph-caret-double-left icon icon-side-bar"></i>
             <i class="ph-caret-double-right icon icon-side-bar hidden"></i>
           </div>
-          <div class="star-container">
-            <i class="ph-star-fill icon-side-bar icon hidden"></i>
-            <i class="ph-star icon-side-bar icon"></i>
-          </div>
-          <i class="ph-tag-fill icon-side-bar icon-side-bar-tag-fill icon"></i>
-          <div
-            class="tag-selection-container tag-selection-container-sidebar tag-selection-container-sidebar hidden"
-          >
-            <ul class="tag-list-sidebar-default">
-              <li data-tag="all" class="tag-selection">All Notes</li>
-              <li data-tag="tags" class="tag-selection">All Notes with tags</li>
-            </ul>
-            <ul class="tag-list-sidebar"></ul>
-          </div>
+         
           <i class="ph-plus icon-plus icon-side-bar icon"></i>
           <div class="templateModal hidden">
             <h1>Select a Template</h1>
@@ -105,6 +89,7 @@
            </div>
           </dialog>
           <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
+          <i class="ph-gear icon-side-bar icon"></i>
           <!-- STATS BUTTON -->
           <i class="ph-chart-bar icon-side-bar stats-icon icon"></i>
           <div
@@ -128,33 +113,64 @@
           <div class="autosave-msg"></div>
         </nav>
       </header>
-      <section class="notes-preview-section">
-        <div class="preview-section-header">My Notes</div>
-        <!-- <button class="delete-note hidden"></button> -->
-        <input
-          type="search"
-          class="searchNotesInput hidden"
-          id="searchNotesInputs"
-          placeholder="search for notes..."
-        />
-        <!-- <div class="note-preview">
-          <div class="note-preview--date">17 Nov 2022</div>
-          <i class="ph-tag-fill icon-preview icon"></i>
-          <i class="ph-star-fill icon-preview icon"></i>
-          <div class="note-preview--title">Just a Test</div>
-          <p class="note-preview--text">
-            Just need some text to be able to style it with CSS so that...
-          </p>
-        </div> -->
+      <section class="settings-section hidden">
+        <div class="settings-header">Settings</div>
+        <ul class="settings-menu">
+          <li class="settings-list-themes">Themes</li>
+          <li class="settings-list-stats">Statistics</li>
+        </ul>
       </section>
+      <section class="preview-section">
+        <div class="filter-section">
 
-      <main class="note-creation-section">
-        <div class="welcome-pop-up hidden">
-          <div class="welcome-pop-up-text">
-            <h1>Welcome to Fox Notes</h1>
-            <p class="welcome-description">
-              Fox Notes helps you easily keep track of your notes! You can mark
-              notes as "favorites" as well as give your notes searchable "tags"
+          <button class="filter-select btn">Filter by ...
+            <i class="ph-caret-down-bold icon"></i>
+          </button>
+          <ul class="filter-menu hidden">
+            <li data-type="all">
+              <i class="ph-note"></i>
+              All Notes
+            </li>
+            <li data-type="starred">
+              <i class="ph-star-fill icon "></i>
+              Starred Notes
+            </li>
+            <li data-type="tag">
+              <i class="ph-tag-fill icon"></i>
+              Tag
+            </li>
+            <li data-type="keyword">
+              <i class="ph-magnifying-glass icon"></i>
+              Keyword
+            </li>
+        </ul>
+      </div>
+        <div class="preview-section-header">My Notes</div>
+        <div
+            class="tag-selection-container tag-selection-container-sidebar hidden"
+          >
+            <ul class="tag-list-sidebar-default">
+              <li data-tag="tags" class="tag-selection">All Notes with tags</li>
+            </ul>
+            <ul class="tag-list-sidebar"></ul>
+          </div>
+        <input
+        type="search"
+        class="searchNotesInput hidden"
+        id="searchNotesInputs"
+          placeholder="search for notes..."
+          />
+          <div class="notes-preview-section">
+        </div>
+        </section>
+        
+        <main class="note-creation-section">
+          <div class="welcome-pop-up hidden">
+            <div class="welcome-pop-up-text">
+              <h1>Welcome to Fox Notes</h1>
+              <p class="welcome-description">
+                Fox Notes helps you easily keep track of your notes! You can mark
+                notes as "favorites" as well as give your notes searchable "tags"
               to organize them, which you'll find in the tag-list in the
               sidebar. All notes are autosaved, time- and date tracked; easily
               filtred by your words and displayed in different themes of your

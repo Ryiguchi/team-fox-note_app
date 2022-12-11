@@ -32,8 +32,12 @@ const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
 const btnNewNote = document.querySelector(".icon-plus");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
 const btnSave = document.querySelector(".icon-save");
-const noteTextarea = document.querySelector("#note-textarea");
+const previewSectionAll = document.querySelector(".preview-section");
 const previewSection = document.querySelector(".notes-preview-section");
+const previewSectionHeader = document.querySelector(".preview-section-header");
+const noteCreationSection = document.querySelector(".note-creation-section");
+const selectFilter = document.querySelector(".filter-select");
+const filterMenuMain = document.querySelector(".filter-menu");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
 const bookmarkToolbar = document.querySelector(".bookmark-toolbar");
@@ -43,7 +47,6 @@ const btnBookMarkActiveToolbar = document.querySelector(
 const btnBookMarkNotActiveToolbar = document.querySelector(
   ".ph-star-fill.icon-toolbar"
 );
-const btnStar = document.querySelector(".star-container");
 const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
 const tagMenuToolbar = document.querySelector(
   ".tag-selection-container-toolbar"
@@ -57,8 +60,6 @@ const statsIcon = document.querySelector(".stats-icon");
 const statsSidebar = document.querySelector(
   ".stats-selection-container-sidebar"
 );
-
-const btnTagSidebar = document.querySelector(".icon-side-bar-tag-fill");
 const btnCaretSidebar = document.querySelector(".caret-contanier");
 const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
 const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right");
@@ -71,14 +72,6 @@ const inputTitle = document.querySelector(".input-title");
 const addNewNoteBtn = document.querySelector(".icon-plus");
 const customSelect = document.querySelector(".custom-select");
 const searchNotesInput = document.querySelector(".searchNotesInput");
-const previewSectionHeader = document.querySelector(".preview-section-header");
-const magnifyingGlass = document.querySelector(".magnifying-glass");
-const magnifyingGlassPluss = document.querySelector(
-  ".ph-magnifying-glass-plus"
-);
-const magnifyingGlassMinus = document.querySelector(
-  ".ph-magnifying-glass-minus"
-);
 const countToggle = document.querySelector("#counter");
 const wordCountBtn = document.querySelector(".countSpan");
 const templateModal = document.querySelector(".templateModal");
@@ -95,10 +88,6 @@ let state = {
 // ////////////////////////////////////////
 // FUNCTIONS //////////////////////////////
 ///////////////////////////////////////////
-
-// const wait = function (handler, sec) {
-//   setTimeout(handler, sec * 1000);
-// };
 
 // LOCAL STORAGE /////////////////////////////////////////
 /**
@@ -216,16 +205,12 @@ const setTitle = function (note) {
  * @param {Array} notesArr Array of note Objects to render previews for
  * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
  */
-const renderPreview = function (notesArr, listType = "My Notes") {
+const renderPreview = function (notesArr, listType = "All Notes") {
+  changePreviewSectionHeaderText(listType);
   let markup = "";
 
   previewSection.innerHTML = "";
 
-  markup = `      
-    <div class="preview-section-header">
-    ${listType}               
-    </div>      
-    `;
   notesArr
     .filter((note) => note.delta)
     .forEach((note) => {
@@ -260,7 +245,7 @@ const renderPreview = function (notesArr, listType = "My Notes") {
 const toggleBookmark = function (id) {
   const note = state.savedNotes[getNoteIndexByID(id)];
   note.bookmarked = note.bookmarked ? false : true;
-  renderPreview(state.savedNotes, "My Notes");
+  renderPreview(state.savedNotes, "All Notes");
   setLocalStorage(state);
 };
 
@@ -279,6 +264,7 @@ const getNoteIndexByID = function (id) {
  * @param {Number} id the ID number of the note to render
  */
 const renderNote = function (id) {
+  noteCreationSection.classList.remove("hidden");
   const index = getNoteIndexByID(id);
   const note = state.savedNotes[index];
   quill.setContents(note.delta?.ops);
@@ -286,7 +272,6 @@ const renderNote = function (id) {
   updateTagListToolbar(note);
   state.savedNotes.splice(index, 1);
   state.savedNotes.unshift(note);
-  // if (screen.width <= 600) togglePreviewSection();
 };
 
 /**
@@ -419,7 +404,7 @@ const renderStatList = function (stat) {
  * @author Aman Said
  */
 const togglePreviewSection = function () {
-  previewSection.classList.toggle("hidden");
+  previewSectionAll.classList.toggle("hidden");
   btnCaretLeftSidebar.classList.toggle("hidden");
   btnCaretRightSidebar.classList.toggle("hidden");
 };
@@ -431,6 +416,47 @@ const toggleSidebar = function () {
 const toggleMobileToolbar = function () {
   toolbar.classList.toggle("hidden");
   caretsMobileToolbar.forEach((icon) => icon.classList.toggle("hidden"));
+};
+
+const displayAllNotes = function () {
+  renderPreview(state.savedNotes, "All Notes");
+  state.preview = "saved";
+  closeFilterList();
+  previewSectionHeader.classList.remove("hidden");
+};
+
+const displayStarredNotes = function () {
+  const bookmarkedNotes = state.savedNotes.filter(
+    (note) => note.bookmarked === true
+  );
+  renderPreview(bookmarkedNotes, "Starred Notes");
+  state.preview = "bookmarks";
+  closeFilterList();
+  previewSectionHeader.classList.remove("hidden");
+};
+
+const displayTagSelection = function () {
+  tagMenuSidebar.classList.toggle("hidden");
+  previewSectionHeader.classList.add("hidden");
+  filterMenuMain.classList.add("hidden");
+};
+
+const displaySearchNotesInput = function () {
+  searchNotesInput.classList.remove("hidden");
+  previewSectionHeader.classList.add("hidden");
+  previewSection.classList.remove("hidden");
+  filterMenuMain.classList.add("hidden");
+};
+
+const closeFilterList = function () {
+  previewSection.classList.remove("hidden");
+
+  filterMenuMain.classList.add("hidden");
+  overlay.classList.add("hidden");
+};
+
+const changePreviewSectionHeaderText = function (text) {
+  previewSectionHeader.innerHTML = text;
 };
 
 // INITIALIZES WHEN PAGE LOADS //////////////////////
@@ -461,11 +487,10 @@ const init = function () {
       toolbar.classList.add("hidden");
     }
     updateState(savedState);
-    renderPreview(state.savedNotes, "My Notes");
+    renderPreview(state.savedNotes, "All Notes");
   }
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
-  // renderStatList(statsSidebar);
   renderStatList(statsSidebar);
   createNewNote();
   initThemeSelector();
@@ -511,14 +536,6 @@ editor.addEventListener("input", () => {
   counterText.textContent = `Total Words: ${countWords(textArea)}`;
 });
 
-// toggle the search field with  magnifying Glass
-magnifyingGlass.addEventListener("click", () => {
-  searchNotesInput.classList.toggle("hidden");
-  magnifyingGlassPluss.classList.toggle("hidden");
-  magnifyingGlassMinus.classList.toggle("hidden");
-  if (previewSection.classList.contains("hidden")) togglePreviewSection();
-});
-
 // Bookmark Star on toolbar handler.
 bookmarkToolbar.addEventListener("click", (e) => {
   state.savedNotes[0].bookmarked = true;
@@ -554,13 +571,33 @@ btnNewNote.addEventListener("click", () => {
   if (screen.width <= 450) toggleSidebar();
 });
 
+selectFilter.addEventListener("click", (e) => {
+  displayAllNotes();
+  overlay.classList.remove("hidden");
+  filterMenuMain.classList.toggle("hidden");
+  previewSection.classList.toggle("hidden");
+  previewSectionHeader.classList.toggle("hidden");
+  searchNotesInput.classList.add("hidden");
+  searchNotesInput.value = "";
+});
+
+filterMenuMain.addEventListener("click", (e) => {
+  const filterType = e.target.closest("li").dataset.type;
+  if (filterType === "all") displayAllNotes();
+  if (filterType === "starred") displayStarredNotes();
+  if (filterType === "tag") displayTagSelection();
+  if (filterType === "keyword") displaySearchNotesInput();
+});
+
 previewSection.addEventListener("click", (e) => {
-  // return if clicked on search field
-  if (e.target.classList.contains("searchNotesInput")) return;
-  // return if clicked on empty space
-  if (e.target.classList.contains("preview-section-header")) return;
-  // return if clicked on an empty space
-  if (e.target.classList.contains("notes-preview-section")) return;
+  // return if clicked on search field, header, or empty spacae, or filter
+  if (
+    e.target.classList.contains("searchNotesInput") ||
+    e.target.classList.contains("preview-section-header") ||
+    e.target.classList.contains("notes-preview-section")
+  )
+    return;
+
   // if clicked on the star icon (bookmark)
   const noteID = e.target.closest(".note-preview").dataset.id;
 
@@ -590,21 +627,6 @@ previewSection.addEventListener("click", (e) => {
     : removeStarHeaderToolbar();
 });
 
-btnStar.addEventListener("click", (e) => {
-  const bookmarkedNotes = state.savedNotes.filter(
-    (note) => note.bookmarked === true
-  );
-  if (state.preview !== "bookmarks") {
-    renderPreview(bookmarkedNotes, "Starred Notes");
-    state.preview = "bookmarks";
-    toggleStarHeader();
-  } else {
-    renderPreview(state.savedNotes, "My Notes");
-    state.preview = "saved";
-    toggleStarHeader();
-  }
-});
-
 btnTagToolbar.addEventListener("click", (e) => {
   if (e.target.classList.contains("tag-icon-toolbar")) {
     tagMenuToolbar.classList.remove("hidden");
@@ -625,11 +647,6 @@ tagMenuToolbar.addEventListener("click", (e) => {
   }
 });
 
-btnTagSidebar.addEventListener("click", (e) => {
-  tagMenuSidebar.classList.toggle("hidden");
-  overlay.classList.remove("hidden");
-});
-
 statsIcon.addEventListener("click", (e) => {
   statsSidebar.classList.toggle("hidden");
   overlay.classList.remove("hidden");
@@ -641,21 +658,25 @@ tagMenuSidebar.addEventListener("click", (e) => {
   const chosenTag = e.target
     .closest(".tag-selection")
     .dataset.tag.replaceAll("_", " ");
-  if (chosenTag === "all") renderPreview(state.savedNotes, "My Notes");
+  // if (chosenTag === "all") renderPreview(state.savedNotes, "All Notes");
+  console.log(chosenTag);
   if (chosenTag === "tags")
     renderPreview(
       state.savedNotes.filter((note) => note.tags.length > 0),
-      "Tagged Notes"
+      "All Notes with Tags"
     );
-  if (chosenTag !== "all" && chosenTag !== "tags") {
+
+  if (chosenTag !== "tags") {
     const notesWithChosenTag = state.savedNotes.filter((note) =>
       note.tags.includes(chosenTag)
     );
-    if (state.preview === "bookmarks") toggleStarHeader();
+    // if (state.preview === "bookmarks") toggleStarHeader();
     renderPreview(notesWithChosenTag, `Tag: ${chosenTag.replaceAll("_", " ")}`);
     state.preview = "tags";
   }
   tagMenuSidebar.classList.toggle("hidden");
+  previewSectionHeader.classList.remove("hidden");
+  previewSection.classList.remove("hidden");
 });
 
 customTagBtn.addEventListener("click", (e) => {
@@ -682,13 +703,14 @@ overlay.addEventListener("click", (e) => {
   tagMenuSidebar.classList.add("hidden");
   statsSidebar.classList.add("hidden");
   overlay.classList.add("hidden");
+  closeFilterList();
 });
 
 inputTitle.addEventListener("keydown", (key) => {
   if (key.key === "Enter") {
     const title = inputTitle.value;
     state.savedNotes[0].title = title;
-    renderPreview(state.savedNotes, "My Notes");
+    renderPreview(state.savedNotes, "All Notes");
   }
 });
 
@@ -700,7 +722,15 @@ inputTitle.addEventListener("focus", () => {
   inputTitle.select();
 });
 
-btnCaretSidebar.addEventListener("click", () => {
+btnCaretSidebar.addEventListener("click", (e) => {
+  if (
+    e.target.classList.contains("ph-caret-double-right") &&
+    screen.width <= 600
+  )
+    noteCreationSection.classList.add("hidden");
+  if (e.target.classList.contains("ph-caret-double-left"))
+    noteCreationSection.classList.remove("hidden");
+
   togglePreviewSection();
 });
 
@@ -773,6 +803,16 @@ function filterNotes() {
 }
 
 searchNotesInput.addEventListener("input", filterNotes);
+
+searchNotesInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const keyword = searchNotesInput.value;
+    searchNotesInput.value = "";
+    searchNotesInput.classList.add("hidden");
+    changePreviewSectionHeaderText(`Keyword: ${keyword}`);
+    previewSectionHeader.classList.remove("hidden");
+  }
+});
 
 /**
  * @author Revan
@@ -860,6 +900,7 @@ const deleteNote = function (id) {
   }
   if (state.savedNotes < 1) createNewNote();
 };
+
 const overallStats = document.querySelector(
   ".stats-selection-Overall_statistics"
 );
