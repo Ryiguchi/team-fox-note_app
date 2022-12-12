@@ -387,7 +387,6 @@ const renderTagList = function (parEl) {
   parEl.innerHTML = "";
   let markup = "";
   state.userTags.forEach((tag) => {
-    console.log(tag);
     const newTag = tag.replaceAll(/\s+/g, "_");
     markup += `
       <li class="tag-selection tag-selection-${newTag}" data-tag="${newTag}">
@@ -420,7 +419,6 @@ const togglePreviewSection = function () {
   btnCaretLeftSidebar.classList.toggle("hidden");
   btnCaretRightSidebar.classList.toggle("hidden");
   state.previewSectionOpen = !state.previewSectionOpen;
-  console.log(state.previewSectionOpen);
 };
 
 const toggleSidebar = function () {
