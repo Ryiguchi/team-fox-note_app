@@ -156,11 +156,17 @@ const saveNote = function () {
   if (inputTitle.value === "Untitled note")
     note.title = note.delta.ops[0].insert;
   if (inputTitle.value !== "Untitled note") note.title = inputTitle.value;
-  note.preview = note.delta.ops[0].insert.slice(0, 95);
+  note.preview = getPreview(note);
 
   setTitle(note);
   renderPreview(state.savedNotes);
   setLocalStorage(state);
+};
+
+const getPreview = function (note) {
+  let text = "";
+  note.delta.ops.forEach((obj) => (text += obj.insert));
+  return text;
 };
 
 // CREATING A NEW NOTE /////////////////////////////
