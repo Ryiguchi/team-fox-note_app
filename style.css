@@ -81,7 +81,7 @@ select {
 }
 
 .side-header i:hover {
-  opacity: 0.5;
+  opacity: 0.6;
   transition: all 0.3s;
 }
 
@@ -260,6 +260,7 @@ select {
   order: 1;
   hyphens: auto;
   opacity: 0.8;
+  overflow: hidden;
 }
 .note-preview:hover {
   opacity: 1;
@@ -348,7 +349,10 @@ select {
 }
 
 /* TOOLBAR */
-
+.markdownImport:hover {
+  opacity: 0.6;
+  transition: all 0.3s;
+}
 #toolbar {
   background: var(--primary-background-color);
 
@@ -362,7 +366,7 @@ select {
 }
 
 #custom-button .icon:hover {
-  opacity: 0.5;
+  opacity: 0.6;
   transition: all 0.3s;
 }
 
@@ -490,7 +494,7 @@ polygon.ql-stroke {
 }
 
 .hover:hover {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .stats-name {

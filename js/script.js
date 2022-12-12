@@ -73,6 +73,7 @@ const editor = document.querySelector("#editor");
 const inputTitle = document.querySelector(".input-title");
 
 // TOOLBAR
+const markdownImport = document.querySelector(".markdownImport");
 const toolbar = document.querySelector("#toolbar");
 const bookmarkToolbar = document.querySelector(".bookmark-toolbar");
 const btnBookMarkActiveToolbar = document.querySelector(
@@ -576,6 +577,14 @@ const counterText = document.querySelector("#counter");
 editor.addEventListener("input", () => {
   const textArea = editor.innerText;
   counterText.textContent = `Total Words: ${countWords(textArea)}`;
+});
+// Markdown converter.
+markdownImport.addEventListener("click", () => {
+  const editorValue = editor.innerText;
+  const converter = new showdown.Converter();
+  const html = converter.makeHtml(editorValue);
+  quill.setContents([{ insert: html }]);
+  saveNote();
 });
 
 // Bookmark Star on toolbar handler.
