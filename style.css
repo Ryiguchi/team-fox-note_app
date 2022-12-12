@@ -46,6 +46,7 @@ select {
   justify-content: space-between;
   align-items: center;
   background-color: var(--side-menu);
+  height: 6.5rem;
 
   padding: 1rem;
 }
@@ -816,6 +817,7 @@ select.themeSelect {
   .settings-section {
     position: absolute;
     left: 6rem;
+
     z-index: 150;
     background-color: var(--side-bar);
     padding: 0 0.5rem;
@@ -857,6 +859,7 @@ select.themeSelect {
   .preview-section,
   .settings-section {
     left: 8rem;
+    top: 6.5rem;
     max-width: calc(100vw - 8.5rem);
   }
 
