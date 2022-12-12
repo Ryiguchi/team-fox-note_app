@@ -1,3 +1,4 @@
+
 :root {
     --primary-background-color: #FBFACD;
     --fontSelection-size-color:  #354532;  
@@ -14,6 +15,8 @@
     --filter-blank: invert(0%);
     --fill-star: #51604e;
     --fill-tag :#51604e;
+    --save-background-color: #51604e;
+
 }
 
 /*
