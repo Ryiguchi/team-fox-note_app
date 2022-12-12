@@ -4,8 +4,9 @@ import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
 
 // counter for the timer of time spent.
 let timeSpent = 0;
+// For the markdown Export
+const turndownService = new TurndownService();
 // For the Quill library
-
 let quill = new Quill("#editor", {
   theme: "snow",
   modules: {
@@ -73,6 +74,7 @@ const editor = document.querySelector("#editor");
 const inputTitle = document.querySelector(".input-title");
 
 // TOOLBAR
+const markdownExport = document.querySelector(".markdownExport");
 const markdownImport = document.querySelector(".markdownImport");
 const toolbar = document.querySelector("#toolbar");
 const bookmarkToolbar = document.querySelector(".bookmark-toolbar");
@@ -578,7 +580,15 @@ editor.addEventListener("input", () => {
   const textArea = editor.innerText;
   counterText.textContent = `Total Words: ${countWords(textArea)}`;
 });
-// Markdown converter.
+
+// Markdown export converter
+markdownExport.addEventListener("click", () => {
+  const editorValue = editor.innerText;
+  quill.setContents([{ insert: turndownService.turndown(editorValue) }]);
+  saveNote();
+});
+
+// Markdown import converter.
 markdownImport.addEventListener("click", () => {
   const editorValue = editor.innerText;
   const converter = new showdown.Converter();
