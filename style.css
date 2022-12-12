@@ -35,6 +35,10 @@ html {
   cursor: pointer;
 }
 
+select {
+  border: none;
+}
+
 /* HEADER */
 
 .mobile-header {
@@ -99,13 +103,79 @@ html {
   font-size: 3rem;
   color: #fff;
 }
+/* SETTINGS SECTION */
 
+.settings-section {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: 0.4rem;
+  min-width: 18rem;
+  max-width: 25rem;
+}
+
+.settings-section ul {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: 0.4rem;
+}
+
+.settings-section i {
+  margin-right: 0.8rem;
+}
+
+.settings-section li,
+.settings-item {
+  cursor: pointer;
+}
+
+.settings-item-theme,
+.settings-list-stats,
+.settings-header,
+.settings-submenu-item-word-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-title-container,
+.settings-text-container,
+.stats-title-container,
+.word-count-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.settings-section-item,
+.settings-submenu-item {
+  height: 4rem;
+  padding: 0.8rem;
+  background-color: var(--note-section);
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.settings-header,
+.settings-submenu-item {
+  background-color: var(--side-bar) !important;
+  border: 1px solid var(--side-header-i);
+  color: var(--side-header-i);
+}
+
+.word-count-toggle {
+  font-size: 3rem;
+}
 /* NOTE PREVIEW SECTION */
 
 .preview-section {
   margin-top: 0.5rem;
   overflow-y: scroll;
-  /* height: 100vh; */
+  min-height: 100vh;
 }
 
 .notes-preview-section {
@@ -123,7 +193,7 @@ html {
 
 .preview-section-header,
 .filter-select {
-  height: 4rem;
+  height: 4rem !important;
   align-items: center;
   padding: 0.8rem;
   background-color: var(--side-bar);
@@ -137,9 +207,15 @@ html {
   justify-content: space-between;
   font-size: 1.6rem;
   width: 100%;
-  border: 1px solid var(--side-header-i);
   border-radius: 5px;
+}
+
+.preview-section-header,
+.filter-select,
+.filter-menu {
   background-color: var(--side-bar);
+  border: 1px solid var(--side-header-i);
+  color: var(--side-header-i);
 }
 
 .filter-menu {
@@ -267,7 +343,7 @@ html {
 .note-creation-section {
   width: 100%;
   background-color: var(--side-bar);
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   margin-right: 0.5rem;
 }
 
@@ -649,9 +725,11 @@ select.themeSelect {
   border-radius: 3px;
   cursor: pointer;
 }
+
 .templateModal img:hover {
   zoom: 110%;
 }
+
 .templateModal {
   display: grid;
   grid-template-columns: repeat(2, 300px);
@@ -668,6 +746,7 @@ select.themeSelect {
   place-items: center;
   color: white;
 }
+
 .templateModal h1 {
   grid-column: 1/-1;
   text-align: center;
@@ -689,6 +768,7 @@ select.themeSelect {
   width: 100%;
   height: 100%;
 }
+
 .closeGraph {
   opacity: 0.5;
   border-radius: 5px;
@@ -698,6 +778,7 @@ select.themeSelect {
   font-weight: bolder;
   transition: all 0.5s;
 }
+
 .closeGraph:hover {
   opacity: 1 !important;
 }
@@ -721,7 +802,8 @@ select.themeSelect {
     opacity: 1;
   }
 
-  .preview-section {
+  .preview-section,
+  .settings-section {
     position: absolute;
     left: 6rem;
     z-index: 150;

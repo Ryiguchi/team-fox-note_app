@@ -14,7 +14,7 @@
       src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    
+
     <script src="https://unpkg.com/phosphor-icons"></script>
     <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
@@ -25,7 +25,9 @@
 
   <body>
     <div class="container">
-      <div class="mobile-header hidden">
+      <!-- MOBILE HEADER ----------------------- -->
+
+      <section class="mobile-header hidden">
         <i class="ph-list icon-mobile-header"></i>
         <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo-mobile" />
         <div class="caret-container-toolbar">
@@ -36,19 +38,25 @@
             class="ph-caret-double-up caret-mobile-toolbar hidden icon-mobile-header"
           ></i>
         </div>
-      </div>
+      </section>
+
+      <!-- SIDEBAR ---------------------------------- -->
+
       <header class="side-header">
         <div class="logo-box">
           <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo" />
         </div>
         <nav class="header-nav">
-         
           <div class="caret-contanier">
             <i class="ph-caret-double-left icon icon-side-bar"></i>
             <i class="ph-caret-double-right icon icon-side-bar hidden"></i>
           </div>
-         
           <i class="ph-plus icon-plus icon-side-bar icon"></i>
+          <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
+          <i class="ph-gear settings-icon-sidebar icon-side-bar icon"></i>
+          <div class="autosave-msg"></div>
+
+          <!-- Template modal -->
           <div class="templateModal hidden">
             <h1>Select a Template</h1>
             <div>
@@ -77,7 +85,6 @@
               />
             </div>
             <div>
-            
               <h2>Letter Template</h2>
 
               <img
@@ -85,45 +92,69 @@
                 alt="Letter Template"
                 class="template-letter"
               />
-            </div>     
-           </div>
-          </dialog>
-          <i class="ph-floppy-disk icon-save icon-side-bar icon"></i>
-          <i class="ph-gear icon-side-bar icon"></i>
-          <!-- STATS BUTTON -->
-          <i class="ph-chart-bar icon-side-bar stats-icon icon"></i>
-          <div
-            class="stats-selection-container stats-selection-container-sidebar stats-selection-container-sidebar hidden"
-          >
-            <ul class="stats-list-sidebar-default"></ul>
-            <ul class="stats-list-sidebar"></ul>
-          </div>
-          <!-- end of stat button -->
-          <div class="dropdown">
-            <div class="select">
-              <span class="selected">Themes</span>
             </div>
-            <!-- Add theme dropdown -->
-            <select class="themeSelect">
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="sweden">Sweden</option>
-            </select>
           </div>
-          <div class="autosave-msg"></div>
         </nav>
       </header>
+
+      <!-- SETTINGS SECTION----------------------- -->
       <section class="settings-section hidden">
-        <div class="settings-header">Settings</div>
-        <ul class="settings-menu">
-          <li class="settings-list-themes">Themes</li>
-          <li class="settings-list-stats">Statistics</li>
+        <div class="settings-header settings-section-item">
+          <div class="settings-text-container">
+            <i class="ph-gear"></i>
+            Settings
+          </div>
+          <i class="ph-x close-settings-icon icon"></i>
+        </div>
+
+        <div class="settings-item settings-item-theme settings-section-item">
+          <div class="theme-title-container">
+            <i class="ph-paint-roller icon"></i>
+            <span class="current-theme-title">Theme: Light</span>
+          </div>
+          <i class="ph-caret-down-bold icon settings-themes-menu-caret"></i>
+          <i
+            class="ph-caret-up-bold hidden icon settings-themes-menu-caret"
+          ></i>
+        </div>
+        <ul
+          class="themes-list-sidebar themeSelect settings-menu settings-list hidden"
+        >
+          <li class="settings-submenu-item" data-theme="light">Light</li>
+          <li class="settings-submenu-item" data-theme="dark">Dark</li>
+          <li class="settings-submenu-item" data-theme="sweden">Sweden</li>
+        </ul>
+
+        <div class="settings-item settings-list-stats settings-section-item">
+          <div class="stats-title-container">
+            <i class="ph-chart-bar icon"></i>
+            Statistics
+          </div>
+          <i class="ph-caret-down-bold icon settings-stats-menu-caret"></i>
+          <i class="ph-caret-up-bold hidden icon settings-stats-menu-caret"></i>
+        </div>
+        <ul class="stats-list-sidebar settings-list settings-menu hidden">
+          <li class="settings-submenu-item settings-submenu-item-word-count">
+            Word Count
+            <div class="word-count-toggle-container">
+              <i class="ph-toggle-left-bold icon word-count-toggle"></i>
+              <i class="ph-toggle-right-fill icon word-count-toggle hidden"></i>
+            </div>
+          </li>
+          <li
+            class="settings-submenu-item settings-submenu-item-overall-statistics"
+          >
+            Overall Statistics
+          </li>
         </ul>
       </section>
+
+      <!-- PREVIEW SECTION----------------------- -->
+
       <section class="preview-section">
         <div class="filter-section">
-
-          <button class="filter-select btn">Filter by ...
+          <button class="filter-select btn">
+            Filter by ...
             <i class="ph-caret-down-bold icon"></i>
           </button>
           <ul class="filter-menu hidden">
@@ -132,7 +163,7 @@
               All Notes
             </li>
             <li data-type="starred">
-              <i class="ph-star-fill icon "></i>
+              <i class="ph-star-fill icon"></i>
               Starred Notes
             </li>
             <li data-type="tag">
@@ -143,34 +174,35 @@
               <i class="ph-magnifying-glass icon"></i>
               Keyword
             </li>
-        </ul>
-      </div>
+          </ul>
+        </div>
         <div class="preview-section-header">My Notes</div>
         <div
-            class="tag-selection-container tag-selection-container-sidebar hidden"
-          >
-            <ul class="tag-list-sidebar-default">
-              <li data-tag="tags" class="tag-selection">All Notes with tags</li>
-            </ul>
-            <ul class="tag-list-sidebar"></ul>
-          </div>
-        <input
-        type="search"
-        class="searchNotesInput hidden"
-        id="searchNotesInputs"
-          placeholder="search for notes..."
-          />
-          <div class="notes-preview-section">
+          class="tag-selection-container tag-selection-container-sidebar hidden"
+        >
+          <ul class="tag-list-sidebar-default">
+            <li data-tag="tags" class="tag-selection">All Notes with tags</li>
+          </ul>
+          <ul class="tag-list-sidebar"></ul>
         </div>
-        </section>
-        
-        <main class="note-creation-section">
-          <div class="welcome-pop-up hidden">
-            <div class="welcome-pop-up-text">
-              <h1>Welcome to Fox Notes</h1>
-              <p class="welcome-description">
-                Fox Notes helps you easily keep track of your notes! You can mark
-                notes as "favorites" as well as give your notes searchable "tags"
+        <input
+          type="search"
+          class="searchNotesInput hidden"
+          id="searchNotesInputs"
+          placeholder="search for notes..."
+        />
+        <div class="notes-preview-section"></div>
+      </section>
+
+      <!-- NOTE CREATION SECTION--------------- -->
+
+      <main class="note-creation-section">
+        <div class="welcome-pop-up hidden">
+          <div class="welcome-pop-up-text">
+            <h1>Welcome to Fox Notes</h1>
+            <p class="welcome-description">
+              Fox Notes helps you easily keep track of your notes! You can mark
+              notes as "favorites" as well as give your notes searchable "tags"
               to organize them, which you'll find in the tag-list in the
               sidebar. All notes are autosaved, time- and date tracked; easily
               filtred by your words and displayed in different themes of your

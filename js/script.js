@@ -17,29 +17,63 @@ let quill = new Quill("#editor", {
 });
 
 // SELECTORS ////////////////////////////////////
+const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
+const welcomePopUp = document.querySelector(".welcome-pop-up");
 
+// SIDEBAR
 const sidebar = document.querySelector(".side-header");
-const burger = document.querySelector(".ph-list");
+const btnCaretSidebar = document.querySelector(".caret-contanier");
+const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
+const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right");
+const btnNewNote = document.querySelector(".icon-plus");
+const btnSave = document.querySelector(".icon-save");
+const btnSettings = document.querySelector(".settings-icon-sidebar");
+
+// MOBILE HEADER
 const mobileHeader = document.querySelector(".mobile-header");
+const burger = document.querySelector(".ph-list");
 const btnCaretToolbarContainer = document.querySelector(
   ".caret-container-toolbar"
 );
 const caretsMobileToolbar = document.querySelectorAll(".caret-mobile-toolbar");
-const editor = document.querySelector("#editor");
-const toolbar = document.querySelector("#toolbar");
-const noteSection = document.querySelector(".note-container");
-const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
-const btnNewNote = document.querySelector(".icon-plus");
-const welcomePopUp = document.querySelector(".welcome-pop-up");
-const btnSave = document.querySelector(".icon-save");
+
+// SETTINGS SECTION
+const settingsSection = document.querySelector(".settings-section");
+const btnCloseSettings = document.querySelector(".close-settings-icon");
+const settingsItemTheme = document.querySelector(".settings-item-theme");
+const themeTitle = document.querySelector(".current-theme-title");
+const settingsMenus = document.querySelectorAll(".settings-menu");
+const settingsMenuCaretsDown = document.querySelectorAll(
+  ".settings-section .ph-caret-down-bold"
+);
+const settingsMenuCaretsUp = document.querySelectorAll(
+  ".settings-section .ph-caret-up-bold"
+);
+const settingsItemStats = document.querySelector(".settings-list-stats");
+const statsListMenu = document.querySelector(".stats-list-sidebar");
+const wordCountToggleIcons = document.querySelectorAll(".word-count-toggle");
+
+// PREVIEW SECTION
 const previewSectionAll = document.querySelector(".preview-section");
 const previewSection = document.querySelector(".notes-preview-section");
 const previewSectionHeader = document.querySelector(".preview-section-header");
-const noteCreationSection = document.querySelector(".note-creation-section");
 const selectFilter = document.querySelector(".filter-select");
 const filterMenuMain = document.querySelector(".filter-menu");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
+const tagMenuSidebar = document.querySelector(
+  ".tag-selection-container-sidebar"
+);
+const tagListSidebar = document.querySelector(".tag-list-sidebar");
+
+// NOTE CREATION SECTION
+const noteCreationSection = document.querySelector(".note-creation-section");
+const noteSection = document.querySelector(".note-container");
+const editor = document.querySelector("#editor");
+const inputTitle = document.querySelector(".input-title");
+
+// TOOLBAR
+const toolbar = document.querySelector("#toolbar");
 const bookmarkToolbar = document.querySelector(".bookmark-toolbar");
 const btnBookMarkActiveToolbar = document.querySelector(
   ".ph-star.icon-toolbar"
@@ -51,28 +85,13 @@ const btnTagToolbar = document.querySelector(".tag-icon-toolbar");
 const tagMenuToolbar = document.querySelector(
   ".tag-selection-container-toolbar"
 );
-const tagMenuSidebar = document.querySelector(
-  ".tag-selection-container-sidebar"
-);
-const tagListSidebar = document.querySelector(".tag-list-sidebar");
 const tagListToolbar = document.querySelector(".tag-list-toolbar");
-const statsIcon = document.querySelector(".stats-icon");
-const statsSidebar = document.querySelector(
-  ".stats-selection-container-sidebar"
-);
-const btnCaretSidebar = document.querySelector(".caret-contanier");
-const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
-const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right");
 const customTagInputEl = document.querySelector(".custom-tag-list-item");
 const customTagEl = document.querySelector(".tag-custom");
 const customTagBtn = document.querySelector(".custom-tag-btn");
 const customTagInput = document.querySelector(".input-custom-tag");
 const overlay = document.querySelector(".overlay");
-const inputTitle = document.querySelector(".input-title");
-const addNewNoteBtn = document.querySelector(".icon-plus");
-const customSelect = document.querySelector(".custom-select");
 const searchNotesInput = document.querySelector(".searchNotesInput");
-const countToggle = document.querySelector("#counter");
 const wordCountBtn = document.querySelector(".countSpan");
 const templateModal = document.querySelector(".templateModal");
 const autosaveMsgEl = document.querySelector(".autosave-msg");
@@ -83,7 +102,6 @@ let state = {
   userTags: ["Personal", "Work", "Important"],
   previewType: "allSaved",
   themes: "light",
-  userStats: ["Word Count", "Overall statistics"],
 };
 // ////////////////////////////////////////
 // FUNCTIONS //////////////////////////////
@@ -206,6 +224,8 @@ const setTitle = function (note) {
  * @param {String} listType Name of the filtered list to be displayed on the top of the preview section
  */
 const renderPreview = function (notesArr, listType = "All Notes") {
+  const noteCreationSectionHeight = noteCreationSection.offsetHeight;
+  previewSectionAll.style.height = `${noteCreationSectionHeight}px`;
   changePreviewSectionHeaderText(listType);
   let markup = "";
 
@@ -277,10 +297,7 @@ const renderNote = function (id) {
 /**
  * This function toggles the star icon in the sidebar between filled and not filled
  */
-const toggleStarHeader = function () {
-  btnBookmarksNotActive.classList.toggle("hidden");
-  btnBookmarksActive.classList.toggle("hidden");
-};
+
 const toggleStarHeaderToolbar = function () {
   btnBookMarkNotActiveToolbar.classList.toggle("hidden");
   btnBookMarkActiveToolbar.classList.toggle("hidden");
@@ -378,35 +395,23 @@ const renderTagList = function (parEl) {
   parEl.insertAdjacentHTML("beforeend", markup);
 };
 
-const renderStatList = function (stat) {
-  stat.innerHTML = "";
-  let markup = "";
-  state.userStats.forEach((stat) => {
-    const newStat = stat.replaceAll(/\s+/g, "_");
-    markup += `
-      <li class="hover stats-selection stats-selection-${newStat}"  data-tag="${newStat}">
-        ${
-          stat === statsSidebar
-            ? `<i class="ph-chart-bar ${newStat} icon hidden"></i>
-           <i class="ph-tag tag-icon-tag-menu tag-icon-tag-menu-line tag-icon-tag-menu-${newStat} icon "></i>`
-            : ""
-        }
-        ${stat}
-      </li>
-  `;
-  });
-  stat.insertAdjacentHTML("beforeend", markup);
-};
-
 /**
  * This function hides the save notes on the screen and makes them come back again.
  * Changes the carot icon from closed and open.
  * @author Aman Said
  */
 const togglePreviewSection = function () {
+  if (
+    previewSectionAll.classList.contains("hidden") &&
+    !settingsSection.classList.contains("hidden")
+  )
+    toggleSettings();
+
   previewSectionAll.classList.toggle("hidden");
   btnCaretLeftSidebar.classList.toggle("hidden");
   btnCaretRightSidebar.classList.toggle("hidden");
+  state.previewSectionOpen = !state.previewSectionOpen;
+  console.log(state.previewSectionOpen);
 };
 
 const toggleSidebar = function () {
@@ -459,6 +464,51 @@ const changePreviewSectionHeaderText = function (text) {
   previewSectionHeader.innerHTML = text;
 };
 
+const toggleSettings = function () {
+  settingsSection.classList.toggle("hidden");
+  if (screen.width > 600 && !settingsSection.classList.contains("hidden"))
+    previewSectionAll.classList.add("hidden");
+  else if (
+    screen.width > 600 &&
+    state.previewSectionOpen === true &&
+    previewSectionAll.classList.contains("hidden")
+  )
+    previewSectionAll.classList.remove("hidden");
+  else if (
+    screen.width <= 600 &&
+    !settingsSection.classList.contains("hidden")
+  ) {
+    noteCreationSection.classList.add("hidden");
+    previewSectionAll.classList.add("hidden");
+  } else if (
+    screen.width <= 600 &&
+    settingsSection.classList.contains("hidden")
+  ) {
+    noteCreationSection.classList.remove("hidden");
+    previewSectionAll.classList.add("hidden");
+  }
+
+  settingsMenus.forEach((el) => el.classList.add("hidden"));
+  settingsMenuCaretsDown.forEach((el) => el.classList.remove("hidden"));
+  settingsMenuCaretsUp.forEach((el) => el.classList.add("hidden"));
+};
+
+const toggleStatisticsList = function (list) {
+  document.querySelector(`.${list}-list-sidebar`).classList.toggle("hidden");
+  document
+    .querySelectorAll(`.settings-${list}-menu-caret`)
+    .forEach((el) => el.classList.toggle("hidden"));
+};
+
+const displayCurrentTheme = function (theme) {
+  themeTitle.textContent = `Theme: ${theme}`;
+};
+
+const setPreviewSectionState = function (size) {
+  if (size > 600) state.previewSectionOpen = true;
+  if (size <= 600) state.previewSectionOpen = false;
+};
+
 // INITIALIZES WHEN PAGE LOADS //////////////////////
 // ///////////////////////////////////////////////
 /**
@@ -491,9 +541,9 @@ const init = function () {
   }
   renderTagList(tagListSidebar);
   renderTagList(tagListToolbar);
-  renderStatList(statsSidebar);
   createNewNote();
   initThemeSelector();
+  setPreviewSectionState(screen.width);
 };
 /** Function to count words.
  * @AUTHOR alex och rivan
@@ -519,14 +569,6 @@ init();
 ////////////////////////////////////////////
 // EVENT HANDLERS //////////////////////////
 ////////////////////////////////////////////
-
-// Toggle words counter and stats section container.
-const statSelection = document.querySelector(".stats-selection-Word_Count");
-statSelection.addEventListener("click", (e) => {
-  wordCountBtn.classList.toggle("hidden");
-  statsSidebar.classList.toggle("hidden");
-  overlay.classList.toggle("hidden");
-});
 
 // Word counter.
 const counterText = document.querySelector("#counter");
@@ -647,11 +689,6 @@ tagMenuToolbar.addEventListener("click", (e) => {
   }
 });
 
-statsIcon.addEventListener("click", (e) => {
-  statsSidebar.classList.toggle("hidden");
-  overlay.classList.remove("hidden");
-});
-
 tagMenuSidebar.addEventListener("click", (e) => {
   overlay.classList.toggle("hidden");
   saveNote();
@@ -659,7 +696,6 @@ tagMenuSidebar.addEventListener("click", (e) => {
     .closest(".tag-selection")
     .dataset.tag.replaceAll("_", " ");
   // if (chosenTag === "all") renderPreview(state.savedNotes, "All Notes");
-  console.log(chosenTag);
   if (chosenTag === "tags")
     renderPreview(
       state.savedNotes.filter((note) => note.tags.length > 0),
@@ -701,7 +737,6 @@ customTagBtn.addEventListener("click", (e) => {
 overlay.addEventListener("click", (e) => {
   tagMenuToolbar.classList.add("hidden");
   tagMenuSidebar.classList.add("hidden");
-  statsSidebar.classList.add("hidden");
   overlay.classList.add("hidden");
   closeFilterList();
 });
@@ -743,6 +778,20 @@ btnCaretToolbarContainer.addEventListener("click", (e) => {
   toggleMobileToolbar();
 });
 
+[btnSettings, btnCloseSettings].forEach((el) => {
+  el.addEventListener("click", (e) => {
+    toggleSettings();
+  });
+});
+
+settingsItemTheme.addEventListener("click", (e) => {
+  toggleStatisticsList("themes");
+});
+
+settingsItemStats.addEventListener("click", (e) => {
+  toggleStatisticsList("stats");
+});
+
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
  */
@@ -757,13 +806,17 @@ function initThemeSelector() {
   }
 
   // Listen for change and change the theme then save it to localStorage.
-  themeSelect.addEventListener("change", () => {
-    activateTheme(themeSelect.value);
+  themeSelect.addEventListener("click", (e) => {
+    const theme = e.target.dataset.theme;
+    activateTheme(theme);
+    displayCurrentTheme(e.target.textContent);
   });
 
   // Set menu selection to current theme
-  themeSelect.value = state.themes;
   activateTheme(state.themes);
+  const theme = state.themes;
+  const themeUppercase = theme.charAt(0).toUpperCase() + theme.slice(1);
+  displayCurrentTheme(themeUppercase);
 }
 
 /** Function to highlight notes.
@@ -904,64 +957,82 @@ const deleteNote = function (id) {
 const overallStats = document.querySelector(
   ".stats-selection-Overall_statistics"
 );
-overallStats.addEventListener("click", () => {
-  overlay.classList.toggle("hidden");
-  statsSidebar.classList.toggle("hidden");
-  // Create a new element to hold the pop-up module
-  const notePreview = document.querySelectorAll(".note-preview");
 
-  const popup = document.createElement("div");
-  const closeGraph = document.createElement("button");
-  const container = document.querySelector(".container");
+statsListMenu.addEventListener("click", (e) => {
+  // Toggle words counter and stats section container.
+  if (
+    e.target
+      .closest(".settings-submenu-item")
+      .classList.contains("settings-submenu-item-word-count")
+  ) {
+    wordCountBtn.classList.toggle("hidden");
+    wordCountToggleIcons.forEach((el) => {
+      el.classList.toggle("hidden");
+    });
+  }
 
-  // Set the pop-up module's class to 'popup' to apply styling
-  popup.className = "popup";
+  if (e.target.classList.contains("settings-submenu-item-overall-statistics")) {
+    if (screen.width <= 600) toggleSettings();
+    noteCreationSection.classList.add("hidden");
 
-  // close button
-  closeGraph.className = "closeGraph";
-  closeGraph.textContent = "Close";
+    // Create a new element to hold the pop-up module
+    const notePreview = document.querySelectorAll(".note-preview");
 
-  // Create the graph element
-  const graph = document.createElement("canvas");
+    const popup = document.createElement("div");
+    const closeGraph = document.createElement("button");
+    const container = document.querySelector(".container");
 
-  // Set the graph's ID to 'graph'
-  graph.id = "graph";
+    // Set the pop-up module's class to 'popup' to apply styling
+    popup.className = "popup";
 
-  // Add the graph to the pop-up module
-  popup.appendChild(graph);
-  popup.appendChild(closeGraph);
-  popup.style.width = `${window.innerWidth * 0.5}px`;
-  popup.style.height = `${window.innerWidth * 0.5}px`;
-  // Add the pop-up module to the page
-  container.appendChild(popup);
-  // Create the data for the graph
-  const data = {
-    labels: ["Notes", "Tags", "Hours Spent", "Minutes"],
+    // close button
+    closeGraph.className = "closeGraph";
+    closeGraph.textContent = "Close";
 
-    datasets: [
-      {
-        label: "Total Used",
-        data: [
-          notePreview.length,
-          state.userTags.length,
-          Math.floor(timeSpent / 3600),
-          Math.trunc(Math.floor(timeSpent % 3600) / 60),
-        ],
-        backgroundColor: ["#ff6384", "#36a2eb", "#4b0082", "#32cd32"],
-      },
-    ],
-  };
+    // Create the graph element
+    const graph = document.createElement("canvas");
 
-  // Create the graph using the Chart.js library
-  const ctx = document.getElementById("graph").getContext("2d");
-  const myChart = new Chart(ctx, {
-    type: "bar",
-    data: data,
-  });
-  closeGraph.addEventListener("click", () => {
-    popup.remove("hidden");
-  });
+    // Set the graph's ID to 'graph'
+    graph.id = "graph";
+
+    // Add the graph to the pop-up module
+    popup.appendChild(graph);
+    popup.appendChild(closeGraph);
+    popup.style.width = `${window.innerWidth * 0.5}px`;
+    popup.style.height = `${window.innerWidth * 0.5}px`;
+    // Add the pop-up module to the page
+    container.appendChild(popup);
+    // Create the data for the graph
+    const data = {
+      labels: ["Notes", "Tags", "Hours Spent", "Minutes"],
+
+      datasets: [
+        {
+          label: "Total Used",
+          data: [
+            notePreview.length,
+            state.userTags.length,
+            Math.floor(timeSpent / 3600),
+            Math.trunc(Math.floor(timeSpent % 3600) / 60),
+          ],
+          backgroundColor: ["#ff6384", "#36a2eb", "#4b0082", "#32cd32"],
+        },
+      ],
+    };
+
+    // Create the graph using the Chart.js library
+    const ctx = document.getElementById("graph").getContext("2d");
+    const myChart = new Chart(ctx, {
+      type: "bar",
+      data: data,
+    });
+    closeGraph.addEventListener("click", () => {
+      popup.remove("hidden");
+      noteCreationSection.classList.remove("hidden");
+    });
+  }
 });
+
 if (localStorage.getItem("timeSpent")) {
   timeSpent = localStorage.getItem("timeSpent");
 }
