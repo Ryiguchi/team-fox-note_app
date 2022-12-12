@@ -50,6 +50,10 @@ select {
   padding: 1rem;
 }
 
+.burger-mobile-header {
+  z-index: 150;
+}
+
 .icon-mobile-header {
   /* display: none; */
   font-size: 4rem;
@@ -659,20 +663,6 @@ select.themeSelect {
   background-color: var(--note-section);
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: 100vw;
-  height: 100vh;
-  background-color: transparent;
-}
-
-.hidden {
-  display: none !important;
-}
-
 #searchNotesInputs {
   cursor: initial;
   font-size: 1.6rem;
@@ -790,6 +780,21 @@ select.themeSelect {
   filter: opacity(80%);
 }
 
+.overlay,
+.overlay-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.hidden {
+  display: none !important;
+}
+
 /* ********************************************* */
 /* MEDIA QUERIES******************************* */
 /* ********************************************* */
@@ -824,7 +829,7 @@ select.themeSelect {
   }
 
   .welcome-pop-up h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   .welcome-description {
@@ -835,6 +840,17 @@ select.themeSelect {
 @media (max-width: 28.125em) {
   .container {
     flex-direction: column;
+  }
+
+  #editor,
+  .title-container,
+  .welcome-pop-up {
+    max-width: 95vw;
+    font-size: 2rem;
+  }
+
+  #editor {
+    min-height: 40vh;
   }
 
   .side-header {
@@ -851,13 +867,53 @@ select.themeSelect {
   .welcome-pop-up {
     width: 75%;
   }
+
+  .filter-select,
+  .filter-menu li,
+  .settings-section-item,
+  .settings-submenu-item {
+    height: 6rem !important;
+    font-size: 2rem;
+  }
+
+  .preview-section-header {
+    font-size: 2rem;
+  }
+
+  .note-preview {
+    height: 12rem;
+  }
+
+  .icon-preview,
+  .note-preview--title {
+    font-size: 2rem;
+  }
+
+  .note-preview--text,
+  .note-preview--date {
+    font-size: 1.4rem;
+  }
+
+  #toolbar svg,
+  .ql-picker-label {
+    font-size: 1.6rem !important;
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
+  .ql-picker-label svg {
+    transform: translateY(-0.2rem);
+  }
+
   .popup {
     width: 100vw;
     height: 100vh;
   }
+
   .templateModal {
     grid-template-columns: 200px;
   }
+
   .templateModal img {
     height: 160px;
     width: 60vw;

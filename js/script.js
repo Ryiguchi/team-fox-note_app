@@ -20,6 +20,7 @@ let quill = new Quill("#editor", {
 // SELECTORS ////////////////////////////////////
 const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
+const overlaySidebar = document.querySelector(".overlay-sidebar");
 
 // SIDEBAR
 const sidebar = document.querySelector(".side-header");
@@ -419,6 +420,7 @@ const togglePreviewSection = function () {
 
 const toggleSidebar = function () {
   sidebar.classList.toggle("hidden");
+  overlaySidebar.classList.toggle("hidden");
 };
 
 const toggleMobileToolbar = function () {
@@ -788,9 +790,11 @@ btnCaretSidebar.addEventListener("click", (e) => {
   togglePreviewSection();
 });
 
-burger.addEventListener("click", (e) => {
-  toggleSidebar();
-  previewSection.classList.add("hidden");
+[burger, overlaySidebar].forEach((el) => {
+  el.addEventListener("click", (e) => {
+    toggleSidebar();
+    previewSection.classList.add("hidden");
+  });
 });
 
 btnCaretToolbarContainer.addEventListener("click", (e) => {
