@@ -49,6 +49,9 @@ select {
 
   padding: 1rem;
 }
+.mobile-header i {
+  color: var(--side-header-i);
+}
 
 .burger-mobile-header {
   z-index: 150;
