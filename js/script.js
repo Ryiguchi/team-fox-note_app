@@ -289,6 +289,10 @@ const getNoteIndexByID = function (id) {
   return state.savedNotes.findIndex((note) => note.id === id);
 };
 
+const getNoteById = function (id) {
+  return state.savedNotes.find((note) => id === note.id);
+};
+
 // DISPLAY SELECTED NOTE //////////////////////////////
 /**
  *  This function finds a note in the saved notes array from the passed in ID and renders it in the note section.  It also will update the tag list to display the notes tags and will move the note to index[0] of the array
@@ -467,6 +471,19 @@ const displaySearchNotesInput = function () {
   previewSection.classList.remove("hidden");
   renderPreview(state.savedNotes);
   filterMenuMain.classList.add("hidden");
+};
+
+const displayByDate = function (type) {
+  const filteredNotes = state.savedNotes
+    .map((note) => note.id)
+    .sort((a, b) => (type === "descending" ? a - b : b - a))
+    .map((id) => getNoteById(id));
+  renderPreview(
+    filteredNotes,
+    type === "descending" ? "Date: Descending" : "Date: Ascending"
+  );
+  closeFilterList();
+  previewSectionHeader.classList.remove("hidden");
 };
 
 const closeFilterList = function () {
@@ -661,6 +678,8 @@ filterMenuMain.addEventListener("click", (e) => {
   if (filterType === "starred") displayStarredNotes();
   if (filterType === "tag") displayTagSelection();
   if (filterType === "keyword") displaySearchNotesInput();
+  if (filterType === "ascending") displayByDate("ascending");
+  if (filterType === "descending") displayByDate("descending");
 });
 
 previewSection.addEventListener("click", (e) => {
