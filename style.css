@@ -439,10 +439,6 @@ polygon.ql-stroke {
   z-index: 100;
 }
 
-.tag-list-sidebar-default li {
-  /* background-color: var(--primary-background-color); */
-}
-
 .tag-selection-container-sidebar {
   font-size: 1.6rem;
   width: 100%;
@@ -684,13 +680,10 @@ select.themeSelect {
 
 /* Auto saving style */
 .autosave-msg {
-  color: greenyellow;
+  color: var(--side-header-i);
+  text-shadow: 0px 0px 10px var(--side-header-i);
   padding: 0.5rem;
   font-size: 1.3rem;
-}
-
-.autosave-msg-saving {
-  color: white;
 }
 
 .ql-editor.ql-blank::before {

@@ -8,20 +8,32 @@
     <link rel="apple-touch-icon" href="./img/apple64.png" />
     <link rel="stylesheet" id="themeStylesLink" href="themes/light.css" />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js
-      "></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js
+      "
+    ></script>
 
     <script
+      defer
       type="text/JavaScript"
       src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    ></script>
 
-    <script src="https://unpkg.com/phosphor-icons"></script>
-    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script defer src="https://unpkg.com/phosphor-icons"></script>
+    <script defer src="//cdn.quilljs.com/1.3.6/quill.js"></script>
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 
     <script defer type="module" src="./js/script.js"></script>
+    <meta
+      name="description"
+      content="Fox Notes helps you easily keep track of your notes! You can mark notes as 
+    favorites as well as give your notes searchable tags to organize them. All notes are autosaved, time- and date tracked."
+    />
     <title>Fox Notes</title>
   </head>
 
@@ -222,8 +234,8 @@
         </div>
         <div id="toolbar">
           <!-- Add font size dropdown -->
-          <select class="ql-font"></select>
-          <select class="ql-size">
+          <select class="ql-font" title="Fonts"></select>
+          <select class="ql-size" title="Sizes">
             <option value="small"></option>
             <!-- Note a missing, thus falsy value, is used to reset to default -->
             <option selected></option>
@@ -231,27 +243,35 @@
             <option value="huge"></option>
           </select>
           <!-- Add a bold button -->
-          <select class="ql-color"></select>
+          <select class="ql-color" title="Color"></select>
           <!-- <select class="ql-background"></select> -->
-          <button class="ql-bold"></button>
-          <button class="ql-italic"></button>
-          <button class="ql-underline"></button>
-          <select class="ql-align"></select>
-          <button class="ql-list" value="ordered"></button>
-          <button class="ql-list" value="bullet"></button>
-          <button class="ql-list checkbox" value="check"></button>
-          <button class="ql-code-block"></button>
-          <button class="ql-link"></button>
-          <button class="ql-image"></button>
-          <button class="ql-video"></button>
-          <button class="ql-clean"></button>
-          <button class="markdownImport">
+          <button class="ql-bold" title="Bold"></button>
+          <button class="ql-italic" title="Italic"></button>
+          <button class="ql-underline" title="Underline"></button>
+          <select class="ql-align" title="Align text"></select>
+          <button class="ql-list" value="ordered" title="Ordered list"></button>
+          <button
+            class="ql-list"
+            value="bullet"
+            title="Unordered list"
+          ></button>
+          <button
+            class="ql-list checkbox"
+            value="check"
+            title="checkbox"
+          ></button>
+          <button class="ql-code-block" title="Code block"></button>
+          <button class="ql-link" title="Add link"></button>
+          <button class="ql-image" title="Import image"></button>
+          <button class="ql-video" title="Import video"></button>
+          <button class="ql-clean" title="Clean text style"></button>
+          <button class="markdownImport" title="Convert to HTML">
             <i class="ph-file-html icon-toolbar"></i>
           </button>
 
           <!-- Add subscript and superscript buttons -->
 
-          <button id="custom-button" class="tag-tb">
+          <button id="custom-button" class="tag-tb" title="Add tag">
             <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
             <div
               class="tag-selection-container tag-selection-container-toolbar hidden"
@@ -274,12 +294,15 @@
               <ul class="tag-list-toolbar"></ul>
             </div>
           </button>
-          <button id="custom-button" class="bookmark-toolbar">
+          <button id="custom-button" class="bookmark-toolbar" title="Bookmark">
             <i class="ph-star-fill icon-toolbar icon hidden"></i>
             <i class="ph-star icon-toolbar icon"></i>
           </button>
           <button id="custom-button">
-            <i class="ph-floppy-disk icon-save icon-toolbar icon"></i>
+            <i
+              class="ph-floppy-disk icon-save icon-toolbar icon"
+              title="Save"
+            ></i>
           </button>
         </div>
         <div class="note-container">
