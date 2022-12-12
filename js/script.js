@@ -22,6 +22,8 @@ const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
 const overlaySidebar = document.querySelector(".overlay-sidebar");
 const overlayFilter = document.querySelector(".overlay-filter");
+const overlayFilterTags = document.querySelector(".overlay-filter-tags");
+const overlayFilterKeyword = document.querySelector(".overlay-filter-keyword");
 
 // SIDEBAR
 const sidebar = document.querySelector(".side-header");
@@ -385,6 +387,7 @@ const renderTagList = function (parEl) {
   parEl.innerHTML = "";
   let markup = "";
   state.userTags.forEach((tag) => {
+    console.log(tag);
     const newTag = tag.replaceAll(/\s+/g, "_");
     markup += `
       <li class="tag-selection tag-selection-${newTag}" data-tag="${newTag}">
@@ -448,15 +451,20 @@ const displayStarredNotes = function () {
 };
 
 const displayTagSelection = function () {
+  overlayFilter.classList.add("hidden");
+  overlayFilterTags.classList.remove("hidden");
   tagMenuSidebar.classList.toggle("hidden");
   previewSectionHeader.classList.add("hidden");
   filterMenuMain.classList.add("hidden");
 };
 
 const displaySearchNotesInput = function () {
+  overlayFilter.classList.add("hidden");
+  overlayFilterKeyword.classList.remove("hidden");
   searchNotesInput.classList.remove("hidden");
   previewSectionHeader.classList.add("hidden");
   previewSection.classList.remove("hidden");
+  renderPreview(state.savedNotes);
   filterMenuMain.classList.add("hidden");
 };
 
@@ -551,7 +559,7 @@ const init = function () {
   if (state.savedNotes[0]) renderNote(state.savedNotes[0].id);
   if (!state.savedNotes[0]) createNewNote();
   renderTagList(tagListToolbar);
-  // createNewNote();
+  renderTagList(tagListSidebar);
   initThemeSelector();
   setPreviewSectionState(screen.width);
 };
@@ -716,7 +724,7 @@ tagMenuToolbar.addEventListener("click", (e) => {
 });
 
 tagMenuSidebar.addEventListener("click", (e) => {
-  overlay.classList.toggle("hidden");
+  overlayFilterTags.classList.add("hidden");
   saveNote();
   const chosenTag = e.target
     .closest(".tag-selection")
@@ -767,6 +775,19 @@ overlay.addEventListener("click", (e) => {
 });
 
 overlayFilter.addEventListener("click", closeFilterList);
+
+overlayFilterTags.addEventListener("click", () => {
+  tagMenuSidebar.classList.add("hidden");
+  previewSectionHeader.classList.remove("hidden");
+  previewSection.classList.remove("hidden");
+  overlayFilterTags.classList.add("hidden");
+});
+
+overlayFilterKeyword.addEventListener("click", () => {
+  overlayFilterKeyword.classList.add("hidden");
+  searchNotesInput.classList.add("hidden");
+  previewSectionHeader.classList.remove("hidden");
+});
 
 inputTitle.addEventListener("keydown", (key) => {
   if (key.key === "Enter") {

@@ -247,7 +247,7 @@ select {
 
 .filter-select {
   position: relative;
-  z-index: 150 !important;
+  z-index: 51 !important;
 }
 
 .filter-menu li:hover {
@@ -792,7 +792,9 @@ select.themeSelect {
 
 .overlay,
 .overlay-sidebar,
-.overlay-filter {
+.overlay-filter,
+.overlay-filter-tags,
+.overlay-filter-keyword {
   position: absolute;
   top: 0;
   left: 0;
@@ -800,6 +802,11 @@ select.themeSelect {
   width: 100vw;
   height: 100vh;
   background-color: transparent;
+}
+
+.overlay-filter-tags,
+.overlay-filter-keyword {
+  z-index: 52;
 }
 
 .hidden {
