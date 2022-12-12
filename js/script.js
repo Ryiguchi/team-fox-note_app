@@ -643,7 +643,6 @@ btnNewNote.addEventListener("click", () => {
   // if the current note is empty, then do nothing
   if (state.savedNotes[0].delta.ops[0].insert === "\n") return;
   createNewNote();
-  if (screen.width <= 450) toggleSidebar();
 });
 
 selectFilter.addEventListener("click", (e) => {
