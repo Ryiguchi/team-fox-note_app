@@ -245,6 +245,11 @@ select {
   transition: all 0.3s;
 }
 
+.filter-select {
+  position: relative;
+  z-index: 150 !important;
+}
+
 .filter-menu li:hover {
   text-shadow: 0px 0px 10px var(--side-header-i);
   opacity: 1;
@@ -786,7 +791,8 @@ select.themeSelect {
 }
 
 .overlay,
-.overlay-sidebar {
+.overlay-sidebar,
+.overlay-filter {
   position: absolute;
   top: 0;
   left: 0;

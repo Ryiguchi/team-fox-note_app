@@ -21,6 +21,7 @@ let quill = new Quill("#editor", {
 const btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
 const welcomePopUp = document.querySelector(".welcome-pop-up");
 const overlaySidebar = document.querySelector(".overlay-sidebar");
+const overlayFilter = document.querySelector(".overlay-filter");
 
 // SIDEBAR
 const sidebar = document.querySelector(".side-header");
@@ -61,6 +62,7 @@ const previewSection = document.querySelector(".notes-preview-section");
 const previewSectionHeader = document.querySelector(".preview-section-header");
 const selectFilter = document.querySelector(".filter-select");
 const filterMenuMain = document.querySelector(".filter-menu");
+const filterCaretsIcons = document.querySelectorAll(".filter-carets");
 const btnBookmarksActive = document.querySelector(".ph-star-fill");
 const btnBookmarksNotActive = document.querySelector(".ph-star");
 const tagMenuSidebar = document.querySelector(
@@ -429,7 +431,7 @@ const toggleMobileToolbar = function () {
 };
 
 const displayAllNotes = function () {
-  renderPreview(state.savedNotes, "All Notes");
+  renderPreview(state.savedNotes);
   state.preview = "saved";
   closeFilterList();
   previewSectionHeader.classList.remove("hidden");
@@ -460,9 +462,10 @@ const displaySearchNotesInput = function () {
 
 const closeFilterList = function () {
   previewSection.classList.remove("hidden");
-
   filterMenuMain.classList.add("hidden");
-  overlay.classList.add("hidden");
+  overlayFilter.classList.add("hidden");
+  previewSectionHeader.classList.toggle("hidden");
+  filterCaretsIcons.forEach((el) => el.classList.toggle("hidden"));
 };
 
 const changePreviewSectionHeaderText = function (text) {
@@ -637,9 +640,9 @@ btnNewNote.addEventListener("click", () => {
 });
 
 selectFilter.addEventListener("click", (e) => {
-  displayAllNotes();
-  overlay.classList.remove("hidden");
+  overlayFilter.classList.toggle("hidden");
   filterMenuMain.classList.toggle("hidden");
+  filterCaretsIcons.forEach((el) => el.classList.toggle("hidden"));
   previewSection.classList.toggle("hidden");
   previewSectionHeader.classList.toggle("hidden");
   searchNotesInput.classList.add("hidden");
@@ -761,8 +764,9 @@ overlay.addEventListener("click", (e) => {
   tagMenuToolbar.classList.add("hidden");
   tagMenuSidebar.classList.add("hidden");
   overlay.classList.add("hidden");
-  closeFilterList();
 });
+
+overlayFilter.addEventListener("click", closeFilterList);
 
 inputTitle.addEventListener("keydown", (key) => {
   if (key.key === "Enter") {
