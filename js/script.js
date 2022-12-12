@@ -361,15 +361,15 @@ const toggleActiveTag = function (el) {
   children.forEach((el) => el.classList.toggle("hidden"));
 };
 
-/**
- * This function takes the user created tag name and displays it in both tag lists
- * @param {String} tag Name of the new user created tag
- */
-const toggleNewTagToolbar = function (tag) {
-  document
-    .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
-    .forEach((el) => el.classList.toggle("hidden"));
-};
+// /**
+//  * This function takes the user created tag name and displays it in both tag lists
+//  * @param {String} tag Name of the new user created tag
+//  */
+// const toggleNewTagToolbar = function (tag) {
+//   document
+//     .querySelectorAll(`.tag-icon-tag-menu-${tag}`)
+//     .forEach((el) => el.classList.toggle("hidden"));
+// };
 
 /**
  * This function toggles between the 'custom ...' list item and the input field in the tag list in the toolbar
