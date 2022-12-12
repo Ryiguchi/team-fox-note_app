@@ -60,6 +60,7 @@ const wordCountToggleIcons = document.querySelectorAll(".word-count-toggle");
 // NEW NOTE STICKY SECTION
 const savedDiskIcon = document.querySelector(".saved-note-icon");
 const spinner = document.querySelector(".spinner");
+const stickyBox = document.querySelector(".sticky-box");
 
 // PREVIEW SECTION
 const previewSectionAll = document.querySelector(".preview-section");
@@ -598,6 +599,7 @@ const toggleWelcome = function () {
   noteSection.classList.toggle("hidden");
   toolbar.classList.toggle("hidden");
   previewSectionAll.classList.toggle("hidden");
+  stickyBox.classList.toggle("hidden");
 };
 
 init();
