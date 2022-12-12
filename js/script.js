@@ -881,6 +881,7 @@ function initThemeSelector() {
   // Listen for change and change the theme then save it to localStorage.
   themeSelect.addEventListener("click", (e) => {
     const theme = e.target.dataset.theme;
+    if (!theme) return;
     activateTheme(theme);
     displayCurrentTheme(e.target.textContent);
   });
