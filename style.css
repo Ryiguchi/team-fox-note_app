@@ -288,7 +288,9 @@ select {
 .ph-tag-fill {
   color: var(--fill-tag);
 }
-
+.tag-icon-tag-menu-fill {
+  color: var(--side-header-i);
+}
 .note-preview--date {
   font-size: 1rem;
 }
