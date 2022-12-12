@@ -817,7 +817,28 @@ settingsItemStats.addEventListener("click", (e) => {
   toggleStatisticsList("stats");
 });
 
-window.addEventListener("resize", () => location.reload());
+window.addEventListener("resize", () => {
+  if (screen.width <= 600 && screen.width > 450) {
+    mobileHeader.classList.add("hidden");
+    sidebar.classList.remove("hidden");
+    previewSectionAll.classList.add("hidden");
+    toolbar.classList.remove("hidden");
+  }
+
+  if (screen.width <= 450) {
+    mobileHeader.classList.remove("hidden");
+    sidebar.classList.add("hidden");
+    previewSectionAll.classList.add("hidden");
+    toolbar.classList.add("hidden");
+  }
+
+  if (screen.width > 600) {
+    mobileHeader.classList.add("hidden");
+    sidebar.classList.remove("hidden");
+    previewSectionAll.classList.remove("hidden");
+    toolbar.classList.remove("hidden");
+  }
+});
 
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
