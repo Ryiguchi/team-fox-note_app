@@ -537,6 +537,7 @@ const init = function () {
   if (savedState) {
     if (screen.width <= 600) togglePreviewSection();
     if (screen.width <= 450) {
+      overlaySidebar.classList.remove("hidden");
       mobileHeader.classList.remove("hidden");
       toggleSidebar();
       toolbar.classList.add("hidden");
