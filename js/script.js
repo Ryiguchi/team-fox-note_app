@@ -956,26 +956,28 @@ const autoSaving = function () {
 
   // select everything on our textarea and add save function on "change"
 
-  editor.addEventListener("keydown", () => {
-    // clear the timeout as the user is typing/editing
-    if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
+  [editor, inputTitle].forEach((el) =>
+    el.addEventListener("keydown", () => {
+      // clear the timeout as the user is typing/editing
+      if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
 
-    // here we are storing the timeout id again
-    saveTimeoutId = window.setTimeout(() => {
-      // change the autosave message to show thats its saving
-      autosaveMsgEl.classList.add("autosave-msg-saving");
-      autosaveMsgEl.textContent = savingMessage;
+      // here we are storing the timeout id again
+      saveTimeoutId = window.setTimeout(() => {
+        // change the autosave message to show thats its saving
+        autosaveMsgEl.classList.add("autosave-msg-saving");
+        autosaveMsgEl.textContent = savingMessage;
 
-      // save the changes
-      saveNote();
+        // save the changes
+        saveNote();
 
-      // change the text of saved message back to default
-      autosaveMsgEl.classList.remove("autosave-msg-saving");
-      setTimeout(() => {
-        autosaveMsgEl.textContent = savedMessage;
-      }, 500); // message setTimeout
-    }, 500); // saveTimeoutId timeout
-  });
+        // change the text of saved message back to default
+        autosaveMsgEl.classList.remove("autosave-msg-saving");
+        setTimeout(() => {
+          autosaveMsgEl.textContent = savedMessage;
+        }, 500); // message setTimeout
+      }, 500); // saveTimeoutId timeout
+    })
+  );
 };
 
 window.addEventListener("beforeunload", (e) => {
