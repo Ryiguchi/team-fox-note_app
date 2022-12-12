@@ -57,6 +57,10 @@ const settingsItemStats = document.querySelector(".settings-list-stats");
 const statsListMenu = document.querySelector(".stats-list-sidebar");
 const wordCountToggleIcons = document.querySelectorAll(".word-count-toggle");
 
+// NEW NOTE STICKY SECTION
+const savedDiskIcon = document.querySelector(".saved-note-icon");
+const spinner = document.querySelector(".spinner");
+
 // PREVIEW SECTION
 const previewSectionAll = document.querySelector(".preview-section");
 const previewSection = document.querySelector(".notes-preview-section");
@@ -590,7 +594,7 @@ const counterText = document.querySelector("#counter");
 
 editor.addEventListener("input", () => {
   const textArea = editor.innerText;
-  counterText.textContent = `Total Words: ${countWords(textArea)}`;
+  counterText.textContent = `${countWords(textArea)}`;
 });
 
 // Markdown export converter
@@ -943,8 +947,8 @@ searchNotesInput.addEventListener("keydown", (e) => {
 const autoSaving = function () {
   let saveTimeoutId;
 
-  const savingMessage = "Saving...";
-  const savedMessage = "All changes saved.";
+  const savingMessage = "Saving";
+  const savedMessage = "Saved";
 
   // select the autosaving messages and set to default
   document
@@ -963,6 +967,8 @@ const autoSaving = function () {
         // change the autosave message to show thats its saving
         autosaveMsgEl.classList.add("autosave-msg-saving");
         autosaveMsgEl.textContent = savingMessage;
+        savedDiskIcon.classList.add("hidden");
+        spinner.classList.remove("hidden");
 
         // save the changes
         saveNote();
@@ -971,6 +977,8 @@ const autoSaving = function () {
         autosaveMsgEl.classList.remove("autosave-msg-saving");
         setTimeout(() => {
           autosaveMsgEl.textContent = savedMessage;
+          savedDiskIcon.classList.remove("hidden");
+          spinner.classList.add("hidden");
         }, 500); // message setTimeout
       }, 500); // saveTimeoutId timeout
     })
@@ -1030,6 +1038,8 @@ statsListMenu.addEventListener("click", (e) => {
     wordCountBtn.classList.toggle("hidden");
     wordCountToggleIcons.forEach((el) => {
       el.classList.toggle("hidden");
+      const textArea = editor.innerText;
+      counterText.textContent = `${countWords(textArea)}`;
     });
   }
 

@@ -356,6 +356,62 @@ select {
   width: 10rem;
 }
 
+/* STICKY BOX */
+
+.sticky-box {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.note-saved-box,
+.word-count-box,
+.new-note-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100rem;
+  color: #000;
+  background-color: yellow;
+  padding: 1rem;
+  width: 5rem;
+  height: 5rem;
+}
+
+#counter,
+.autosave-msg {
+  font-size: 1.2rem !important;
+}
+
+.sticky-box-icon {
+  font-size: 1.6rem;
+}
+
+.spinner {
+  height: 1.6rem;
+  width: 1.6rem;
+  border-top: 3px solid #000;
+  border-right: 3px solid transparent;
+  border-radius: 50%;
+  animation: rotation 0.8s linear infinite;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* NOTE CREATION SECTION */
 .note-creation-section {
   width: 100%;
@@ -684,14 +740,6 @@ select.themeSelect {
   padding: 0.4rem 0.8rem;
 }
 
-/* Auto saving style */
-.autosave-msg {
-  color: var(--side-header-i);
-  text-shadow: 0px 0px 10px var(--side-header-i);
-  padding: 0.5rem;
-  font-size: 1.3rem;
-}
-
 .ql-editor.ql-blank::before {
   filter: var(--filter-blank);
 }
@@ -710,14 +758,6 @@ select.themeSelect {
   .side-header {
     display: none;
   }
-}
-
-#counter {
-  font-size: 1.5rem;
-  /* box-shadow: 0px 0px 5px 2px white; */
-  width: 25%;
-  margin-top: 10px;
-  margin-left: 10px;
 }
 
 .templateModal img {

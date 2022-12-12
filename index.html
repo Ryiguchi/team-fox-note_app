@@ -66,9 +66,8 @@
             <i class="ph-caret-double-left icon icon-side-bar"></i>
             <i class="ph-caret-double-right icon icon-side-bar hidden"></i>
           </div>
-          <i class="ph-plus icon-plus icon-side-bar icon"></i>
+          <!-- <i class="ph-plus icon-plus icon-side-bar icon"></i> -->
           <i class="ph-gear settings-icon-sidebar icon-side-bar icon"></i>
-          <div class="autosave-msg"></div>
 
           <!-- Template modal -->
           <div class="templateModal hidden">
@@ -314,9 +313,6 @@
           </div>
           <div id="editor"></div>
         </div>
-        <span class="countSpan hidden">
-          <p id="counter"></p>
-        </span>
       </main>
     </div>
     <div class="overlay hidden"></div>
@@ -324,5 +320,21 @@
     <div class="overlay-filter hidden"></div>
     <div class="overlay-filter-tags hidden"></div>
     <div class="overlay-filter-keyword hidden"></div>
+    <div class="sticky-box">
+      <div class="note-saved-box">
+        <div class="spinner hidden"></div>
+        <i class="ph-floppy-disk-bold sticky-box-icon saved-note-icon"></i>
+        <div class="autosave-msg"></div>
+      </div>
+      <div class="word-count-box countSpan hidden">
+        <div class="word-count">
+          <p id="counter">0</p>
+        </div>
+        <p>Words</p>
+      </div>
+      <div class="new-note-box icon-plus icon">
+        <i class="ph-plus icon-side-bar icon"></i>
+      </div>
+    </div>
   </body>
 </html>
