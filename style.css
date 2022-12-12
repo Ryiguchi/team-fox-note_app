@@ -55,6 +55,7 @@ select {
 
 .burger-mobile-header {
   z-index: 150;
+  margin-left: 1rem;
 }
 
 .icon-mobile-header {
@@ -845,6 +846,20 @@ select.themeSelect {
     flex-direction: column;
   }
 
+  .side-header {
+    width: 8rem;
+  }
+
+  .side-header i {
+    font-size: 4rem;
+  }
+
+  .preview-section,
+  .settings-section {
+    left: 8rem;
+    max-width: calc(100vw - 8.5rem);
+  }
+
   #editor,
   .title-container,
   .welcome-pop-up {
@@ -874,9 +889,10 @@ select.themeSelect {
   .filter-select,
   .filter-menu li,
   .settings-section-item,
-  .settings-submenu-item {
+  .settings-submenu-item,
+  .searchNotesInput {
     height: 6rem !important;
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
 
   .preview-section-header {

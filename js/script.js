@@ -545,9 +545,10 @@ const init = function () {
     updateState(savedState);
     renderPreview(state.savedNotes, "All Notes");
   }
-  renderTagList(tagListSidebar);
+  if (state.savedNotes[0]) renderNote(state.savedNotes[0].id);
+  if (!state.savedNotes[0]) createNewNote();
   renderTagList(tagListToolbar);
-  createNewNote();
+  // createNewNote();
   initThemeSelector();
   setPreviewSectionState(screen.width);
 };
@@ -816,6 +817,8 @@ settingsItemStats.addEventListener("click", (e) => {
   toggleStatisticsList("stats");
 });
 
+window.addEventListener("resize", () => location.reload());
+
 /** Dropdown menu for the theme selections.
  * @author Revan Toma
  */
@@ -930,20 +933,11 @@ const autoSaving = function () {
   });
 };
 
-document.addEventListener("DOMContentLoaded", autoSaving);
-let leavePage = false;
-let setLeavePage = function () {
-  leavePage = true;
-};
+window.addEventListener("beforeunload", (e) => {
+  saveNote();
+});
 
-window.onload = function () {
-  window.addEventListener("beforeunload", (e) => {
-    if (leavePage) {
-      return undefined;
-    }
-    (e || window.event).returnValue = autoSaving();
-  });
-};
+document.addEventListener("DOMContentLoaded", autoSaving);
 
 templateModal.addEventListener("click", (e) => {
   if (e.target.classList.contains("template-empty"));
