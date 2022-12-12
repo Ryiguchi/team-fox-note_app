@@ -285,6 +285,7 @@ select {
   color: var(--fill-star);
 }
 
+
 .ph-tag-fill {
   color: var(--fill-tag);
 }
@@ -378,13 +379,18 @@ select {
   align-items: center;
   justify-content: center;
   border-radius: 100rem;
-  color: #000;
-  background-color: yellow;
-  padding: 1rem;
+  color: var(--save-background-color);
+  background-color: var(--primary-background-color);
+    padding: 1rem;
   width: 5rem;
   height: 5rem;
 }
-
+.spinner{
+  background-color: var(--save-background-color) !important;
+}
+#plussNewNote{
+color: var(--save-background-color)!important;
+}
 #counter,
 .autosave-msg {
   font-size: 1.2rem !important;
