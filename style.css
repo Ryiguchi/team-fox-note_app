@@ -182,7 +182,7 @@ select {
 /* NOTE PREVIEW SECTION */
 
 .preview-section {
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 2rem 0;
   overflow-y: scroll;
   min-height: 100vh;
 }
