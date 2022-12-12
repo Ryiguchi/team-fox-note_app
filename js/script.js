@@ -31,7 +31,6 @@ const btnCaretSidebar = document.querySelector(".caret-contanier");
 const btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
 const btnCaretRightSidebar = document.querySelector(".ph-caret-double-right");
 const btnNewNote = document.querySelector(".icon-plus");
-const btnSave = document.querySelector(".icon-save");
 const btnSettings = document.querySelector(".settings-icon-sidebar");
 
 // MOBILE HEADER
@@ -632,8 +631,6 @@ btnCloseWelcomeScreen.addEventListener("click", (e) => {
     toolbar.classList.toggle("hidden");
   }
 });
-
-btnSave.addEventListener("click", saveNote);
 
 btnNewNote.addEventListener("click", () => {
   templateModal.classList.toggle("hidden");
