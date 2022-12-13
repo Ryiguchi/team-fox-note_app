@@ -7,14 +7,17 @@ let timeSpent = 0;
 // For the markdown Export
 const turndownService = new TurndownService();
 // For the Quill library
+
+let Font = Quill.import("formats/font");
+Font.whitelist = ["inconsolata", "roboto", "mirza", "poppins"];
+Quill.register(Font, true);
+
 let quill = new Quill("#editor", {
   theme: "snow",
   modules: {
     toolbar: "#toolbar",
   },
   placeholder: "Start typing here ...",
-  // container: "#counter",
-  // unit: "word",
 });
 
 // SELECTORS ////////////////////////////////////

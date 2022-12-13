@@ -4,6 +4,49 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Mirza:wght@500&family=Poppins:wght@500&family=Roboto:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      #toolbar-container .ql-font span[data-label="Sans Serif"]::before {
+        font-family: "Sans Serif";
+      }
+
+      #toolbar-container .ql-font span[data-label="Inconsolata"]::before {
+        font-family: "Inconsolata";
+      }
+
+      #toolbar-container .ql-font span[data-label="Roboto"]::before {
+        font-family: "Roboto";
+      }
+
+      #toolbar-container .ql-font span[data-label="Mirza"]::before {
+        font-family: "Mirza";
+      }
+
+      #toolbar-container .ql-font span[data-label="Poppins"]::before {
+        font-family: "Poppins";
+      }
+
+      .ql-font-inconsolata {
+        font-family: "Inconsolata";
+      }
+
+      .ql-font-roboto {
+        font-family: "Roboto";
+      }
+
+      .ql-font-mirza {
+        font-family: "Mirza";
+      }
+
+      .ql-font-poppins {
+        font-family: "Poppins";
+      }
+    </style>
     <link rel="icon" href="./img/rsz_favicon.png" />
     <link rel="apple-touch-icon" href="./img/apple64.png" />
     <link rel="stylesheet" id="themeStylesLink" href="themes/light.css" />
@@ -246,7 +289,13 @@
         </div>
         <div id="toolbar">
           <!-- Add font size dropdown -->
-          <select class="ql-font" title="Fonts"></select>
+          <select class="ql-font">
+            <option selected>Sans Serif</option>
+            <option value="inconsolata">Inconsolata</option>
+            <option value="roboto">Roboto</option>
+            <option value="mirza">Mirza</option>
+            <option value="poppins">Poppins</option>
+          </select>
           <select class="ql-size" title="Sizes">
             <option value="small"></option>
             <!-- Note a missing, thus falsy value, is used to reset to default -->
