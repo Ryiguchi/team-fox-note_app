@@ -31,7 +31,9 @@ Alexander Persson
 
 
 
-trello link : https://trello.com/b/R22PKSgA/team-fox. 
+Trello Link : https://trello.com/b/R22PKSgA/team-fox.   
+
+Fox Notes URL - [https://ryiguchi.github.io/team-fox-note_app/](https://ryiguchi.github.io/team-fox-note_app/)
 ## Acknowledgments
 - [Quill](https://quilljs.com/)
 - [Showdown](https://showdownjs.com/)
