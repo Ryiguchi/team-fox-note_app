@@ -112,7 +112,8 @@ const autosaveMsgEl = document.querySelector(".autosave-msg");
 let state = {
   savedNotes: [],
   userTags: ["Personal", "Work", "Important"],
-  previewType: "allSaved",
+  currentPreview: [],
+  currentPreviewTitle: "All Notes",
   themes: "light",
 };
 // ////////////////////////////////////////
@@ -159,7 +160,7 @@ const saveNote = function () {
   note.preview = getPreview(note);
 
   setTitle(note);
-  renderPreview(state.savedNotes);
+  renderPreview(state.currentPreview, state.currentPreviewTitle);
   setLocalStorage(state);
 };
 
@@ -259,7 +260,11 @@ const renderPreview = function (notesArr, listType = "All Notes") {
 
         <div class="note-preview--date">${note.date}</div>
         <i class="ph-trash-bold icon-preview icon"></i>
-        <i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>
+        ${
+          note.tags.length > 0
+            ? '<i class="ph-tag-fill tag-icon-preview icon-preview icon"></i>'
+            : ""
+        }
         ${
           note.bookmarked
             ? '<i class="ph-star-fill star-icon-preview icon-preview icon"></i>'
@@ -283,7 +288,7 @@ const renderPreview = function (notesArr, listType = "All Notes") {
 const toggleBookmark = function (id) {
   const note = state.savedNotes[getNoteIndexByID(id)];
   note.bookmarked = note.bookmarked ? false : true;
-  renderPreview(state.savedNotes, "All Notes");
+  renderPreview(state.currentPreview, state.currentPreviewTitle);
   setLocalStorage(state);
 };
 
@@ -294,10 +299,6 @@ const toggleBookmark = function (id) {
  */
 const getNoteIndexByID = function (id) {
   return state.savedNotes.findIndex((note) => note.id === id);
-};
-
-const getNoteById = function (id) {
-  return state.savedNotes.find((note) => id === note.id);
 };
 
 // DISPLAY SELECTED NOTE //////////////////////////////
@@ -447,7 +448,8 @@ const toggleMobileToolbar = function () {
 
 const displayAllNotes = function () {
   renderPreview(state.savedNotes);
-  state.preview = "saved";
+  state.currentPreview = state.savedNotes;
+  state.currentPreviewTitle = "All Notes";
   closeFilterList();
   previewSectionHeader.classList.remove("hidden");
 };
@@ -457,7 +459,8 @@ const displayStarredNotes = function () {
     (note) => note.bookmarked === true
   );
   renderPreview(bookmarkedNotes, "Starred Notes");
-  state.preview = "bookmarks";
+  state.currentPreview = bookmarkedNotes;
+  state.currentPreviewTitle = "Starred Notes";
   closeFilterList();
   previewSectionHeader.classList.remove("hidden");
 };
@@ -481,14 +484,16 @@ const displaySearchNotesInput = function () {
 };
 
 const displayByDate = function (type) {
-  const filteredNotes = state.savedNotes
-    .map((note) => note.id)
-    .sort((a, b) => (type === "descending" ? a - b : b - a))
-    .map((id) => getNoteById(id));
+  const filteredNotes = state.savedNotes.sort((a, b) =>
+    type === "ascending" ? a.id - b.id : b.id - a.id
+  );
   renderPreview(
     filteredNotes,
     type === "descending" ? "Date: Descending" : "Date: Ascending"
   );
+  state.currentPreview = filteredNotes;
+  state.currentPreviewTitle =
+    type === "descending" ? "Date: Descending" : "Date: Ascending";
   closeFilterList();
   previewSectionHeader.classList.remove("hidden");
 };
@@ -580,6 +585,8 @@ const init = function () {
     }
     updateState(savedState);
     renderPreview(state.savedNotes, "All Notes");
+    state.currentPreview = state.savedNotes;
+    state.currentPreviewTitle = "All Notes";
   }
   if (state.savedNotes[0]) renderNote(state.savedNotes[0].id);
   if (!state.savedNotes[0]) createNewNote();
@@ -742,6 +749,7 @@ tagMenuToolbar.addEventListener("click", (e) => {
     toggleTagToNote(chosenTag);
     toggleActiveTag(e.target);
     setLocalStorage(state);
+    renderPreview(state.currentPreview, state.currentPreviewTitle);
   }
   if (chosenTag === "custom") {
     toggleCustomTagListItems();
@@ -755,19 +763,24 @@ tagMenuSidebar.addEventListener("click", (e) => {
     .closest(".tag-selection")
     .dataset.tag.replaceAll("_", " ");
   // if (chosenTag === "all") renderPreview(state.savedNotes, "All Notes");
-  if (chosenTag === "tags")
-    renderPreview(
-      state.savedNotes.filter((note) => note.tags.length > 0),
-      "All Notes with Tags"
+  if (chosenTag === "tags") {
+    const allNotesWithTags = state.savedNotes.filter(
+      (note) => note.tags.length > 0
     );
+    renderPreview(allNotesWithTags, "All Notes with Tags");
+    state.currentPreview = allNotesWithTags;
+    state.currentPreviewTitle = "All Notes with Tags";
+  }
 
   if (chosenTag !== "tags") {
     const notesWithChosenTag = state.savedNotes.filter((note) =>
       note.tags.includes(chosenTag)
     );
+    const tag = `Tag: ${chosenTag.replaceAll("_", " ")}`;
     // if (state.preview === "bookmarks") toggleStarHeader();
-    renderPreview(notesWithChosenTag, `Tag: ${chosenTag.replaceAll("_", " ")}`);
-    state.preview = "tags";
+    renderPreview(notesWithChosenTag, tag);
+    state.currentPreview = notesWithChosenTag;
+    state.currentPreviewTitle = tag;
   }
   tagMenuSidebar.classList.toggle("hidden");
   previewSectionHeader.classList.remove("hidden");
@@ -812,13 +825,14 @@ overlayFilterKeyword.addEventListener("click", () => {
   overlayFilterKeyword.classList.add("hidden");
   searchNotesInput.classList.add("hidden");
   previewSectionHeader.classList.remove("hidden");
+  renderPreview(state.currentPreview, state.currentPreviewTitle);
 });
 
 inputTitle.addEventListener("keydown", (key) => {
   if (key.key === "Enter") {
     const title = inputTitle.value;
     state.savedNotes[0].title = title;
-    renderPreview(state.savedNotes, "All Notes");
+    renderPreview(state.currentPreview, state.currentPreviewTitle);
   }
 });
 
@@ -940,18 +954,12 @@ function highlightNotes() {
 // // Function  > search field under "My Notes" on preview section, to search for notes.
 function filterNotes() {
   // select all notes in preview note seciton
-  const notePreview = document.querySelectorAll(".note-preview");
+  const [...notePreview] = document.querySelectorAll(".note-preview");
 
-  // foreach note check and make sure to convert all letters to lower case.
-  notePreview.forEach((note) => {
-    if (
-      note.innerText
-        .toLowerCase()
-        .includes(searchNotesInput.value.toLowerCase())
-    )
-      return (note.style.display = "");
-    return (note.style.display = "none");
-  });
+  const filteredNotes = notePreview.filter((note) =>
+    note.innerText?.toLowerCase().includes(searchNotesInput.value.toLowerCase())
+  );
+  renderPreview(filteredNotes);
 }
 
 searchNotesInput.addEventListener("input", filterNotes);
@@ -1041,7 +1049,7 @@ const deleteNote = function (id) {
   setLocalStorage(state);
   // const note = document.querySelector(".note-preview");
   // note.parentNode.removeChild(note);
-  renderPreview(state.savedNotes);
+  renderPreview(state.currentPreview, state.currentPreviewTitle);
 
   if (state.savedNotes.length >= 1) {
     renderNote(state.savedNotes[0].id);

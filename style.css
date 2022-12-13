@@ -285,7 +285,6 @@ select {
   color: var(--fill-star);
 }
 
-
 .ph-tag-fill {
   color: var(--fill-tag);
 }
@@ -378,18 +377,19 @@ select {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--save-background-color);
   border-radius: 100rem;
   color: var(--save-background-color);
   background-color: var(--primary-background-color);
-    padding: 1rem;
+  padding: 1rem;
   width: 5rem;
   height: 5rem;
 }
-.spinner{
+.spinner {
   background-color: var(--save-background-color) !important;
 }
-#plussNewNote{
-color: var(--save-background-color)!important;
+#plussNewNote {
+  color: var(--save-background-color) !important;
 }
 #counter,
 .autosave-msg {
