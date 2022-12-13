@@ -9,8 +9,9 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Mirza:wght@500&family=Poppins:wght@500&family=Roboto:wght@500&display=swap"
       rel="stylesheet"
+      class="google-fonts-link"
     />
-    <style>
+    <style class="font-stylesheet">
       #toolbar-container .ql-font span[data-label="Sans Serif"]::before {
         font-family: "Sans Serif";
       }
@@ -54,7 +55,7 @@
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js
-      "
+    "
     ></script>
     <script defer src="https://unpkg.com/turndown/dist/turndown.js"></script>
 
@@ -289,13 +290,23 @@
         </div>
         <div id="toolbar">
           <!-- Add font size dropdown -->
-          <select class="ql-font">
+          <select class="ql-font font-list-toolbar">
             <option selected>Sans Serif</option>
             <option value="inconsolata">Inconsolata</option>
             <option value="roboto">Roboto</option>
             <option value="mirza">Mirza</option>
             <option value="poppins">Poppins</option>
           </select>
+          <button id="custom-button">
+            <i class="ph-plus icon-toolbar custom-font-btn icon"></i>
+            <div class="custom-font-container hidden">
+              <input
+                type="text"
+                placeholder="Add Google Font"
+                class="custom-font-input"
+              />
+            </div>
+          </button>
           <select class="ql-size" title="Sizes">
             <option value="small"></option>
             <!-- Note a missing, thus falsy value, is used to reset to default -->
@@ -398,5 +409,6 @@
         <i class="ph-plus icon-side-bar icon" id="plussNewNote"></i>
       </div>
     </div>
+    <script type="module" src="./js/init.js"></script>
   </body>
 </html>
