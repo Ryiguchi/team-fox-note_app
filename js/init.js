@@ -5,7 +5,6 @@ const fontList = document.querySelector(".font-list-toolbar");
 
 const state = JSON.parse(localStorage.getItem("state"));
 
-console.log(state);
 export const fontArray = state?.fonts;
 const loadFont = function (font) {
   const capitalize = function (str) {
@@ -22,7 +21,7 @@ const loadFont = function (font) {
   const setGoogleFontsLink = function (font) {
     const fontUppercase = capitalize(font);
     let href = googleFontsLink.getAttribute("href");
-    href = `${href.slice(0, -12)}family=${fontUppercase}:wght@500&display=swap`;
+    href = `${href.slice(0, -12)}family=${fontUppercase}:wght@400&display=swap`;
     googleFontsLink.setAttribute("href", href);
   };
 
