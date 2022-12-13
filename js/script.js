@@ -1,16 +1,30 @@
 "use strict";
 
 import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
-
+import { fontArray } from "./init.js";
 // counter for the timer of time spent.
 let timeSpent = 0;
 // For the markdown Export
 const turndownService = new TurndownService();
 // For the Quill library
 
-let Font = Quill.import("formats/font");
-Font.whitelist = ["inconsolata", "roboto", "mirza", "poppins"];
-Quill.register(Font, true);
+const hyphenate = function (str) {
+  return str.split(" ").join("-");
+};
+
+const fontArrayHyphen = fontArray?.map((font) => hyphenate(font));
+
+if (fontArrayHyphen) {
+  let Font = Quill.import("formats/font");
+  Font.whitelist = [
+    "inconsolata",
+    "roboto",
+    "mirza",
+    "poppins",
+    ...fontArrayHyphen,
+  ];
+  Quill.register(Font, true);
+}
 
 let quill = new Quill("#editor", {
   theme: "snow",
@@ -105,6 +119,11 @@ const customTagInputEl = document.querySelector(".custom-tag-list-item");
 const customTagEl = document.querySelector(".tag-custom");
 const customTagBtn = document.querySelector(".custom-tag-btn");
 const customTagInput = document.querySelector(".input-custom-tag");
+const userFontInput = document.querySelector(".custom-font-input");
+const userFontContainer = document.querySelector(".custom-font-container");
+const userFontBtn = document.querySelector(".custom-font-btn");
+const userFontOkBtn = document.querySelector(".custom-font-ok-btn");
+//
 const overlay = document.querySelector(".overlay");
 const searchNotesInput = document.querySelector(".searchNotesInput");
 const wordCountBtn = document.querySelector(".countSpan");
@@ -118,6 +137,7 @@ let state = {
   currentPreview: [],
   currentPreviewTitle: "All Notes",
   themes: "light",
+  fonts: [],
 };
 // ////////////////////////////////////////
 // FUNCTIONS //////////////////////////////
@@ -882,6 +902,19 @@ settingsItemTheme.addEventListener("click", (e) => {
 
 settingsItemStats.addEventListener("click", (e) => {
   toggleStatisticsList("stats");
+});
+
+userFontBtn.addEventListener("click", () => {
+  userFontContainer.classList.toggle("hidden");
+  userFontInput.value = "";
+});
+
+userFontInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const font = userFontInput.value.toLowerCase();
+    state.fonts.push(font);
+    location.reload();
+  }
 });
 
 window.addEventListener("resize", () => {
