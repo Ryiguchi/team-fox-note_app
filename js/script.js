@@ -953,13 +953,13 @@ function highlightNotes() {
 //  */
 // // Function  > search field under "My Notes" on preview section, to search for notes.
 function filterNotes() {
-  // select all notes in preview note seciton
-  const [...notePreview] = document.querySelectorAll(".note-preview");
-
-  const filteredNotes = notePreview.filter((note) =>
-    note.innerText?.toLowerCase().includes(searchNotesInput.value.toLowerCase())
+  const filteredNotes = state.savedNotes.filter((note) =>
+    getPreview(note)
+      .toLowerCase()
+      .includes(searchNotesInput.value.toLowerCase())
   );
   renderPreview(filteredNotes);
+  searchNotesInput.focus();
 }
 
 searchNotesInput.addEventListener("input", filterNotes);
