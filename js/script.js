@@ -49,7 +49,7 @@ const controlWelcomeScreen = function () {
   model.toggleStateWelcomeScreen();
   model.setLocalStorage(model.state);
   if (screen.width <= 600) previewView.togglePreviewSection();
-  if (screen.width <= 450) welcomeView.closeWelcomeScreenMobile();
+  if (screen.width <= 450) mobileView.displayMobileView();
 };
 
 // SIDEBAR VIEW ////////////////////////////////
@@ -60,7 +60,8 @@ const controlSidebarCaret = function (e) {
     screen.width <= 600
   ) {
     noteView.noteCreationSection.classList.add("hidden");
-    sidebarView.overlaySidebar.classList.remove("hidden");
+    if (screen.width <= 450)
+      sidebarView.overlaySidebar.classList.remove("hidden");
   }
   if (e.target.classList.contains("ph-caret-double-left"))
     noteView.noteCreationSection.classList.remove("hidden");
@@ -392,10 +393,10 @@ const init = function () {
   // Welcome screen
   if (model.state.welcomeScreen && screen.width <= 450) {
     welcomeView.toggleWelcome();
-    sidebarView.toggleSidebar();
   }
 
-  if (model.state.welcomeScreen) welcomeView.toggleWelcome();
+  if (model.state.welcomeScreen && screen.width > 450)
+    welcomeView.toggleWelcome();
 
   // Different layouts for different screen sizes
   if (!model.state.welcomeScreen && screen.width <= 600) {

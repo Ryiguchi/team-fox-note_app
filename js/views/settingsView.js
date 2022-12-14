@@ -2,6 +2,7 @@
 import View from "./View.js";
 import noteView from "./noteView.js";
 import previewView from "./previewView.js";
+import sidebarView from "./sidebarView.js";
 
 export class SettingsView extends View {
   settingsSection = document.querySelector(".settings-section");
@@ -21,6 +22,7 @@ export class SettingsView extends View {
   wordCountBtn = document.querySelector(".word-count-box");
 
   toggleSettings(state) {
+    console.log("3");
     this.settingsSection.classList.toggle("hidden");
     if (
       screen.width > 600 &&
@@ -45,6 +47,7 @@ export class SettingsView extends View {
     ) {
       noteView.noteCreationSection.classList.remove("hidden");
       previewView.previewSectionAll.classList.add("hidden");
+      sidebarView.overlaySidebar.classList.add("hidden");
     }
     document
       .querySelectorAll(".settings-menu")
