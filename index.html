@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Mirza:wght@500&family=Poppins:wght@500&family=Roboto:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Mirza:wght@400;700&family=Poppins:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
       class="google-fonts-link"
     />
@@ -84,6 +84,11 @@
 
   <body>
     <div class="container">
+      <!-- popup -->
+      <div class="popup hidden">
+        <canvas id="graph"></canvas>
+        <button class="closeGraph">Close</button>
+      </div>
       <!-- MOBILE HEADER ----------------------- -->
 
       <section class="mobile-header hidden">
@@ -91,10 +96,10 @@
         <img src="./img/fox-logo.png" alt="Team Fox Logo" class="logo-mobile" />
         <div class="caret-container-toolbar">
           <i
-            class="ph-caret-double-down caret-mobile-toolbar icon-mobile-header icon"
+            class="ph-caret-double-down caret-mobile-toolbar caret-down-mobile icon-mobile-header icon"
           ></i>
           <i
-            class="ph-caret-double-up caret-mobile-toolbar hidden icon-mobile-header icon"
+            class="ph-caret-double-up caret-mobile-toolbar caret-up-mobile hidden icon-mobile-header icon"
           ></i>
         </div>
       </section>
@@ -112,45 +117,6 @@
           </div>
           <!-- <i class="ph-plus icon-plus icon-side-bar icon"></i> -->
           <i class="ph-gear settings-icon-sidebar icon-side-bar icon"></i>
-
-          <!-- Template modal -->
-          <div class="templateModal hidden">
-            <h1>Select a Template</h1>
-            <div>
-              <h2>Empty Template</h2>
-              <img
-                src="./img/empty.png"
-                alt="Empty Template"
-                class="template-empty"
-              />
-            </div>
-            <div>
-              <h2>Resume Template</h2>
-
-              <img
-                src="./img/resume.png"
-                alt="resume Template"
-                class="template-resume"
-              />
-            </div>
-            <div>
-              <h2>Recipe Template</h2>
-              <img
-                src="./img/recipe.png"
-                alt="recipe Template"
-                class="template-recipe"
-              />
-            </div>
-            <div>
-              <h2>Letter Template</h2>
-
-              <img
-                src="./img/letter-template.png"
-                alt="Letter Template"
-                class="template-letter"
-              />
-            </div>
-          </div>
         </nav>
       </header>
 
@@ -407,6 +373,46 @@
       </div>
       <div class="new-note-box icon-plus icon">
         <i class="ph-plus icon-side-bar icon" id="plussNewNote"></i>
+      </div>
+    </div>
+    <!-- Template modal -->
+    <div class="templateModal hidden">
+      <div class="template-container">
+        <h1>Select a Template</h1>
+        <div>
+          <h2>Empty Template</h2>
+          <img
+            src="./img/empty.png"
+            alt="Empty Template"
+            class="template-empty template-1"
+          />
+        </div>
+        <div>
+          <h2>Resume Template</h2>
+
+          <img
+            src="./img/resume.png"
+            alt="resume Template"
+            class="template-resume template-2"
+          />
+        </div>
+        <div>
+          <h2>Recipe Template</h2>
+          <img
+            src="./img/recipe.png"
+            alt="recipe Template"
+            class="template-recipe template-3"
+          />
+        </div>
+        <div>
+          <h2>Letter Template</h2>
+
+          <img
+            src="./img/letter-template.png"
+            alt="Letter Template"
+            class="template-letter template-4"
+          />
+        </div>
       </div>
     </div>
     <script type="module" src="./js/init.js"></script>

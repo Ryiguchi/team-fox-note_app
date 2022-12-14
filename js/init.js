@@ -18,12 +18,20 @@ const loadFont = function (font) {
     return str.split(" ").join("-");
   };
 
+  const addPlus = function (str) {
+    return str.replace(" ", "+");
+  };
+
   const setGoogleFontsLink = function (font) {
-    const fontUppercase = capitalize(font);
+    const fontUppercasePlus = addPlus(capitalize(font));
     let href = googleFontsLink.getAttribute("href");
-    href = `${href.slice(0, -12)}family=${fontUppercase}:wght@400&display=swap`;
+    href = `${href.slice(
+      0,
+      -12
+    )}family=${fontUppercasePlus}:wght@700&family=${fontUppercasePlus}&family=${fontUppercasePlus}:ital@1&display=swap`;
     googleFontsLink.setAttribute("href", href);
   };
+  // :wght@400
 
   const setFontsStylesheet = function (font) {
     const style = `
