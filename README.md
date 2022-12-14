@@ -40,6 +40,7 @@ Fox Notes URL - [https://ryiguchi.github.io/team-fox-note_app/](https://ryiguchi
 - [Turndown](https://www.npmjs.com/package/turndown)
 - [Chart JS](https://www.chartjs.org/)
 - [Phosphor Icons](https://phosphoricons.com/)
-- [_Lodash](https://lodash.com/)
+- [_Lodash](https://lodash.com/)  
+- [GoggleFonts](https://fonts.google.com/?preview.text=This%20is%20a%20test&preview.text_type=custom&query=poppi)
 
 
