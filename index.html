@@ -170,6 +170,27 @@
             Overall Statistics
           </li>
         </ul>
+
+        <div class="settings-item settings-list-fonts settings-section-item">
+          <div class="fonts-title-container">
+            <i class="ph-google-logo-bold"></i>
+            Add Fonts
+          </div>
+          <i class="ph-caret-down-bold icon settings-fonts-menu-caret"></i>
+          <i class="ph-caret-up-bold hidden icon settings-fonts-menu-caret"></i>
+        </div>
+        <div
+          class="fonts-submenu-item settings-submenu-item hidden fonts-list-sidebar"
+        >
+          <input
+            list="fonts"
+            class="search-fonts-input"
+            placeholder="Search for fonts..."
+          />
+          <datalist id="fonts" class="fonts-search-list">
+            <!-- <option value="fontName">fontName</option> -->
+          </datalist>
+        </div>
       </section>
 
       <!-- PREVIEW SECTION----------------------- -->
@@ -263,7 +284,7 @@
             <option value="mirza">Mirza</option>
             <option value="poppins">Poppins</option>
           </select>
-          <button id="custom-button" title="Add google Font">
+          <!-- <button id="custom-button" title="Add google Font">
             <i class="ph-plus icon-toolbar custom-font-btn icon"></i>
             <div class="custom-font-container hidden">
               <input
@@ -272,7 +293,7 @@
                 class="custom-font-input"
               />
             </div>
-          </button>
+          </button> -->
           <select class="ql-size" title="Sizes">
             <option value="small"></option>
             <!-- Note a missing, thus falsy value, is used to reset to default -->

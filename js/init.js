@@ -1,11 +1,12 @@
-"use strict";
+import { fontData } from "./model.js";
+("use strict");
 const googleFontsLink = document.querySelector(".google-fonts-link");
 const fontsStylesheet = document.querySelector(".font-stylesheet");
 const fontList = document.querySelector(".font-list-toolbar");
 
 const state = JSON.parse(localStorage.getItem("state"));
-
 export const fontArray = state?.fonts;
+
 const loadFont = function (font) {
   const capitalize = function (str) {
     return str
@@ -13,7 +14,6 @@ const loadFont = function (font) {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
-
   const hyphenate = function (str) {
     return str.split(" ").join("-");
   };
@@ -23,15 +23,26 @@ const loadFont = function (font) {
   };
 
   const setGoogleFontsLink = function (font) {
-    const fontUppercasePlus = addPlus(capitalize(font));
+    let fontString = addPlus(capitalize(font));
+    const fontObj = fontData.items.find((obj) => obj.family === font);
+
+    if (fontObj.variants.includes("italic") && fontObj.variants.includes("700"))
+      fontString += ":ital,wght@0,400;0,700;1,400";
+    if (
+      fontObj.variants.includes("italic") &&
+      !fontObj.variants.includes("700")
+    )
+      fontString += ":ital@0;1";
+    if (
+      !fontObj.variants.includes("italic") &&
+      fontObj.variants.includes("700")
+    )
+      fontString += ":wght@400;700";
+
     let href = googleFontsLink.getAttribute("href");
-    href = `${href.slice(
-      0,
-      -12
-    )}family=${fontUppercasePlus}:wght@700&family=${fontUppercasePlus}&family=${fontUppercasePlus}:ital@1&display=swap`;
+    href = `${href.slice(0, -12)}family=${fontString}&display=swap`;
     googleFontsLink.setAttribute("href", href);
   };
-  // :wght@400
 
   const setFontsStylesheet = function (font) {
     const style = `
@@ -56,4 +67,5 @@ const loadFont = function (font) {
   setFontsStylesheet(font);
   setFontList(font);
 };
-if (state) state.fonts.forEach((font) => loadFont(font));
+if (state && state.fonts.length > 0)
+  state.fonts.forEach((font) => loadFont(font));

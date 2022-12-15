@@ -1,3 +1,4 @@
+import { G_FONTS_API_URL } from "./config.js";
 export let state = {
   savedNotes: [],
   userTags: ["Personal", "Work", "Important"],
@@ -6,6 +7,7 @@ export let state = {
   themes: "light",
   fonts: [],
   welcomeScreen: true,
+  allFonts: [],
 };
 
 let timeSpent;
@@ -34,6 +36,7 @@ export const initNoteValues = function () {
   return newNote;
 };
 
+// Create the data for the graph
 export const getGraphData = function () {
   return {
     labels: ["Notes", "Tags", "Hours Spent", "Minutes"],
@@ -52,7 +55,23 @@ export const getGraphData = function () {
     ],
   };
 };
-// Create the data for the graph
+
+// Google Fonts
+export const fetchGoogleFontsList = async function () {
+  try {
+    const res = await fetch(G_FONTS_API_URL);
+    if (!res.ok) throw new Error("Can't get fonts");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const fontData = await fetchGoogleFontsList();
+// export const fontData = fetchGoogleFontsList().then((res) =>
+//   settingsView.renderFontsList(res)
+// );
 
 // LOCAL STORAGE /////////////////////////////////////////
 /**

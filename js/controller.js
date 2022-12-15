@@ -7,7 +7,7 @@ import toolbarView from "./views/toolbarView.js";
 import mobileView from "./views/mobileView.js";
 import settingsView from "./views/settingsView.js";
 import welcomeView from "./views/welcomeView.js";
-
+import { AUTOSAVE_SEC } from "./config.js";
 import * as model from "./model.js";
 import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
 import { fontArray } from "./init.js";
@@ -231,6 +231,16 @@ const controlThemeSelect = function (e) {
   settingsView.initThemeSelector(theme);
 };
 
+const controlFontSelect = function (e) {
+  if (e.key === "Enter") {
+    const font = settingsView.getCustomFontValue();
+    console.log(font);
+    model.addCustomFontToState(font);
+    model.setLocalStorage(model.state);
+    location.reload();
+  }
+};
+
 // TOOLBAR VIEW //////////////////////////////////
 
 const controlBookmarkToolbar = function (e) {
@@ -288,15 +298,6 @@ const controlCustomTagBtn = function () {
   model.setLocalStorage(model.state);
 };
 
-const controlCustomFontInput = function (e) {
-  if (e.key === "Enter") {
-    const font = toolbarView.getCustomFontValue();
-    model.addCustomFontToState(font);
-    model.setLocalStorage(model.state);
-    location.reload();
-  }
-};
-
 // NOTE VIEW //////////////////////////////////////
 
 const controlBtnNewNote = function () {
@@ -338,8 +339,8 @@ const controlAutosave = function () {
     noteView.autosaveMsgEl.classList.add("autosave-msg-saving");
     setTimeout(() => {
       noteView.changeAutoSaveMessage("Saved");
-    }, 500); // message setTimeout
-  }, 500); // saveTimeoutId timeout
+    }, AUTOSAVE_SEC * 1000); // message setTimeout
+  }, AUTOSAVE_SEC * 1000); // saveTimeoutId timeout
 };
 
 const controlTemplateModal = function (e) {
@@ -412,7 +413,7 @@ const init = function () {
   // controlRenderNote(model.state.savedNotes[0].id);
   toolbarView.renderTagList(toolbarView.tagListToolbar, model.state.userTags);
   sidebarView.renderTagList(sidebarView.tagListSidebar, model.state.userTags);
-  // initThemeSelector(model.state.themes);
+  settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
   model.setPreviewSectionState(screen.width);
   model.setLocalStorage(model.state);
 
@@ -437,13 +438,13 @@ const init = function () {
   settingsView.addHandlerStatsListMenu(controlStatsListMenu);
   settingsView.addHandlerCloseGraph();
   settingsView.addHandlerThemeSelect(controlThemeSelect);
+  settingsView.addHandlerFontSelect(controlFontSelect);
 
   toolbarView.addHandlerBookmarkToolbar(controlBookmarkToolbar);
   toolbarView.addHandlerBtnTagToolbar(controlbtnTagToolbar);
   toolbarView.addHandlerTagMenuToolbar(controlTagMenuToolbar);
   toolbarView.addHandlerCustomTagBtn(controlCustomTagBtn);
-  toolbarView.addHandlerCustomFontBtn();
-  toolbarView.addHandlerCustomFontInput(controlCustomFontInput);
+  // toolbarView.addHandlerCustomFontBtn();
 
   noteView.addHandlerOpenNewNote(controlBtnNewNote);
   noteView.addHandlerEditor();

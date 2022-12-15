@@ -18,11 +18,24 @@ export class SettingsView extends View {
   closeGraph = document.querySelector(".closeGraph");
   settingsItemTheme = document.querySelector(".settings-item-theme");
   settingsItemStats = document.querySelector(".settings-list-stats");
+  settingItemFonts = document.querySelector(".settings-list-fonts");
   statsListMenu = document.querySelector(".stats-list-sidebar");
+  fontsSearchInput = document.querySelector(".fonts-list-sidebar");
   wordCountBtn = document.querySelector(".word-count-box");
+  fontsDataList = document.querySelector(".fonts-search-list");
+  fontsInput = document.querySelector(".search-fonts-input");
+
+  renderFontsList(fonts) {
+    let html = "";
+    fonts.forEach((font) => {
+      html += `
+        <option value="${font}">${font}</option>  
+      `;
+    });
+    this.fontsDataList.insertAdjacentHTML("afterbegin", html);
+  }
 
   toggleSettings(state) {
-    console.log("3");
     this.settingsSection.classList.toggle("hidden");
     if (
       screen.width > 600 &&
@@ -103,6 +116,10 @@ export class SettingsView extends View {
     noteView.noteCreationSection.classList.toggle("hidden");
   }
 
+  getCustomFontValue() {
+    return this.fontsInput.value;
+  }
+
   // HANDLERS
 
   addHandlerBtnSettings(handler) {
@@ -114,6 +131,7 @@ export class SettingsView extends View {
   addHandlerSettingsItem(handler) {
     this.settingsItemTheme.addEventListener("click", () => handler("themes"));
     this.settingsItemStats.addEventListener("click", () => handler("stats"));
+    this.settingItemFonts.addEventListener("click", () => handler("fonts"));
   }
 
   addHandlerThemeSelect(handler) {
@@ -126,6 +144,10 @@ export class SettingsView extends View {
 
   addHandlerCloseGraph() {
     this.closeGraph.addEventListener("click", this.togglePopup);
+  }
+
+  addHandlerFontSelect(handler) {
+    this.fontsInput.addEventListener("keydown", handler);
   }
 }
 

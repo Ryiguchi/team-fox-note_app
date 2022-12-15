@@ -143,7 +143,8 @@ select {
 .settings-item-theme,
 .settings-list-stats,
 .settings-header,
-.settings-submenu-item-word-count {
+.settings-submenu-item-word-count,
+.settings-list-fonts {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -178,6 +179,17 @@ select {
 
 .word-count-toggle {
   font-size: 3rem;
+}
+
+.settings-submenu-item {
+  padding: 0;
+}
+
+.search-fonts-input {
+  height: 100%;
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.6rem;
 }
 /* NOTE PREVIEW SECTION */
 
@@ -794,20 +806,6 @@ select.themeSelect {
   color: chocolate;
 }
 
-@media print {
-  #editor,
-  .input-title,
-  .title-container {
-    color: black;
-    border: none;
-  }
-  .ql-toolbar,
-  .notes-preview-section,
-  .side-header {
-    display: none;
-  }
-}
-
 .templateModal img {
   height: 38vh;
   width: 38vh;
@@ -932,6 +930,21 @@ select.themeSelect {
 /* ********************************************* */
 /* MEDIA QUERIES******************************* */
 /* ********************************************* */
+
+@media print {
+  #editor,
+  .input-title,
+  .title-container {
+    color: black;
+    border: none;
+  }
+  .ql-toolbar,
+  .notes-preview-section,
+  .side-header {
+    display: none;
+  }
+}
+
 @media (max-width: 37.5em) {
   #editor,
   .title-container {
@@ -1022,7 +1035,8 @@ select.themeSelect {
   .filter-menu li,
   .settings-section-item,
   .settings-submenu-item,
-  .searchNotesInput {
+  .searchNotesInput,
+  .search-fonts-input {
     height: 6rem !important;
     font-size: 2rem !important;
   }
