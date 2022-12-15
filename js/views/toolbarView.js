@@ -15,10 +15,6 @@ export class ToolbarView extends View {
   _customTagEl = document.querySelector(".tag-custom");
   customTagBtn = document.querySelector(".custom-tag-btn");
   customTagInput = document.querySelector(".input-custom-tag");
-  // _userFontInput = document.querySelector(".custom-font-input");
-  // _userFontContainer = document.querySelector(".custom-font-container");
-  // _userFontBtn = document.querySelector(".custom-font-btn");
-  // _userFontOkBtn = document.querySelector(".custom-font-ok-btn");
 
   /**
    *  This function hides all of the filled tag icons and shows all of the unfilled tag icons     in the toolbar list
@@ -66,11 +62,6 @@ export class ToolbarView extends View {
     this._customTagEl.classList.toggle("hidden");
   }
 
-  // toggleCustomFont() {
-  //   this._userFontContainer.classList.toggle("hidden");
-  //   this._userFontInput.value = "";
-  // }
-
   // HANDLERS
 
   addHandlerBookmarkToolbar(handler) {
@@ -88,16 +79,6 @@ export class ToolbarView extends View {
   addHandlerCustomTagBtn(handler) {
     this.customTagBtn.addEventListener("click", handler);
   }
-
-  // addHandlerCustomFontBtn() {
-  //   this._userFontBtn.addEventListener("click", () => {
-  //     this._userFontContainer.classList.toggle("hidden");
-  //   });
-  // }
-
-  // addHandlerCustomFontInput(handler) {
-  //   this._userFontInput.addEventListener("keydown", handler);
-  // }
 }
 
 export default new ToolbarView();

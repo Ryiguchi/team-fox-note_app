@@ -234,11 +234,18 @@ const controlThemeSelect = function (e) {
 const controlFontSelect = function (e) {
   if (e.key === "Enter") {
     const font = settingsView.getCustomFontValue();
-    console.log(font);
+    settingsView.fontsInput.value = "";
     model.addCustomFontToState(font);
     model.setLocalStorage(model.state);
     location.reload();
   }
+};
+
+const controlRemoveFont = function (e) {
+  const font = e.target.closest(".my-fonts-list-item").dataset.font;
+  model.removeCustomFontToState(font);
+  model.setLocalStorage(model.state);
+  location.reload();
 };
 
 // TOOLBAR VIEW //////////////////////////////////
@@ -414,6 +421,9 @@ const init = function () {
   toolbarView.renderTagList(toolbarView.tagListToolbar, model.state.userTags);
   sidebarView.renderTagList(sidebarView.tagListSidebar, model.state.userTags);
   settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
+  settingsView.renderMyFontsList(model.state.fonts.sort());
+  console.log(model.state.fonts);
+
   model.setPreviewSectionState(screen.width);
   model.setLocalStorage(model.state);
 
@@ -439,12 +449,12 @@ const init = function () {
   settingsView.addHandlerCloseGraph();
   settingsView.addHandlerThemeSelect(controlThemeSelect);
   settingsView.addHandlerFontSelect(controlFontSelect);
+  settingsView.addHandlerRemoveFont(controlRemoveFont);
 
   toolbarView.addHandlerBookmarkToolbar(controlBookmarkToolbar);
   toolbarView.addHandlerBtnTagToolbar(controlbtnTagToolbar);
   toolbarView.addHandlerTagMenuToolbar(controlTagMenuToolbar);
   toolbarView.addHandlerCustomTagBtn(controlCustomTagBtn);
-  // toolbarView.addHandlerCustomFontBtn();
 
   noteView.addHandlerOpenNewNote(controlBtnNewNote);
   noteView.addHandlerEditor();

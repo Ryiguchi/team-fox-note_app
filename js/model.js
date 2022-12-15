@@ -7,7 +7,7 @@ export let state = {
   themes: "light",
   fonts: [],
   welcomeScreen: true,
-  allFonts: [],
+  // allFonts: [],
 };
 
 let timeSpent;
@@ -69,6 +69,7 @@ export const fetchGoogleFontsList = async function () {
 };
 
 export const fontData = await fetchGoogleFontsList();
+
 // export const fontData = fetchGoogleFontsList().then((res) =>
 //   settingsView.renderFontsList(res)
 // );
@@ -185,7 +186,13 @@ export const addCustomTagToState = function (tag) {
 };
 
 export const addCustomFontToState = function (font) {
+  if (font === "") return;
   state.fonts.push(font);
+};
+
+export const removeCustomFontToState = function (font) {
+  if (font === "") return;
+  state.fonts.splice(state.fonts.indexOf(font), 1);
 };
 
 const checkTime = function () {

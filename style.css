@@ -135,7 +135,8 @@ select {
   margin-right: 0.8rem;
 }
 
-.settings-section li,
+.themes-list-sidebar li,
+.stats-list-sidebar li,
 .settings-item {
   cursor: pointer;
 }
@@ -171,7 +172,8 @@ select {
 }
 
 .settings-header,
-.settings-submenu-item {
+.settings-submenu-item,
+.my-fonts-list li {
   background-color: var(--side-bar) !important;
   border: 1px solid var(--side-header-i);
   color: var(--side-header-i);
@@ -181,8 +183,15 @@ select {
   font-size: 3rem;
 }
 
-.settings-submenu-item {
+/* .settings-submenu-item {
   padding: 0;
+} */
+
+.fonts-submenu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .search-fonts-input {
@@ -191,6 +200,25 @@ select {
   padding: 0.8rem;
   font-size: 1.6rem;
 }
+
+.my-fonts-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+}
+
+.my-fonts-list li {
+  height: 4rem;
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.6rem;
+  width: 100%;
+  border-radius: 5px;
+}
+
 /* NOTE PREVIEW SECTION */
 
 .preview-section {
@@ -461,7 +489,7 @@ select {
   margin-top: 0.5rem;
 }
 
-.custom-font-container {
+/* .custom-font-container {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -490,7 +518,7 @@ select {
   width: 2rem;
   border: 1px solid #000;
   border-radius: 2px;
-}
+} */
 
 #custom-button {
   color: var(--primary-text-color);

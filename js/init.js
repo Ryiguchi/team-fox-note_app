@@ -1,5 +1,5 @@
-import { fontData } from "./model.js";
 ("use strict");
+import { fontData } from "./model.js";
 const googleFontsLink = document.querySelector(".google-fonts-link");
 const fontsStylesheet = document.querySelector(".font-stylesheet");
 const fontList = document.querySelector(".font-list-toolbar");
@@ -23,7 +23,9 @@ const loadFont = function (font) {
   };
 
   const setGoogleFontsLink = function (font) {
+    console.log(font);
     let fontString = addPlus(capitalize(font));
+    font;
     const fontObj = fontData.items.find((obj) => obj.family === font);
 
     if (fontObj.variants.includes("italic") && fontObj.variants.includes("700"))
@@ -67,5 +69,6 @@ const loadFont = function (font) {
   setFontsStylesheet(font);
   setFontList(font);
 };
+
 if (state && state.fonts.length > 0)
   state.fonts.forEach((font) => loadFont(font));

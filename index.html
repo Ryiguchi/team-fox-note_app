@@ -7,21 +7,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Mirza:wght@400;700&family=Poppins:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
       class="google-fonts-link"
     />
+    <!-- <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Mirza:wght@400;700&family=Poppins:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+      class="google-fonts-link"
+    /> -->
     <style class="font-stylesheet">
       #toolbar-container .ql-font span[data-label="Sans Serif"]::before {
         font-family: "Sans Serif";
       }
 
-      #toolbar-container .ql-font span[data-label="Inconsolata"]::before {
-        font-family: "Inconsolata";
-      }
-
       #toolbar-container .ql-font span[data-label="Roboto"]::before {
         font-family: "Roboto";
+      }
+
+      .ql-font-roboto {
+        font-family: "Roboto";
+      }
+
+      /* #toolbar-container .ql-font span[data-label="Inconsolata"]::before {
+        font-family: "Inconsolata";
       }
 
       #toolbar-container .ql-font span[data-label="Mirza"]::before {
@@ -36,17 +45,13 @@
         font-family: "Inconsolata";
       }
 
-      .ql-font-roboto {
-        font-family: "Roboto";
-      }
-
       .ql-font-mirza {
         font-family: "Mirza";
       }
 
       .ql-font-poppins {
         font-family: "Poppins";
-      }
+      } */
     </style>
     <link rel="icon" href="./img/rsz_favicon.png" />
     <link rel="apple-touch-icon" href="./img/apple64.png" />
@@ -174,14 +179,18 @@
         <div class="settings-item settings-list-fonts settings-section-item">
           <div class="fonts-title-container">
             <i class="ph-google-logo-bold"></i>
-            Add Fonts
+            My Fonts
           </div>
           <i class="ph-caret-down-bold icon settings-fonts-menu-caret"></i>
           <i class="ph-caret-up-bold hidden icon settings-fonts-menu-caret"></i>
         </div>
         <div
-          class="fonts-submenu-item settings-submenu-item hidden fonts-list-sidebar"
+          class="fonts-submenu-item settings-list settings-menu fonts-list-sidebar"
         >
+          <ul class="my-fonts-list">
+            <li class="my-fonts-list-item">Sans Serif (default)</li>
+            <li class="my-fonts-list-item">Roboto (default)</li>
+          </ul>
           <input
             list="fonts"
             class="search-fonts-input"
@@ -234,6 +243,8 @@
 
         <!-- notes section -->
         <div class="preview-section-header">All Notes</div>
+
+        <!-- hidden lists -->
         <div
           class="tag-selection-container tag-selection-container-sidebar hidden"
         >
@@ -279,10 +290,10 @@
           <!-- Add font size dropdown -->
           <select class="ql-font font-list-toolbar">
             <option selected>Sans Serif</option>
-            <option value="inconsolata">Inconsolata</option>
             <option value="roboto">Roboto</option>
+            <!-- <option value="inconsolata">Inconsolata</option>
             <option value="mirza">Mirza</option>
-            <option value="poppins">Poppins</option>
+            <option value="poppins">Poppins</option> -->
           </select>
           <!-- <button id="custom-button" title="Add google Font">
             <i class="ph-plus icon-toolbar custom-font-btn icon"></i>

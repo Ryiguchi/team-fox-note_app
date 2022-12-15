@@ -24,6 +24,7 @@ export class SettingsView extends View {
   wordCountBtn = document.querySelector(".word-count-box");
   fontsDataList = document.querySelector(".fonts-search-list");
   fontsInput = document.querySelector(".search-fonts-input");
+  myFontsList = document.querySelector(".my-fonts-list");
 
   renderFontsList(fonts) {
     let html = "";
@@ -32,7 +33,20 @@ export class SettingsView extends View {
         <option value="${font}">${font}</option>  
       `;
     });
-    this.fontsDataList.insertAdjacentHTML("afterbegin", html);
+    this.fontsDataList.insertAdjacentHTML("beforeend", html);
+  }
+
+  renderMyFontsList(myFonts) {
+    let html = "";
+    myFonts.forEach((font) => {
+      html += `
+        <li class="my-fonts-list-item" data-font="${font}">
+        ${font}
+        <i class="ph-minus-circle-bold remove-font-btn icon"></i>
+        </li>
+      `;
+    });
+    this.myFontsList.insertAdjacentHTML("beforeend", html);
   }
 
   toggleSettings(state) {
@@ -148,6 +162,11 @@ export class SettingsView extends View {
 
   addHandlerFontSelect(handler) {
     this.fontsInput.addEventListener("keydown", handler);
+  }
+
+  addHandlerRemoveFont(handler) {
+    const removeFontBtns = document.querySelectorAll(".remove-font-btn");
+    removeFontBtns.forEach((el) => el.addEventListener("click", handler));
   }
 }
 
