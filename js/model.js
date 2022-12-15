@@ -7,7 +7,6 @@ export let state = {
   themes: "light",
   fonts: [],
   welcomeScreen: true,
-  // allFonts: [],
 };
 
 let timeSpent;
@@ -130,7 +129,6 @@ export const saveNote = function (contents, title) {
   if (title !== "") note.title = title;
 
   note.preview = getPreview(note);
-  // renderPreview(state.currentPreview, state.currentPreviewTitle);
   setLocalStorage(state);
 };
 

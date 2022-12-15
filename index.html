@@ -11,11 +11,7 @@
       rel="stylesheet"
       class="google-fonts-link"
     />
-    <!-- <link
-      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Mirza:wght@400;700&family=Poppins:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-      class="google-fonts-link"
-    /> -->
+
     <style class="font-stylesheet">
       #toolbar-container .ql-font span[data-label="Sans Serif"]::before {
         font-family: "Sans Serif";
@@ -28,30 +24,6 @@
       .ql-font-roboto {
         font-family: "Roboto";
       }
-
-      /* #toolbar-container .ql-font span[data-label="Inconsolata"]::before {
-        font-family: "Inconsolata";
-      }
-
-      #toolbar-container .ql-font span[data-label="Mirza"]::before {
-        font-family: "Mirza";
-      }
-
-      #toolbar-container .ql-font span[data-label="Poppins"]::before {
-        font-family: "Poppins";
-      }
-
-      .ql-font-inconsolata {
-        font-family: "Inconsolata";
-      }
-
-      .ql-font-mirza {
-        font-family: "Mirza";
-      }
-
-      .ql-font-poppins {
-        font-family: "Poppins";
-      } */
     </style>
     <link rel="icon" href="./img/rsz_favicon.png" />
     <link rel="apple-touch-icon" href="./img/apple64.png" />
@@ -120,7 +92,6 @@
             <i class="ph-caret-double-left icon icon-side-bar"></i>
             <i class="ph-caret-double-right icon icon-side-bar hidden"></i>
           </div>
-          <!-- <i class="ph-plus icon-plus icon-side-bar icon"></i> -->
           <i class="ph-gear settings-icon-sidebar icon-side-bar icon"></i>
         </nav>
       </header>
@@ -196,9 +167,7 @@
             class="search-fonts-input"
             placeholder="Search for fonts..."
           />
-          <datalist id="fonts" class="fonts-search-list">
-            <!-- <option value="fontName">fontName</option> -->
-          </datalist>
+          <datalist id="fonts" class="fonts-search-list"> </datalist>
         </div>
       </section>
 
@@ -291,20 +260,7 @@
           <select class="ql-font font-list-toolbar">
             <option selected>Sans Serif</option>
             <option value="roboto">Roboto</option>
-            <!-- <option value="inconsolata">Inconsolata</option>
-            <option value="mirza">Mirza</option>
-            <option value="poppins">Poppins</option> -->
           </select>
-          <!-- <button id="custom-button" title="Add google Font">
-            <i class="ph-plus icon-toolbar custom-font-btn icon"></i>
-            <div class="custom-font-container hidden">
-              <input
-                type="text"
-                placeholder="Add Google Font"
-                class="custom-font-input"
-              />
-            </div>
-          </button> -->
           <select class="ql-size" title="Sizes">
             <option value="small"></option>
             <!-- Note a missing, thus falsy value, is used to reset to default -->
@@ -368,8 +324,10 @@
             </div>
           </button>
           <button id="custom-button" class="bookmark-toolbar" title="Bookmark">
-            <i class="ph-star-fill icon-toolbar icon hidden"></i>
-            <i class="ph-star icon-toolbar icon"></i>
+            <i
+              class="ph-star-fill ph-star-fill-toolbar icon-toolbar icon hidden"
+            ></i>
+            <i class="ph-star ph-star-toolbar icon-toolbar icon"></i>
           </button>
         </div>
         <div class="note-container">

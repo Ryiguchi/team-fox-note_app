@@ -75,6 +75,7 @@ const controlRenderNote = function (id) {
   const index = model.getNoteIndexByID(id);
   const note = model.state.savedNotes[index];
   noteView.renderNote(note, quill);
+  toolbarView.updateCurrentNoteBookmark(note);
   model.moveNoteToFront(index, note);
 };
 
@@ -99,8 +100,8 @@ const controlPreviewSection = function (e) {
     model.setLocalStorage(model.state);
     // toggle ph-star-fill on toolbar if the active note is bookmarked.
     model.state.savedNotes[0].bookmarked
-      ? toolbarView.addStarHeaderToolbar()
-      : toolbarView.removeStarHeaderToolbar();
+      ? toolbarView.toggleStarHeaderToolbar("add")
+      : toolbarView.toggleStarHeaderToolbar("remove");
   }
 
   if (e.target.classList.contains("ph-trash-bold")) {
@@ -151,7 +152,6 @@ const controlTagMenuSidebar = function (e) {
   const chosenTag = e.target
     .closest(".tag-selection")
     .dataset.tag.replaceAll("_", " ");
-  // if (chosenTag === "all") renderPreview(state.savedNotes, "All Notes");
   if (chosenTag === "tags") {
     const allNotesWithTags = model.state.savedNotes.filter(
       (note) => note.tags.length > 0
@@ -165,7 +165,6 @@ const controlTagMenuSidebar = function (e) {
       note.tags.includes(chosenTag)
     );
     const tag = `Tag: ${chosenTag.replaceAll("_", " ")}`;
-    // if (state.preview === "bookmarks") toggleStarHeader();
     previewView.renderPreview(notesWithChosenTag, tag);
     model.setCurrentPreviewToState(notesWithChosenTag, tag);
   }
@@ -252,14 +251,12 @@ const controlRemoveFont = function (e) {
 
 const controlBookmarkToolbar = function (e) {
   model.toggleNoteBookmarkInState(model.state.savedNotes[0]);
-  model.setLocalStorage(model.state);
   model.saveNote(quill.getContents(), noteView.inputTitle.value);
   toolbarView.toggleStarHeaderToolbar();
-  if (e.target.classList.contains("ph-star-fill")) {
-    model.toggleNoteBookmarkInState(model.state.savedNotes[0]);
-    model.setLocalStorage(model.state);
-    model.saveNote(quill.getContents(), noteView.inputTitle.value);
-  }
+  previewView.renderPreview(
+    model.state.currentPreview,
+    model.state.currentPreviewTitle
+  );
 };
 
 const controlbtnTagToolbar = function (e) {
@@ -422,7 +419,6 @@ const init = function () {
   sidebarView.renderTagList(sidebarView.tagListSidebar, model.state.userTags);
   settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
   settingsView.renderMyFontsList(model.state.fonts.sort());
-  console.log(model.state.fonts);
 
   model.setPreviewSectionState(screen.width);
   model.setLocalStorage(model.state);

@@ -4,10 +4,8 @@ import View from "./View.js";
 export class ToolbarView extends View {
   toolbar = document.querySelector("#toolbar");
   tagListToolbar = document.querySelector(".tag-list-toolbar");
-  _btnBookMarkActiveToolbar = document.querySelector(".ph-star.icon-toolbar");
-  _btnBookMarkNotActiveToolbar = document.querySelector(
-    ".ph-star-fill.icon-toolbar"
-  );
+  btnBookMarkActiveToolbar = document.querySelector(".ph-star-fill-toolbar");
+  btnBookMarkNotActiveToolbar = document.querySelector(".ph-star-toolbar");
   _bookmarkToolbar = document.querySelector(".bookmark-toolbar");
   btnTagToolbar = document.querySelector(".tag-icon-toolbar");
   tagMenuToolbar = document.querySelector(".tag-selection-container-toolbar");
@@ -42,24 +40,29 @@ export class ToolbarView extends View {
     });
   }
 
-  toggleStarHeaderToolbar() {
-    this._btnBookMarkNotActiveToolbar.classList.toggle("hidden");
-    this._btnBookMarkActiveToolbar.classList.toggle("hidden");
-  }
-
-  addStarHeaderToolbar() {
-    this._btnBookMarkNotActiveToolbar.classList.remove("hidden");
-    this._btnBookMarkActiveToolbar.classList.add("hidden");
-  }
-
-  removeStarHeaderToolbar() {
-    this._btnBookMarkNotActiveToolbar.classList.add("hidden");
-    this._btnBookMarkActiveToolbar.classList.remove("hidden");
+  toggleStarHeaderToolbar(action = "toggle") {
+    if (action === "add") {
+      this.btnBookMarkNotActiveToolbar.classList.add("hidden");
+      this.btnBookMarkActiveToolbar.classList.remove("hidden");
+    }
+    if (action === "remove") {
+      this.btnBookMarkNotActiveToolbar.classList.remove("hidden");
+      this.btnBookMarkActiveToolbar.classList.add("hidden");
+    }
+    if (action === "toggle") {
+      this.btnBookMarkNotActiveToolbar.classList.toggle("hidden");
+      this.btnBookMarkActiveToolbar.classList.toggle("hidden");
+    }
   }
 
   toggleCustomTagListItems() {
     this._customTagInputEl.classList.toggle("hidden");
     this._customTagEl.classList.toggle("hidden");
+  }
+
+  updateCurrentNoteBookmark(note) {
+    if (note.bookmarked) this.toggleStarHeaderToolbar("add");
+    if (!note.bookmarked) this.toggleStarHeaderToolbar("remove");
   }
 
   // HANDLERS
