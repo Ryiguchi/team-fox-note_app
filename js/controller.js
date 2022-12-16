@@ -266,6 +266,9 @@ const controlEnterCustomTag = function (e) {
       return;
     }
     settingsView.customTagInput.value = "";
+    if (screen.width <= 600) {
+      mobileView.displayMobileView();
+    }
 
     // 1. add tag to state
     if (model.state.userTags.includes(customTag)) return;
@@ -273,9 +276,6 @@ const controlEnterCustomTag = function (e) {
     // 2 rerender tag lists
     model.toggleTagToNote(customTag);
     renderAllTagLists();
-    // toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
-    // const tagListFilter = document.querySelector(".tag-list-filter");
-    // sidebarView.renderTagList(tagListFilter, model.state.userTags);
     model.setLocalStorage(model.state);
     controlRenderNote(model.state.savedNotes[0].id);
   }
@@ -348,6 +348,7 @@ const controlTagIconsTitleList = function (e) {
     toolbarView.toggleTagMenuNoteTitle();
     settingsView.toggleSettings(model.state);
     settingsView.toggleStatisticsList("tags", "remove");
+    if (screen.width <= 600) mobileView.toggleSidebar("open");
     settingsView.customTagInputFocus();
     return;
   }

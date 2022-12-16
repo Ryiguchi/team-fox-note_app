@@ -37,7 +37,11 @@ export class MobileView extends View {
     sidebarView.overlaySidebar.classList.add("hidden");
   }
 
-  openSidebar() {}
+  toggleSidebar(action = "toggle") {
+    if (action === "open") sidebarView.sidebar.classList.remove("hidden");
+    if (action === "close") sidebarView.sidebar.classList.add("hidden");
+    if (action === "toggle") sidebarView.sidebar.classList.toggle("hidden");
+  }
 
   displayTabView() {
     this.mobileHeader.classList.add("hidden");
@@ -64,10 +68,6 @@ export class MobileView extends View {
   addHandlerBtnCaretToolbarContainer(handler) {
     this.btnCaretToolbarContainer.addEventListener("click", handler);
   }
-
-  //   addHandlerWindowResize(handler) {
-  //     window.addEventListener("resize", handler);
-  //   }
 }
 
 export default new MobileView();
