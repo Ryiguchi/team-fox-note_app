@@ -269,6 +269,7 @@ const controlEnterCustomTag = function (e) {
     const tagListFilter = document.querySelector(".tag-list-filter");
     sidebarView.renderTagList(tagListFilter, model.state.userTags);
     model.setLocalStorage(model.state);
+    controlRenderNote(model.state.savedNotes[0].id);
   }
 };
 
@@ -287,25 +288,6 @@ const controlBookmarkToolbar = function (e) {
 const controlbtnTagToolbar = function (e) {
   if (e.target.classList.contains("tag-icon-toolbar")) {
     toolbarView.toggleTagMenuNoteTitle();
-    noteView.toggleOverlay();
-  }
-};
-
-const controlTagMenuSidebar = function (e) {
-  if (e.target.classList.contains("custom-tag-input-el")) return;
-  const chosenTag = e.target.closest(".tag-selection")?.dataset.tag;
-  if (chosenTag !== "custom") {
-    model.toggleTagToNote(chosenTag);
-    toolbarView.toggleActiveTag(e.target);
-    model.setLocalStorage(model.state);
-    previewView.renderPreview(
-      model.state.currentPreview,
-      model.state.currentPreviewTitle
-    );
-    noteView.toggleOverlay();
-  }
-  if (chosenTag === "custom") {
-    toggleCustomTagListItems();
   }
 };
 
@@ -450,8 +432,8 @@ const init = function () {
 
   // Setting the initial state
   previewView.renderPreview(model.state.savedNotes, "All Notes");
-  noteView.createNewNote(quill);
-  // controlRenderNote(model.state.savedNotes[0].id);
+  // noteView.createNewNote(quill);
+  controlRenderNote(model.state.savedNotes[0].id);
   // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
   toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
   const tagListFilter = document.querySelector(".tag-list-filter");

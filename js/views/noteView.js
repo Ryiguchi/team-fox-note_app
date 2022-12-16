@@ -18,6 +18,9 @@ export class NoteView extends View {
   markdownImport = document.querySelector(".markdownImport");
   tagListTitle = document.querySelector(".tag-list-title");
   tagListTitleAll = document.querySelector(".tag-list-title-all");
+  tagSelectionTitleSection = document.querySelector(
+    ".tag-selection-container-title"
+  );
 
   // METHODS
   setTitle(note) {
@@ -125,9 +128,7 @@ export class NoteView extends View {
   }
 
   addHandlerTagIconsTitleList(handler) {
-    document
-      .querySelectorAll(".tag-selection-title-list")
-      .forEach((el) => el.addEventListener("click", handler));
+    this.tagSelectionTitleSection.addEventListener("click", handler);
   }
 }
 

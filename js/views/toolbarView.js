@@ -62,6 +62,7 @@ export class ToolbarView extends View {
 
   toggleTagMenuNoteTitle() {
     this.tagMenuToolbar.classList.toggle("hidden");
+    this.toggleOverlay();
   }
 
   // HANDLERS

@@ -159,6 +159,7 @@ export const toggleTagToNote = function (tag) {
         1
       )
     : tags.push(tag);
+  setLocalStorage(state);
 };
 
 export const moveNoteToFront = function (index, note) {

@@ -921,9 +921,6 @@ select.themeSelect {
   transition: all 0.5s;
 }
 
-.templateModal img:hover {
-}
-
 .template-1:hover {
   transform: translate(25%, 25%) scale(125%);
 }
