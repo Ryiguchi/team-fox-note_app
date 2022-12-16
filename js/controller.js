@@ -43,6 +43,13 @@ let quill = new Quill("#editor", {
   placeholder: "Start typing here ...",
 });
 
+function renderAllTagLists() {
+  const tagListFilter = document.querySelector(".tag-list-filter");
+  toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
+  toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
+  sidebarView.renderTagList(tagListFilter, model.state.userTags);
+}
+
 // WELCOME VIEW /////////////////////////////////
 
 const controlWelcomeScreen = function () {
@@ -273,6 +280,16 @@ const controlEnterCustomTag = function (e) {
   }
 };
 
+const controlRemoveTagFromState = function (e) {
+  if (!e.target.classList.contains("remove-font-btn-settings")) return;
+  const tag = e.target.closest(".tag-selection").dataset.tag;
+  model.removeTagFromState(tag);
+  model.removeTagFromNotes(tag);
+  renderAllTagLists();
+  noteView.renderNote(model.state.savedNotes[0], quill);
+  model.setLocalStorage(model.state);
+};
+
 // TOOLBAR VIEW //////////////////////////////////
 
 const controlBookmarkToolbar = function (e) {
@@ -440,10 +457,11 @@ const init = function () {
     model.addNewNoteToState();
   }
 
+  renderAllTagLists();
   // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
-  toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
-  const tagListFilter = document.querySelector(".tag-list-filter");
-  sidebarView.renderTagList(tagListFilter, model.state.userTags);
+  // toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
+  // const tagListFilter = document.querySelector(".tag-list-filter");
+  // sidebarView.renderTagList(tagListFilter, model.state.userTags);
   settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
   settingsView.renderMyFontsList(model.state.fonts.sort());
 
@@ -474,6 +492,7 @@ const init = function () {
   settingsView.addHandlerFontSelect(controlFontSelect);
   settingsView.addHandlerRemoveFont(controlRemoveFont);
   settingsView.addHandlerEnterCustomTag(controlEnterCustomTag);
+  settingsView.addHandlerRemoveTagFromState(controlRemoveTagFromState);
 
   toolbarView.addHandlerBookmarkToolbar(controlBookmarkToolbar);
   toolbarView.addHandlerBtnTagToolbar(controlbtnTagToolbar);

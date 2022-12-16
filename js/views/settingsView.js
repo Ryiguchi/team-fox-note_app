@@ -29,6 +29,7 @@ export class SettingsView extends View {
   myFontsList = document.querySelector(".my-fonts-list");
   myTagsList = document.querySelector(".tag-list-sidebar");
   customTagInput = document.querySelector(".custom-tag-input");
+  tagListSettings = document.querySelector(".tag-list-settings");
 
   renderFontsList(fonts) {
     let html = "";
@@ -191,6 +192,10 @@ export class SettingsView extends View {
 
   addHandlerEnterCustomTag(handler) {
     this.customTagInput.addEventListener("keydown", handler);
+  }
+
+  addHandlerRemoveTagFromState(handler) {
+    this.tagListSettings.addEventListener("click", handler);
   }
 }
 

@@ -1,10 +1,10 @@
-import { G_FONTS_API_URL } from "./config.js";
+import { G_FONTS_API_URL, DEFAULT_TAGS, DEFAULT_THEME } from "./config.js";
 export let state = {
   savedNotes: [],
-  userTags: ["Personal", "Work", "Important"],
+  userTags: [...DEFAULT_TAGS],
   currentPreview: [],
   currentPreviewTitle: "All Notes",
-  themes: "light",
+  themes: DEFAULT_THEME,
   fonts: [],
   welcomeScreen: true,
 };
@@ -192,6 +192,19 @@ export const addCustomFontToState = function (font) {
 export const removeCustomFontToState = function (font) {
   if (font === "") return;
   state.fonts.splice(state.fonts.indexOf(font), 1);
+};
+
+export const removeTagFromState = function (tag) {
+  const index = state.userTags.indexOf(tag);
+  state.userTags.splice(index, 1);
+};
+
+export const removeTagFromNotes = function (tag) {
+  state.savedNotes.forEach((note) => {
+    const index = note.tags.indexOf(tag);
+    if (index === -1) return;
+    note.tags.splice(index, 1);
+  });
 };
 
 const checkTime = function () {
