@@ -245,6 +245,10 @@ const controlThemeSelect = function (e) {
 const controlFontSelect = function (e) {
   if (e.key === "Enter") {
     const font = settingsView.getCustomFontValue();
+    if (!model.fontData.items.map((item) => item.family).includes(font)) {
+      settingsView.fontsInput.value = "- Font not found -";
+      return;
+    }
     settingsView.fontsInput.value = "";
     model.addCustomFontToState(font);
     model.setLocalStorage(model.state);
@@ -442,7 +446,6 @@ const init = function () {
   renderAllTagLists();
   settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
   settingsView.renderMyFontsList(model.state.fonts.sort());
-
   model.setPreviewSectionState(screen.width);
   model.setLocalStorage(model.state);
 
