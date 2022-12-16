@@ -4,7 +4,7 @@ import noteView from "./noteView.js";
 import previewView from "./previewView.js";
 import sidebarView from "./sidebarView.js";
 
-export class SettingsView extends View {
+class SettingsView extends View {
   settingsSection = document.querySelector(".settings-section");
   settingsSectionMenu = document.querySelector(".settings-section-menu");
   themeSelect = document.querySelector(".themeSelect");

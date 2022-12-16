@@ -69,7 +69,6 @@ export default class View {
   removeAllSiblingsAfter(el) {
     let nextSibling = el.nextElementSibling;
     while (nextSibling) {
-      console.log(nextSibling);
       nextSibling.remove();
       nextSibling = el.nextElementSibling;
     }

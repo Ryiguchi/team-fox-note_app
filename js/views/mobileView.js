@@ -1,35 +1,35 @@
 "use strict";
 import View from "./View.js";
 import sidebarView from "./sidebarView.js";
-import toolbarView from "./toolbarView.js";
 import previewView from "./previewView.js";
 import settingsView from "./settingsView.js";
 import noteView from "./noteView.js";
 
-export class MobileView extends View {
+class MobileView extends View {
   mobileHeader = document.querySelector(".mobile-header");
   burger = document.querySelector(".ph-list");
   btnCaretToolbarContainer = document.querySelector(".caret-container-toolbar");
   caretsMobileToolbar = document.querySelectorAll(".caret-mobile-toolbar");
   caretDownMobile = document.querySelector(".caret-down-mobile");
   caretUpMobile = document.querySelector(".caret-up-mobile");
+  toolbar = document.querySelector("#toolbar");
 
   displayMobileView() {
     sidebarView.overlaySidebar.classList.remove("hidden");
     this.mobileHeader.classList.remove("hidden");
-    toolbarView.toolbar.classList.add("hidden");
+    this.toolbar.classList.add("hidden");
   }
 
   closeWelcomeScreenMobile() {
     this.mobileHeader.classList.remove("hidden");
-    toolbarView.toolbar.classList.toggle("hidden");
+    this.toolbar.classList.toggle("hidden");
   }
 
   displayMobileView() {
     this.mobileHeader.classList.remove("hidden");
     sidebarView.sidebar.classList.add("hidden");
     previewView.previewSectionAll.classList.add("hidden");
-    toolbarView.toolbar.classList.add("hidden");
+    this.toolbar.classList.add("hidden");
     settingsView.settingsSection.classList.add("hidden");
     noteView.noteCreationSection.classList.remove("hidden");
     this.caretDownMobile.classList.remove("hidden");
@@ -47,14 +47,14 @@ export class MobileView extends View {
     this.mobileHeader.classList.add("hidden");
     sidebarView.sidebar.classList.remove("hidden");
     previewView.previewSectionAll.classList.add("hidden");
-    toolbarView.toolbar.classList.remove("hidden");
+    this.toolbar.classList.remove("hidden");
   }
 
   displayDesktopView() {
     this.mobileHeader.classList.add("hidden");
     sidebarView.sidebar.classList.remove("hidden");
     previewView.previewSectionAll.classList.remove("hidden");
-    toolbarView.toolbar.classList.remove("hidden");
+    this.toolbar.classList.remove("hidden");
   }
 
   // HANDLERS

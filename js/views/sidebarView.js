@@ -1,7 +1,7 @@
 "use strict";
 import View from "./View.js";
 
-export class SidebarView extends View {
+class SidebarView extends View {
   btnCaretLeftSidebar = document.querySelector(".ph-caret-double-left");
   btnCaretRightSidebar = document.querySelector(".ph-caret-double-right");
   sidebar = document.querySelector(".side-header");

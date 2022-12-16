@@ -3,7 +3,6 @@
 import previewView from "./views/previewView.js";
 import sidebarView from "./views/sidebarView.js";
 import noteView from "./views/noteView.js";
-import toolbarView from "./views/toolbarView.js";
 import mobileView from "./views/mobileView.js";
 import settingsView from "./views/settingsView.js";
 import welcomeView from "./views/welcomeView.js";
@@ -11,6 +10,7 @@ import { AUTOSAVE_SEC } from "./config.js";
 import * as model from "./model.js";
 import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
 import { fontArray } from "./init.js";
+import titleView from "./views/titleView.js";
 // counter for the timer of time spent.
 let timeSpent = 0;
 let saveTimeoutId;
@@ -45,16 +45,24 @@ let quill = new Quill("#editor", {
 
 function renderAllTagLists() {
   const tagListFilter = document.querySelector(".tag-list-filter");
-  toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
-  toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
+  settingsView.renderTagList(settingsView.myTagsList, model.state.userTags);
+  titleView.renderTagMenu(model.state.userTags);
   sidebarView.renderTagList(tagListFilter, model.state.userTags);
 }
 
 // WELCOME VIEW /////////////////////////////////
+function toggleWelcome() {
+  noteView.noteSection.classList.toggle("hidden");
+  mobileView.toolbar.classList.toggle("hidden");
+  previewView.previewSectionAll.classList.toggle("hidden");
+  noteView.stickyBox.classList.toggle("hidden");
+  if (screen.width <= 450) sidebarView.sidebar.classList.add("hidden");
+}
 
 const controlWelcomeScreen = function () {
   model.toggleStateWelcomeScreen();
   model.setLocalStorage(model.state);
+  toggleWelcome();
   if (screen.width <= 600) previewView.togglePreviewSection();
   if (screen.width <= 450) mobileView.displayMobileView();
 };
@@ -82,7 +90,7 @@ const controlRenderNote = function (id) {
   const index = model.getNoteIndexByID(id);
   const note = model.state.savedNotes[index];
   noteView.renderNote(note, quill);
-  toolbarView.updateCurrentNoteBookmark(note);
+  titleView.updateCurrentNoteBookmark(note);
   model.moveNoteToFront(index, note);
 };
 
@@ -107,8 +115,8 @@ const controlPreviewSection = function (e) {
     model.setLocalStorage(model.state);
     // toggle ph-star-fill on toolbar if the active note is bookmarked.
     model.state.savedNotes[0].bookmarked
-      ? toolbarView.toggleStarHeaderToolbar("add")
-      : toolbarView.toggleStarHeaderToolbar("remove");
+      ? titleView.toggleStar("add")
+      : titleView.toggleStar("remove");
   }
 
   if (e.target.classList.contains("ph-trash-bold")) {
@@ -297,20 +305,13 @@ const controlRemoveTagFromState = function (e) {
 
 // TOOLBAR VIEW //////////////////////////////////
 
-const controlBookmarkToolbar = function (e) {
+const controlToggleTitleBookmark = function () {
   model.toggleNoteBookmarkInState(model.state.savedNotes[0]);
   model.saveNote(quill.getContents(), noteView.inputTitle.value);
-  toolbarView.toggleStarHeaderToolbar();
   previewView.renderPreview(
     model.state.currentPreview,
     model.state.currentPreviewTitle
   );
-};
-
-const controlbtnTagToolbar = function (e) {
-  if (e.target.classList.contains("tag-icon-toolbar")) {
-    toolbarView.toggleTagMenuNoteTitle();
-  }
 };
 
 // NOTE VIEW //////////////////////////////////////
@@ -331,33 +332,18 @@ const controlMarkdownImport = function () {
 
 function addRemoveTagFromNote(tag) {
   model.toggleTagToNote(tag);
-  noteView.renderNoteTags(model.state.savedNotes[0].tags);
+  titleView.renderNoteTags(model.state.savedNotes[0].tags);
   previewView.renderPreview(
     model.state.currentPreview,
     model.state.currentPreviewTitle
   );
 }
 
-const controlRemoveTagIcon = function (e) {
-  if (e.target.classList.contains("remove-tag-icon")) {
-    const tag = e.target.closest(".tag-selection").dataset.tag;
-    addRemoveTagFromNote(tag);
-  }
-};
-
-const controlTagIconsTitleList = function (e) {
-  const tag = e.target.closest(".tag-selection").dataset.tag;
-  if (tag === "custom") {
-    noteView.toggleOverlay();
-    toolbarView.toggleTagMenuNoteTitle();
-    settingsView.toggleSettings(model.state);
-    settingsView.toggleStatisticsList("tags", "remove");
-    if (screen.width <= 600) mobileView.toggleSidebar("open");
-    settingsView.customTagInputFocus();
-    return;
-  }
-  addRemoveTagFromNote(tag);
-  toolbarView.toggleTagMenuNoteTitle();
+const controlTagMenuCustom = function () {
+  settingsView.toggleSettings(model.state);
+  settingsView.toggleStatisticsList("tags", "remove");
+  settingsView.customTagInputFocus();
+  if (screen.width <= 600) mobileView.toggleSidebar("open");
 };
 
 // /////////////////////////////////BUG//////////////////////////////
@@ -388,15 +374,10 @@ const controlTemplateModal = function (e) {
     quill.setContents(letterTemplate);
 
   if (e.target.classList.contains("template-empty")) {
-    toolbarView.toggleStarHeaderToolbar("remove");
+    titleView.toggleStar("remove");
     noteView.createNewNote(quill);
     model.addNewNoteToState();
   }
-};
-
-const controlOverlay = function () {
-  toolbarView.tagMenuToolbar.classList.add("hidden");
-  noteView.overlay.classList.add("hidden");
 };
 
 // MOBILE VIEW ////////////////////////////////////
@@ -408,7 +389,7 @@ const controlToggleMobileSidebar = function () {
 };
 
 const controlBtnCaretToolbarContainer = function () {
-  toolbarView.toolbar.classList.toggle("hidden");
+  mobileView.toolbar.classList.toggle("hidden");
   mobileView.caretsMobileToolbar.forEach((icon) =>
     icon.classList.toggle("hidden")
   );
@@ -475,19 +456,17 @@ const init = function () {
   settingsView.addHandlerEnterCustomTag(controlEnterCustomTag);
   settingsView.addHandlerRemoveTagFromState(controlRemoveTagFromState);
 
-  toolbarView.addHandlerBookmarkToolbar(controlBookmarkToolbar);
-  toolbarView.addHandlerBtnTagToolbar(controlbtnTagToolbar);
+  titleView.addHandlerToggleBookmark(controlToggleTitleBookmark);
+  titleView.addHandlerTagMenuCustom(controlTagMenuCustom);
+  titleView.addHandlerTagMenuItems(addRemoveTagFromNote);
+  titleView.addHandlerRemoveTag(addRemoveTagFromNote);
 
   noteView.addHandlerOpenNewNote();
   noteView.addHandlerEditor();
-  noteView.addHandlerInputTitleFocus();
-  noteView.addHandlerRemoveTagIcon(controlRemoveTagIcon);
-  noteView.addHandlerTagIconsTitleList(controlTagIconsTitleList);
   noteView.addHandlerMarkdownExport(controlMarkdownExport);
   noteView.addHandlerMarkdownImport(controlMarkdownImport);
   noteView.addHandlerAutosave(controlAutosave);
   noteView.addHandlerTemplateModal(controlTemplateModal);
-  noteView.addHandlerOverlay(controlOverlay);
 
   mobileView.addHandlerToggleMobileSidebar(controlToggleMobileSidebar);
   mobileView.addHandlerBtnCaretToolbarContainer(

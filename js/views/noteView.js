@@ -1,14 +1,12 @@
 "use strict";
 import View from "./View.js";
-import toolbarView from "./toolbarView.js";
-
-export class NoteView extends View {
+class NoteView extends View {
   noteCreationSection = document.querySelector(".note-creation-section");
   stickyBox = document.querySelector(".sticky-box");
   counterText = document.querySelector("#counter");
   _btnNewNote = document.querySelector(".icon-plus");
   _templateModal = document.querySelector(".templateModal");
-  inputTitle = document.querySelector(".input-title");
+  inputTitle = document.querySelector(".input-title"); //moved to title
   counterText = document.querySelector("#counter");
   editor = document.querySelector("#editor");
   savedDiskIcon = document.querySelector(".saved-note-icon");
@@ -26,6 +24,7 @@ export class NoteView extends View {
   // METHODS
 
   renderNoteTags(tags) {
+    ///moved to title
     const tagMenuTitleContainer = document.querySelector(
       ".tag-menu-title-container"
     );
@@ -120,12 +119,6 @@ export class NoteView extends View {
     this.overlay.addEventListener("click", handler);
   }
 
-  addHandlerInputTitleFocus() {
-    this.inputTitle.addEventListener("focus", () => {
-      this.inputTitle.select();
-    });
-  }
-
   addHandlerMarkdownExport(handler) {
     this.markdownExport.addEventListener("click", handler);
   }
@@ -151,9 +144,9 @@ export class NoteView extends View {
     });
   }
 
-  addHandlerRemoveTagIcon(handler) {
-    this.noteInfoBox.addEventListener("click", handler);
-  }
+  // addHandlerRemoveTagIcon(handler) {
+  //   this.noteInfoBox.addEventListener("click", handler);
+  // }
 
   addHandlerTagIconsTitleList(handler) {
     this.tagSelectionTitleSection.addEventListener("click", handler);

@@ -4,7 +4,7 @@ import settingsView from "./settingsView.js";
 import sidebarView from "./sidebarView.js";
 import noteView from "./noteView.js";
 
-export class PreviewView extends View {
+class PreviewView extends View {
   previewSectionAll = document.querySelector(".preview-section");
   previewSection = document.querySelector(".notes-preview-section");
   filterMenuMain = document.querySelector(".filter-menu");
