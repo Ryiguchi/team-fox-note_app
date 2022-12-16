@@ -329,8 +329,10 @@ function addRemoveTagFromNote(tag) {
 }
 
 const controlRemoveTagIcon = function (e) {
-  const tag = e.target.closest(".tag-selection").dataset.tag;
-  addRemoveTagFromNote(tag);
+  if (e.target.classList.contains("remove-tag-icon")) {
+    const tag = e.target.closest(".tag-selection").dataset.tag;
+    addRemoveTagFromNote(tag);
+  }
 };
 
 const controlTagIconsTitleList = function (e) {
@@ -345,7 +347,6 @@ const controlTagIconsTitleList = function (e) {
   }
   addRemoveTagFromNote(tag);
   toolbarView.toggleTagMenuNoteTitle();
-  // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
 };
 
 // /////////////////////////////////BUG//////////////////////////////

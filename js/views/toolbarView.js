@@ -15,22 +15,7 @@ export class ToolbarView extends View {
   customTagBtn = document.querySelector(".custom-tag-btn");
   customTagInput = document.querySelector(".input-custom-tag");
 
-  /**
-   *  This function hides all of the filled tag icons and shows all of the unfilled tag icons     in the toolbar list
-   */
-  // resetTagList() {
-  //   document
-  //     .querySelectorAll(".tag-icon-tag-menu-fill")
-  //     .forEach((el) => el.classList.add("hidden"));
-  //   document
-  //     .querySelectorAll(".tag-icon-tag-menu-line")
-  //     .forEach((el) => el.classList.remove("hidden"));
-  // }
-
-  /**
-   * This function takes the currently diplayed note's list of tags and displays them in the tag list in the toolbar.  It will first reset all of the tags.
-   * @param {Object} note Object for the currently displayed note
-   */
+  // API Functions
   updateTagListToolbar(note) {
     this.renderTagList(noteView.tagListTitle, note.tags);
   }
