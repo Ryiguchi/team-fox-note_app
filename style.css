@@ -710,9 +710,47 @@ li.tag-selection:hover {
 
 .info-box {
   display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tags-label-container {
+  font-size: 1.6rem;
+}
+
+/* .my-tags-list-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+} */
+
+.tag-selection-title-container {
+  color: var(--primary-background-color);
+  display: flex;
+}
+
+.tag-hole {
+  position: absolute;
+  font-size: 0.4rem;
+  transform: translateX(-0.8rem);
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 10px solid var(--side-bar);
+  border-bottom: 10px solid transparent;
+  margin-left: 0.4rem;
+}
+
+.tag-selection-title {
+  display: flex;
   align-items: center;
   gap: 0.8rem;
-  height: 2.4rem;
+  padding: 0.4rem 0.8rem;
 }
 
 .custom-ul li {
@@ -729,6 +767,7 @@ li.tag-selection:hover {
   width: 18rem;
   z-index: 100;
 }
+
 .tag-selection-container-title li {
   padding: 0.6rem 0.8rem;
   cursor: pointer;
@@ -741,10 +780,6 @@ li.tag-selection:hover {
   color: var(--side-header-i);
 }
 
-.tag-list-title {
-  display: flex;
-  align-items: center;
-}
 .tag-selection-container-toolbar,
 .tag-selection-container-sidebar {
   font-size: 1.4rem;
@@ -783,26 +818,6 @@ li.tag-selection:hover {
   padding: 0.4rem 0.8rem;
   border-radius: 0;
   border: none;
-}
-
-.tag-hole {
-  position: absolute;
-  font-size: 0.4rem;
-  transform: translateX(-0.8rem);
-}
-
-.triangle-left {
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-right: 10px solid var(--side-bar);
-  border-bottom: 10px solid transparent;
-  margin-left: 0.4rem;
-}
-
-.tag-selection-title {
-  display: flex;
-  gap: 0.8rem;
 }
 
 .input-title {
@@ -1053,6 +1068,11 @@ select.themeSelect {
     max-width: calc(100vw - 6.5rem);
   }
 
+  .settings-section-menu {
+    width: 100%;
+    max-width: calc(100vw - 6.5rem);
+  }
+
   .notes-preview-section {
     width: 100%;
     max-width: calc(100vw - 6.5rem);
@@ -1096,6 +1116,10 @@ select.themeSelect {
   .welcome-pop-up {
     max-width: 95vw;
     font-size: 2rem;
+  }
+
+  .info-box {
+    font-size: 1rem;
   }
 
   #editor {

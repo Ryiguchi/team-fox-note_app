@@ -65,4 +65,13 @@ export default class View {
   toggleOverlay() {
     this.overlay.classList.toggle("hidden");
   }
+
+  removeAllSiblingsAfter(el) {
+    let nextSibling = el.nextElementSibling;
+    while (nextSibling) {
+      console.log(nextSibling);
+      nextSibling.remove();
+      nextSibling = el.nextElementSibling;
+    }
+  }
 }

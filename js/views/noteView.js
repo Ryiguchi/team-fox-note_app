@@ -21,8 +21,40 @@ export class NoteView extends View {
   tagSelectionTitleSection = document.querySelector(
     ".tag-selection-container-title"
   );
+  noteInfoBox = document.querySelector(".info-box");
 
   // METHODS
+
+  renderNoteTags(tags) {
+    const tagMenuTitleContainer = document.querySelector(
+      ".tag-menu-title-container"
+    );
+    this.removeAllSiblingsAfter(tagMenuTitleContainer);
+    let markup = "";
+    tags?.forEach((tag, i) => {
+      const newTag = tag.replaceAll(/\s+/g, "_");
+      markup += `           
+        <div class="tag-selection-title-container">
+          <div class="triangle-left"></div>
+          <li class="tag-selection tag-selection-${newTag} tag-selection-title" data-tag="${newTag}">
+            ${tag}
+            <i class="ph-x remove-tag-icon icon" data-tag="${tag}"></i><i class="ph-circle-fill tag-hole"></i>
+          </li>
+        </div>
+      `;
+    });
+    tagMenuTitleContainer.insertAdjacentHTML("afterend", markup);
+  }
+
+  toggleActiveTag(el) {
+    const [...children] = el.closest(".tag-selection").children;
+    children.forEach((el) => el.classList.toggle("hidden"));
+  }
+
+  toggleOverlay() {
+    this.overlay.classList.toggle("hidden");
+  }
+
   setTitle(note) {
     this.inputTitle.value = note.title;
   }
@@ -32,13 +64,13 @@ export class NoteView extends View {
     quill.setContents(note.delta.ops);
     this.setTitle(note);
     // toolbarView.updateTagListToolbar(note);
-    this.renderTagList(this.tagListTitle, note.tags);
+    this.renderNoteTags(note.tags);
   }
 
   createNewNote(quill) {
     // display empty page
     quill.setContents([{ insert: "\n" }]);
-    this.renderTagList(this.tagListTitle);
+    this.renderNoteTags();
     this.inputTitle.value = "Untitled note";
   }
 
@@ -120,7 +152,7 @@ export class NoteView extends View {
   }
 
   addHandlerRemoveTagIcon(handler) {
-    this.tagListTitle.addEventListener("click", handler);
+    this.noteInfoBox.addEventListener("click", handler);
   }
 
   addHandlerTagIconsTitleList(handler) {

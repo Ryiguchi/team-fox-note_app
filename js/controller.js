@@ -272,9 +272,10 @@ const controlEnterCustomTag = function (e) {
     model.addCustomTagToState(customTag);
     // 2 rerender tag lists
     model.toggleTagToNote(customTag);
-    toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
-    const tagListFilter = document.querySelector(".tag-list-filter");
-    sidebarView.renderTagList(tagListFilter, model.state.userTags);
+    renderAllTagLists();
+    // toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
+    // const tagListFilter = document.querySelector(".tag-list-filter");
+    // sidebarView.renderTagList(tagListFilter, model.state.userTags);
     model.setLocalStorage(model.state);
     controlRenderNote(model.state.savedNotes[0].id);
   }
@@ -326,7 +327,7 @@ const controlMarkdownImport = function () {
 
 function addRemoveTagFromNote(tag) {
   model.toggleTagToNote(tag);
-  toolbarView.updateTagListToolbar(model.state.savedNotes[0]);
+  noteView.renderNoteTags(model.state.savedNotes[0].tags);
   previewView.renderPreview(
     model.state.currentPreview,
     model.state.currentPreviewTitle
