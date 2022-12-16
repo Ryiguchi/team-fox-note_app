@@ -704,7 +704,7 @@ li.tag-selection:hover {
   border: 1px solid #aaa;
   border-bottom: none;
   border-radius: 10px 10px 0 0;
-  padding: 2rem;
+  padding: 1rem 2rem 2rem 2rem;
   z-index: 2;
 }
 
