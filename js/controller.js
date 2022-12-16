@@ -409,20 +409,6 @@ const controlBtnCaretToolbarContainer = function () {
   );
 };
 
-// const controlWindowResize = function () {
-//   if (screen.width <= 600 && screen.width > 450) {
-//     mobileView.displayTabView();
-//   }
-
-//   if (screen.width <= 450) {
-//     mobileView.displayMobileView();
-//   }
-
-//   if (screen.width > 600) {
-//     mobileView.displayDesktopView();
-//   }
-// };
-
 // INITIALIZATION ///////////////////
 
 const init = function () {
@@ -503,7 +489,6 @@ const init = function () {
   mobileView.addHandlerBtnCaretToolbarContainer(
     controlBtnCaretToolbarContainer
   );
-  // mobileView.addHandlerWindowResize(controlWindowResize);
 };
 
 init();
