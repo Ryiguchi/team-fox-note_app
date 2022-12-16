@@ -65,9 +65,9 @@ export class MobileView extends View {
     this.btnCaretToolbarContainer.addEventListener("click", handler);
   }
 
-  addHandlerWindowResize(handler) {
-    window.addEventListener("resize", handler);
-  }
+  //   addHandlerWindowResize(handler) {
+  //     window.addEventListener("resize", handler);
+  //   }
 }
 
 export default new MobileView();
