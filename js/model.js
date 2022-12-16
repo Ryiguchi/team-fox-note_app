@@ -207,6 +207,11 @@ export const removeTagFromNotes = function (tag) {
   });
 };
 
+export const noteHasContents = function (note) {
+  return note.preview || note.title;
+  // note.delta.ops[0].insert === "\n";
+};
+
 const checkTime = function () {
   timeSpent++;
   localStorage.setItem("timeSpent", timeSpent);

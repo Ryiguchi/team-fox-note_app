@@ -310,18 +310,6 @@ const controlbtnTagToolbar = function (e) {
 
 // NOTE VIEW //////////////////////////////////////
 
-const controlBtnNewNote = function () {
-  // model.saveNote(quill.getContents(), noteView.inputTitle.value);
-  // previewView.renderPreview(
-  //   model.state.currentPreview,
-  //   model.state.currentPreviewTitle
-  // );
-  toolbarView.toggleStarHeaderToolbar("remove");
-  if (model.state.savedNotes[0].delta.ops[0].insert === "\n") return;
-  noteView.createNewNote(quill);
-  model.addNewNoteToState();
-};
-
 const controlMarkdownExport = function () {
   const editorValue = noteView.getEditorText();
   quill.setContents([{ insert: turndownService.turndown(editorValue) }]);
@@ -392,6 +380,12 @@ const controlTemplateModal = function (e) {
 
   if (e.target.classList.contains("template-letter"))
     quill.setContents(letterTemplate);
+
+  if (e.target.classList.contains("template-empty")) {
+    toolbarView.toggleStarHeaderToolbar("remove");
+    noteView.createNewNote(quill);
+    model.addNewNoteToState();
+  }
 };
 
 const controlOverlay = function () {
@@ -458,10 +452,6 @@ const init = function () {
   }
 
   renderAllTagLists();
-  // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
-  // toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
-  // const tagListFilter = document.querySelector(".tag-list-filter");
-  // sidebarView.renderTagList(tagListFilter, model.state.userTags);
   settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
   settingsView.renderMyFontsList(model.state.fonts.sort());
 
@@ -496,9 +486,8 @@ const init = function () {
 
   toolbarView.addHandlerBookmarkToolbar(controlBookmarkToolbar);
   toolbarView.addHandlerBtnTagToolbar(controlbtnTagToolbar);
-  // toolbarView.addHandlerCustomTagBtn(controlCustomTagBtn);
 
-  noteView.addHandlerOpenNewNote(controlBtnNewNote);
+  noteView.addHandlerOpenNewNote();
   noteView.addHandlerEditor();
   noteView.addHandlerInputTitleFocus();
   noteView.addHandlerRemoveTagIcon(controlRemoveTagIcon);

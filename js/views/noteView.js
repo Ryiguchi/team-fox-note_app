@@ -38,10 +38,7 @@ export class NoteView extends View {
   createNewNote(quill) {
     // display empty page
     quill.setContents([{ insert: "\n" }]);
-    // toolbarView.resetTagList();
-    // toolbarView.updateTagListToolbar(note);
     this.renderTagList(this.tagListTitle);
-
     this.inputTitle.value = "Untitled note";
   }
 
@@ -77,7 +74,6 @@ export class NoteView extends View {
   addHandlerOpenNewNote(handler) {
     this._btnNewNote.addEventListener("click", () => {
       this._templateModal.classList.toggle("hidden");
-      handler();
     });
   }
 

@@ -917,23 +917,23 @@ select.themeSelect {
   padding: 3rem;
 }
 
-.template {
+.template:hover {
   transition: all 0.5s;
 }
 
 .template-1:hover {
-  transform: translate(25%, 25%) scale(125%);
+  transform: translate(20%, 20%) scale(140%);
 }
 
 .template-2:hover {
-  transform: translate(-25%, 25%) scale(125%);
+  transform: translate(-20%, 20%) scale(140%);
 }
 .template-3:hover {
-  transform: translate(25%, -25%) scale(125%);
+  transform: translate(20%, -20%) scale(140%);
 }
 
 .template-4:hover {
-  transform: translate(-25%, -25%) scale(125%);
+  transform: translate(-20%, -20%) scale(140%);
 }
 
 .templateModal {
