@@ -198,6 +198,7 @@ const controlBtnSettings = function () {
 };
 
 const controlSettingsItemClick = function (e) {
+  if (!e.target.closest(".settings-item")) return;
   const list = e.target.closest(".settings-item").dataset.list;
   settingsView.toggleStatisticsList(list);
   if (list === "tags") settingsView.customTagInputFocus();

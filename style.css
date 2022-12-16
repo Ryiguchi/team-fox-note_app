@@ -711,18 +711,9 @@ li.tag-selection:hover {
 .info-box {
   display: flex;
   align-items: center;
+  gap: 0.8rem;
   height: 2.4rem;
 }
-
-/* .tag-menu-title-container {
-  display: flex;
-  flex-direction: column !important;
-} */
-
-/* .tag-tb {
-  position: relative;
-  display: flex;
-} */
 
 .custom-ul li {
   border-top: none;
@@ -806,7 +797,7 @@ li.tag-selection:hover {
   border-top: 10px solid transparent;
   border-right: 10px solid var(--side-bar);
   border-bottom: 10px solid transparent;
-  margin-left: 1rem;
+  margin-left: 0.4rem;
 }
 
 .tag-selection-title {

@@ -8,9 +8,15 @@ export default class View {
   renderTagList(parEl, tags) {
     parEl.innerHTML = "";
     let markup = "";
-    tags?.forEach((tag) => {
+    tags?.forEach((tag, i) => {
+      console.log(i);
       const newTag = tag.replaceAll(/\s+/g, "_");
       markup += `
+        ${
+          parEl.classList.contains("tag-list-title") && i === 0
+            ? `<div>Tags:</div>`
+            : ""
+        }
        ${
          parEl.classList.contains("tag-list-title")
            ? '<div class="triangle-left"></div>'
@@ -32,6 +38,7 @@ export default class View {
                 `
               : ""
           }
+          
                     
           ${tag}
           ${
