@@ -121,12 +121,10 @@ export const saveNote = function (contents, title) {
   }
   const note = state.savedNotes[0];
   note.delta = _.cloneDeep(contents);
-  // if there isn't any content yet, then doesn't save
-  if (note.delta.ops[0].insert === "\n") return;
 
-  if (title === "") note.title = createTitle(note);
-
-  if (title !== "") note.title = title;
+  title === "Untitled note" || title === ""
+    ? (note.title = createTitle(note))
+    : (note.title = title);
 
   note.preview = getPreview(note);
   setLocalStorage(state);
