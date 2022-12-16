@@ -16,6 +16,8 @@ export class NoteView extends View {
   autosaveMsgEl = document.querySelector(".autosave-msg");
   markdownExport = document.querySelector(".markdownExport");
   markdownImport = document.querySelector(".markdownImport");
+  tagListTitle = document.querySelector(".tag-list-title");
+  tagListTitleAll = document.querySelector(".tag-list-title-all");
 
   // METHODS
   setTitle(note) {
@@ -26,13 +28,17 @@ export class NoteView extends View {
     this.noteCreationSection.classList.remove("hidden");
     quill.setContents(note.delta.ops);
     this.setTitle(note);
-    toolbarView.updateTagListToolbar(note);
+    // toolbarView.updateTagListToolbar(note);
+    this.renderTagList(this.tagListTitle, note.tags);
   }
 
   createNewNote(quill) {
     // display empty page
     quill.setContents([{ insert: "\n" }]);
-    toolbarView.resetTagList();
+    // toolbarView.resetTagList();
+    // toolbarView.updateTagListToolbar(note);
+    this.renderTagList(this.tagListTitle);
+
     this.inputTitle.value = "Untitled note";
   }
 
@@ -112,6 +118,16 @@ export class NoteView extends View {
       handler(e);
       this._templateModal.classList.toggle("hidden", { passive: true });
     });
+  }
+
+  addHandlerRemoveTagIcon(handler) {
+    this.tagListTitle.addEventListener("click", handler);
+  }
+
+  addHandlerTagIconsTitleList(handler) {
+    document
+      .querySelectorAll(".tag-selection-title-list")
+      .forEach((el) => el.addEventListener("click", handler));
   }
 }
 

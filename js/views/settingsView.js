@@ -6,6 +6,7 @@ import sidebarView from "./sidebarView.js";
 
 export class SettingsView extends View {
   settingsSection = document.querySelector(".settings-section");
+  settingsSectionMenu = document.querySelector(".settings-section-menu");
   themeSelect = document.querySelector(".themeSelect");
   themeStylesLink = document.querySelector("#themeStylesLink");
   themeTitle = document.querySelector(".current-theme-title");
@@ -18,13 +19,16 @@ export class SettingsView extends View {
   closeGraph = document.querySelector(".closeGraph");
   settingsItemTheme = document.querySelector(".settings-item-theme");
   settingsItemStats = document.querySelector(".settings-list-stats");
-  settingItemFonts = document.querySelector(".settings-list-fonts");
+  settingsItemFonts = document.querySelector(".settings-list-fonts");
+  settingsItemTags = document.querySelector(".settings-list-tags");
   statsListMenu = document.querySelector(".stats-list-sidebar");
   fontsSearchInput = document.querySelector(".fonts-list-sidebar");
   wordCountBtn = document.querySelector(".word-count-box");
   fontsDataList = document.querySelector(".fonts-search-list");
   fontsInput = document.querySelector(".search-fonts-input");
   myFontsList = document.querySelector(".my-fonts-list");
+  myTagsList = document.querySelector(".tag-list-sidebar");
+  customTagInput = document.querySelector(".custom-tag-input");
 
   renderFontsList(fonts) {
     let html = "";
@@ -87,11 +91,29 @@ export class SettingsView extends View {
       .forEach((el) => el.classList.add("hidden"));
   }
 
-  toggleStatisticsList(list) {
-    document.querySelector(`.${list}-list-sidebar`).classList.toggle("hidden");
+  customTagInputFocus() {
+    this.customTagInput.focus();
+    this.customTagInput.value = "";
+  }
+
+  googleFontsInputFocus() {
+    this.fontsInput.focus();
+  }
+
+  toggleStatisticsList(list, action = "toggle") {
     document
       .querySelectorAll(`.settings-${list}-menu-caret`)
       .forEach((el) => el.classList.toggle("hidden"));
+    if (action === "toggle")
+      document
+        .querySelector(`.${list}-list-sidebar`)
+        .classList.toggle("hidden");
+    if (action === "remove")
+      document
+        .querySelector(`.${list}-list-sidebar`)
+        .classList.remove("hidden");
+    if (action === "add")
+      document.querySelector(`.${list}-list-sidebar`).classList.add("hidden");
   }
 
   /** Dropdown menu for the theme selections.
@@ -114,7 +136,6 @@ export class SettingsView extends View {
       el.classList.toggle("hidden");
     });
   }
-
   setCounterText() {
     const textArea = noteView.editor.innerText;
     noteView.counterText.textContent = `${noteView.countWords(textArea)}`;
@@ -143,9 +164,7 @@ export class SettingsView extends View {
   }
 
   addHandlerSettingsItem(handler) {
-    this.settingsItemTheme.addEventListener("click", () => handler("themes"));
-    this.settingsItemStats.addEventListener("click", () => handler("stats"));
-    this.settingItemFonts.addEventListener("click", () => handler("fonts"));
+    this.settingsSectionMenu.addEventListener("click", handler);
   }
 
   addHandlerThemeSelect(handler) {
@@ -167,6 +186,10 @@ export class SettingsView extends View {
   addHandlerRemoveFont(handler) {
     const removeFontBtns = document.querySelectorAll(".remove-font-btn");
     removeFontBtns.forEach((el) => el.addEventListener("click", handler));
+  }
+
+  addHandlerEnterCustomTag(handler) {
+    this.customTagInput.addEventListener("keydown", handler);
   }
 }
 

@@ -105,69 +105,114 @@
           </div>
           <i class="ph-x close-settings-icon icon"></i>
         </div>
-
-        <div class="settings-item settings-item-theme settings-section-item">
-          <div class="theme-title-container">
-            <i class="ph-paint-roller icon"></i>
-            <span class="current-theme-title">Theme: Light</span>
-          </div>
-          <i class="ph-caret-down-bold icon settings-themes-menu-caret"></i>
-          <i
-            class="ph-caret-up-bold hidden icon settings-themes-menu-caret"
-          ></i>
-        </div>
-        <ul
-          class="themes-list-sidebar themeSelect settings-menu settings-list hidden"
-        >
-          <li class="settings-submenu-item" data-theme="light">Light</li>
-          <li class="settings-submenu-item" data-theme="dark">Dark</li>
-          <li class="settings-submenu-item" data-theme="sweden">Sweden</li>
-        </ul>
-
-        <div class="settings-item settings-list-stats settings-section-item">
-          <div class="stats-title-container">
-            <i class="ph-chart-bar icon"></i>
-            Statistics
-          </div>
-          <i class="ph-caret-down-bold icon settings-stats-menu-caret"></i>
-          <i class="ph-caret-up-bold hidden icon settings-stats-menu-caret"></i>
-        </div>
-        <ul class="stats-list-sidebar settings-list settings-menu hidden">
-          <li class="settings-submenu-item settings-submenu-item-word-count">
-            Word Count
-            <div class="word-count-toggle-container">
-              <i class="ph-toggle-left-bold icon word-count-toggle"></i>
-              <i class="ph-toggle-right-fill icon word-count-toggle hidden"></i>
-            </div>
-          </li>
-          <li
-            class="settings-submenu-item settings-submenu-item-overall-statistics"
+        <!-- themes -->
+        <div class="settings-section-menu">
+          <div
+            class="settings-item settings-item-theme settings-section-item"
+            data-list="themes"
           >
-            Overall Statistics
-          </li>
-        </ul>
-
-        <div class="settings-item settings-list-fonts settings-section-item">
-          <div class="fonts-title-container">
-            <i class="ph-google-logo-bold"></i>
-            My Fonts
+            <div class="theme-title-container">
+              <i class="ph-paint-roller icon"></i>
+              <span class="current-theme-title">Theme: Light</span>
+            </div>
+            <i class="ph-caret-down-bold icon settings-themes-menu-caret"></i>
+            <i
+              class="ph-caret-up-bold hidden icon settings-themes-menu-caret"
+            ></i>
           </div>
-          <i class="ph-caret-down-bold icon settings-fonts-menu-caret"></i>
-          <i class="ph-caret-up-bold hidden icon settings-fonts-menu-caret"></i>
-        </div>
-        <div
-          class="fonts-submenu-item settings-list settings-menu fonts-list-sidebar"
-        >
-          <ul class="my-fonts-list">
-            <li class="my-fonts-list-item">Sans Serif (default)</li>
-            <li class="my-fonts-list-item">Roboto (default)</li>
+          <ul
+            class="themes-list-sidebar themeSelect settings-menu settings-list hidden"
+          >
+            <li class="settings-submenu-item" data-theme="light">Light</li>
+            <li class="settings-submenu-item" data-theme="dark">Dark</li>
+            <li class="settings-submenu-item" data-theme="sweden">Sweden</li>
           </ul>
-          <input
-            list="fonts"
-            class="search-fonts-input"
-            placeholder="Search for fonts..."
-          />
-          <datalist id="fonts" class="fonts-search-list"> </datalist>
+          <!-- statistics -->
+          <div
+            class="settings-item settings-list-stats settings-section-item"
+            data-list="stats"
+          >
+            <div class="stats-title-container">
+              <i class="ph-chart-bar icon"></i>
+              Statistics
+            </div>
+            <i class="ph-caret-down-bold icon settings-stats-menu-caret"></i>
+            <i
+              class="ph-caret-up-bold hidden icon settings-stats-menu-caret"
+            ></i>
+          </div>
+          <ul class="stats-list-sidebar settings-list settings-menu hidden">
+            <li class="settings-submenu-item settings-submenu-item-word-count">
+              Word Count
+              <div class="word-count-toggle-container">
+                <i class="ph-toggle-left-bold icon word-count-toggle"></i>
+                <i
+                  class="ph-toggle-right-fill icon word-count-toggle hidden"
+                ></i>
+              </div>
+            </li>
+            <li
+              class="settings-submenu-item settings-submenu-item-overall-statistics"
+            >
+              Overall Statistics
+            </li>
+          </ul>
+
+          <!-- Tags -->
+          <div
+            class="settings-item settings-list-tags settings-section-item"
+            data-list="tags"
+          >
+            <div class="tags-title-container">
+              <i class="ph-tag-fill"></i>
+              My Tags
+            </div>
+            <i class="ph-caret-down-bold icon settings-tags-menu-caret"></i>
+            <i
+              class="ph-caret-up-bold hidden icon settings-tags-menu-caret"
+            ></i>
+          </div>
+
+          <div
+            class="tags-submenu-item settings-list settings-menu tags-list-sidebar hidden"
+          >
+            <input
+              type="text"
+              placeholder="Add New Tag..."
+              class="custom-tag-input"
+            />
+            <ul class="tag-list-sidebar my-tags-list"></ul>
+          </div>
+
+          <!-- Fonts -->
+          <div
+            class="settings-item settings-list-fonts settings-section-item"
+            data-list="fonts"
+          >
+            <div class="fonts-title-container">
+              <i class="ph-google-logo-bold"></i>
+              My Fonts
+            </div>
+            <i class="ph-caret-down-bold icon settings-fonts-menu-caret"></i>
+            <i
+              class="ph-caret-up-bold hidden icon settings-fonts-menu-caret"
+            ></i>
+          </div>
+
+          <div
+            class="fonts-submenu-item settings-list settings-menu fonts-list-sidebar hidden"
+          >
+            <ul class="my-fonts-list">
+              <li class="my-fonts-list-item">Sans Serif (default)</li>
+              <li class="my-fonts-list-item">Roboto (default)</li>
+            </ul>
+            <input
+              list="fonts"
+              class="search-fonts-input"
+              placeholder="Add New Font..."
+            />
+            <datalist id="fonts" class="fonts-search-list"> </datalist>
+          </div>
         </div>
       </section>
 
@@ -210,7 +255,7 @@
           </ul>
         </div>
 
-        <!-- notes section -->
+        <!-- preview notes section -->
         <div class="preview-section-header">All Notes</div>
 
         <!-- hidden lists -->
@@ -220,8 +265,9 @@
           <ul class="tag-list-sidebar-default">
             <li data-tag="tags" class="tag-selection">All Notes with tags</li>
           </ul>
-          <ul class="tag-list-sidebar"></ul>
+          <ul class="tag-list-filter"></ul>
         </div>
+
         <input
           type="search"
           class="searchNotesInput hidden"
@@ -234,6 +280,7 @@
       <!-- NOTE CREATION SECTION--------------- -->
 
       <main class="note-creation-section">
+        <!-- welcome pop-up -->
         <div class="welcome-pop-up hidden">
           <div class="welcome-pop-up-text">
             <h1>Welcome to Fox Notes</h1>
@@ -255,6 +302,7 @@
           </div>
           <button class="welcome-close-btn btn">Dismiss</button>
         </div>
+        <!-- toolbar -->
         <div id="toolbar">
           <!-- Add font size dropdown -->
           <select class="ql-font font-list-toolbar">
@@ -300,29 +348,6 @@
 
           <!-- Add subscript and superscript buttons -->
 
-          <button id="custom-button" class="tag-tb" title="Add tag">
-            <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
-            <div
-              class="tag-selection-container tag-selection-container-toolbar hidden"
-            >
-              <ul class="custom-ul">
-                <li class="tag-selection tag-custom" data-tag="custom">
-                  Custom...
-                </li>
-                <li class="custom-tag-list-item custom-tag-input-el hidden">
-                  <div class="custom-tag-container custom-tag-input-el">
-                    <input
-                      type="text"
-                      placeholder="Name of tag"
-                      class="input-custom-tag custom-tag-input-el"
-                    />
-                    <div class="custom-tag-btn custom-tag-input-el">OK</div>
-                  </div>
-                </li>
-              </ul>
-              <ul class="tag-list-toolbar"></ul>
-            </div>
-          </button>
           <button id="custom-button" class="bookmark-toolbar" title="Bookmark">
             <i
               class="ph-star-fill ph-star-fill-toolbar icon-toolbar icon hidden"
@@ -330,8 +355,40 @@
             <i class="ph-star ph-star-toolbar icon-toolbar icon"></i>
           </button>
         </div>
+        <!-- Tiltle -->
         <div class="note-container">
           <div class="title-container">
+            <div class="info-box">
+              <div class="tag-menu-title-container">
+                <i class="ph-tag-fill tag-icon-toolbar icon-toolbar icon"></i>
+                <div
+                  class="tag-selection-container tag-selection-container-title hidden"
+                >
+                  <ul class="custom-ul">
+                    <li
+                      class="tag-selection tag-selection-title-list tag-custom"
+                      data-tag="custom"
+                    >
+                      Custom...
+                    </li>
+                    <li
+                      class="custom-tag-list-item custom-tag-input-el hidden"
+                    ></li>
+                  </ul>
+                  <ul class="tag-list-title-all"></ul>
+                </div>
+              </div>
+              <!-- <div class="custom-tag-container custom-tag-input-el">
+                <input
+                  type="text"
+                  placeholder="Name of tag"
+                  class="input-custom-tag custom-tag-input-el"
+                />
+                <div class="custom-tag-btn custom-tag-input-el">OK</div>
+              </div> -->
+              <div>Tags:</div>
+              <ul class="tag-list-title"></ul>
+            </div>
             <input
               type="text"
               class="input-title"
@@ -369,38 +426,38 @@
     <div class="templateModal hidden">
       <div class="template-container">
         <h1>Select a Template</h1>
-        <div>
+        <div class="template-1 template">
           <h2>Empty Template</h2>
           <img
             src="./img/empty.png"
             alt="Empty Template"
-            class="template-empty template-1"
+            class="template-empty"
           />
         </div>
-        <div>
+        <div class="template-2 template">
           <h2>Resume Template</h2>
 
           <img
             src="./img/resume.png"
             alt="resume Template"
-            class="template-resume template-2"
+            class="template-resume"
           />
         </div>
-        <div>
+        <div class="template-3 template">
           <h2>Recipe Template</h2>
           <img
             src="./img/recipe.png"
             alt="recipe Template"
-            class="template-recipe template-3"
+            class="template-recipe"
           />
         </div>
-        <div>
+        <div class="template-4 template">
           <h2>Letter Template</h2>
 
           <img
             src="./img/letter-template.png"
             alt="Letter Template"
-            class="template-letter template-4"
+            class="template-letter"
           />
         </div>
       </div>

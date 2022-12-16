@@ -66,7 +66,7 @@ const controlSidebarCaret = function (e) {
   if (e.target.classList.contains("ph-caret-double-left"))
     noteView.noteCreationSection.classList.remove("hidden");
 
-  previewView.togglePreviewSection();
+  previewView.togglePreviewSection(model.state);
 };
 
 // PREVIEW VIEW ///////////////////////////////
@@ -148,10 +148,11 @@ const controlFilterMenu = function (e) {
     previewView.displayByDate("descending", model.state);
 };
 
-const controlTagMenuSidebar = function (e) {
+const controlFilterByTag = function (e) {
   const chosenTag = e.target
     .closest(".tag-selection")
     .dataset.tag.replaceAll("_", " ");
+
   if (chosenTag === "tags") {
     const allNotesWithTags = model.state.savedNotes.filter(
       (note) => note.tags.length > 0
@@ -196,8 +197,11 @@ const controlBtnSettings = function () {
   settingsView.toggleSettings(model.state);
 };
 
-const controlSettingsItemClick = function (list) {
+const controlSettingsItemClick = function (e) {
+  const list = e.target.closest(".settings-item").dataset.list;
   settingsView.toggleStatisticsList(list);
+  if (list === "tags") settingsView.customTagInputFocus();
+  if (list === "fonts") settingsView.googleFontsInputFocus();
 };
 
 const controlStatsListMenu = function (e) {
@@ -247,6 +251,28 @@ const controlRemoveFont = function (e) {
   location.reload();
 };
 
+const controlEnterCustomTag = function (e) {
+  if (e.key === "Enter") {
+    const customTag = settingsView.customTagInput.value;
+    if (!customTag || customTag === "") {
+      return;
+    }
+    // 1. add tag to state
+    if (model.state.userTags.includes(customTag)) return;
+    model.addCustomTagToState(customTag);
+    // 2 rerender tag lists
+    model.toggleTagToNote(customTag);
+    toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
+    const tagListFilter = document.querySelector(".tag-list-filter");
+    sidebarView.renderTagList(tagListFilter, model.state.userTags);
+    //  3. add tag to note
+    // toolbarView.updateTagListToolbar(model.state.savedNotes[0]);
+    // toolbarView.customTagInput.value = "";
+    toolbarView.toggleCustomTagListItems();
+    model.setLocalStorage(model.state);
+  }
+};
+
 // TOOLBAR VIEW //////////////////////////////////
 
 const controlBookmarkToolbar = function (e) {
@@ -261,12 +287,12 @@ const controlBookmarkToolbar = function (e) {
 
 const controlbtnTagToolbar = function (e) {
   if (e.target.classList.contains("tag-icon-toolbar")) {
-    toolbarView.tagMenuToolbar.classList.remove("hidden");
-    toolbarView.overlay.classList.remove("hidden");
+    toolbarView.toggleTagMenuNoteTitle();
+    noteView.toggleOverlay();
   }
 };
 
-const controlTagMenuToolbar = function (e) {
+const controlTagMenuSidebar = function (e) {
   if (e.target.classList.contains("custom-tag-input-el")) return;
   const chosenTag = e.target.closest(".tag-selection")?.dataset.tag;
   if (chosenTag !== "custom") {
@@ -277,29 +303,11 @@ const controlTagMenuToolbar = function (e) {
       model.state.currentPreview,
       model.state.currentPreviewTitle
     );
+    noteView.toggleOverlay();
   }
   if (chosenTag === "custom") {
     toggleCustomTagListItems();
   }
-};
-
-const controlCustomTagBtn = function () {
-  const newTag = toolbarView.customTagInput.value;
-  if (toolbarView.customTagInput.value === "") {
-    return;
-  }
-  // 1. add tag to state
-  if (model.state.userTags.includes(newTag)) return;
-  model.addCustomTagToState(newTag);
-  // 2 rerender tag lists
-  model.toggleTagToNote(newTag);
-  sidebarView.renderTagList(sidebarView.tagListSidebar, model.state.userTags);
-  toolbarView.renderTagList(toolbarView.tagListToolbar, model.state.userTags);
-  //  3. add tag to note
-  toolbarView.updateTagListToolbar(model.state.savedNotes[0]);
-  toolbarView.customTagInput.value = "";
-  toolbarView.toggleCustomTagListItems();
-  model.setLocalStorage(model.state);
 };
 
 // NOTE VIEW //////////////////////////////////////
@@ -310,7 +318,7 @@ const controlBtnNewNote = function () {
     model.state.currentPreview,
     model.state.currentPreviewTitle
   );
-  toolbarView.removeStarHeaderToolbar();
+  toolbarView.toggleStarHeaderToolbar("remove");
   if (model.state.savedNotes[0].delta.ops[0].insert === "\n") return;
   noteView.createNewNote(quill);
   model.addNewNoteToState();
@@ -328,6 +336,34 @@ const controlMarkdownImport = function () {
   const html = converter.makeHtml(editorValue);
   quill.setContents([{ insert: html }]);
   model.saveNote(quill.getContents());
+};
+
+function addRemoveTagFromNote(tag) {
+  model.toggleTagToNote(tag);
+  toolbarView.updateTagListToolbar(model.state.savedNotes[0]);
+  previewView.renderPreview(
+    model.state.currentPreview,
+    model.state.currentPreviewTitle
+  );
+}
+
+const controlRemoveTagIcon = function (e) {
+  const tag = e.target.closest(".tag-selection").dataset.tag;
+  addRemoveTagFromNote(tag);
+};
+
+const controlTagIconsTitleList = function (e) {
+  const tag = e.target.closest(".tag-selection").dataset.tag;
+  if (tag === "custom") {
+    noteView.toggleOverlay();
+    toolbarView.toggleTagMenuNoteTitle();
+    settingsView.toggleSettings(model.state);
+    settingsView.toggleStatisticsList("tags", "remove");
+    settingsView.customTagInputFocus();
+    return;
+  }
+  addRemoveTagFromNote(tag);
+  // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
 };
 
 // /////////////////////////////////BUG//////////////////////////////
@@ -414,9 +450,12 @@ const init = function () {
 
   // Setting the initial state
   previewView.renderPreview(model.state.savedNotes, "All Notes");
+  noteView.createNewNote(quill);
   // controlRenderNote(model.state.savedNotes[0].id);
-  toolbarView.renderTagList(toolbarView.tagListToolbar, model.state.userTags);
-  sidebarView.renderTagList(sidebarView.tagListSidebar, model.state.userTags);
+  // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
+  toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
+  const tagListFilter = document.querySelector(".tag-list-filter");
+  sidebarView.renderTagList(tagListFilter, model.state.userTags);
   settingsView.renderFontsList(model.fontData.items.map((item) => item.family));
   settingsView.renderMyFontsList(model.state.fonts.sort());
 
@@ -432,7 +471,7 @@ const init = function () {
   previewView.addHandlerPreviewSection(controlPreviewSection);
   previewView.addHandlerFilterBtn();
   previewView.addHandlerFilterMenuMain(controlFilterMenu);
-  previewView.addHandlerTagMenuSidebar(controlTagMenuSidebar);
+  previewView.addHandlerFilterByTag(controlFilterByTag);
   previewView.addHandlerOverlayFilter();
   previewView.addHandlerOverlayFilterTags();
   previewView.addHandlerOverlayFilterKeyword(controlOverlayFilterKeyword);
@@ -446,15 +485,17 @@ const init = function () {
   settingsView.addHandlerThemeSelect(controlThemeSelect);
   settingsView.addHandlerFontSelect(controlFontSelect);
   settingsView.addHandlerRemoveFont(controlRemoveFont);
+  settingsView.addHandlerEnterCustomTag(controlEnterCustomTag);
 
   toolbarView.addHandlerBookmarkToolbar(controlBookmarkToolbar);
   toolbarView.addHandlerBtnTagToolbar(controlbtnTagToolbar);
-  toolbarView.addHandlerTagMenuToolbar(controlTagMenuToolbar);
-  toolbarView.addHandlerCustomTagBtn(controlCustomTagBtn);
+  // toolbarView.addHandlerCustomTagBtn(controlCustomTagBtn);
 
   noteView.addHandlerOpenNewNote(controlBtnNewNote);
   noteView.addHandlerEditor();
   noteView.addHandlerInputTitleFocus();
+  noteView.addHandlerRemoveTagIcon(controlRemoveTagIcon);
+  noteView.addHandlerTagIconsTitleList(controlTagIconsTitleList);
   noteView.addHandlerMarkdownExport(controlMarkdownExport);
   noteView.addHandlerMarkdownImport(controlMarkdownImport);
   noteView.addHandlerAutosave(controlAutosave);

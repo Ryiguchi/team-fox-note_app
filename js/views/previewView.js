@@ -17,7 +17,7 @@ export class PreviewView extends View {
   tagMenuSidebar = document.querySelector(".tag-selection-container-sidebar");
   selectFilter = document.querySelector(".filter-select");
 
-  togglePreviewSection() {
+  togglePreviewSection(state) {
     if (
       this.previewSectionAll.classList.contains("hidden") &&
       !settingsView.settingsSection.classList.contains("hidden")
@@ -186,7 +186,7 @@ export class PreviewView extends View {
     this.filterMenuMain.addEventListener("click", handler);
   }
 
-  addHandlerTagMenuSidebar(handler) {
+  addHandlerFilterByTag(handler) {
     this.tagMenuSidebar.addEventListener("click", (e) => {
       this.overlayFilterTags.classList.add("hidden");
       handler(e);
