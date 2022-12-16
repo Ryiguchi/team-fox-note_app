@@ -97,6 +97,7 @@ export class SettingsView extends View {
   }
 
   googleFontsInputFocus() {
+    this.fontsInput.value = "";
     this.fontsInput.focus();
   }
 

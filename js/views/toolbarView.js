@@ -32,13 +32,6 @@ export class ToolbarView extends View {
    * @param {Object} note Object for the currently displayed note
    */
   updateTagListToolbar(note) {
-    // this.resetTagList();
-    // note.tags.forEach((tag) => {
-    //   const newTag = tag.replaceAll(/\s+/g, "_");
-    //   document
-    //     .querySelectorAll(`.tag-icon-tag-menu-${newTag}`)
-    //     .forEach((icon) => icon.classList.toggle("hidden"));
-    // });
     this.renderTagList(noteView.tagListTitle, note.tags);
   }
 

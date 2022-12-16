@@ -23,7 +23,6 @@ const loadFont = function (font) {
   };
 
   const setGoogleFontsLink = function (font) {
-    console.log(font);
     let fontString = addPlus(capitalize(font));
     font;
     const fontObj = fontData.items.find((obj) => obj.family === font);

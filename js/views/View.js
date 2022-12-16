@@ -9,7 +9,6 @@ export default class View {
     parEl.innerHTML = "";
     let markup = "";
     tags?.forEach((tag, i) => {
-      console.log(i);
       const newTag = tag.replaceAll(/\s+/g, "_");
       markup += `
         ${
@@ -51,7 +50,6 @@ export default class View {
     });
 
     parEl.insertAdjacentHTML("beforeend", markup);
-    console.log(parEl);
   }
 
   toggleActiveTag(el) {
