@@ -294,11 +294,11 @@ const controlbtnTagToolbar = function (e) {
 // NOTE VIEW //////////////////////////////////////
 
 const controlBtnNewNote = function () {
-  model.saveNote(quill.getContents(), noteView.inputTitle.value);
-  previewView.renderPreview(
-    model.state.currentPreview,
-    model.state.currentPreviewTitle
-  );
+  // model.saveNote(quill.getContents(), noteView.inputTitle.value);
+  // previewView.renderPreview(
+  //   model.state.currentPreview,
+  //   model.state.currentPreviewTitle
+  // );
   toolbarView.toggleStarHeaderToolbar("remove");
   if (model.state.savedNotes[0].delta.ops[0].insert === "\n") return;
   noteView.createNewNote(quill);
@@ -433,8 +433,13 @@ const init = function () {
 
   // Setting the initial state
   previewView.renderPreview(model.state.savedNotes, "All Notes");
-  // noteView.createNewNote(quill);
-  controlRenderNote(model.state.savedNotes[0].id);
+  if (model.state.savedNotes[0]?.delta)
+    controlRenderNote(model.state.savedNotes[0].id);
+  if (!model.state.savedNotes[0]) {
+    noteView.createNewNote(quill);
+    model.addNewNoteToState();
+  }
+
   // toolbarView.renderTagList(settingsView.myTagsList, model.state.userTags);
   toolbarView.renderTagList(noteView.tagListTitleAll, model.state.userTags);
   const tagListFilter = document.querySelector(".tag-list-filter");

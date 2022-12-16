@@ -42,7 +42,7 @@ export default class View {
           ${tag}
           ${
             parEl.classList.contains("tag-list-title")
-              ? '<i class="ph-x remove-tag-icon icon"></i><i class="ph-circle-fill tag-hole"></i>'
+              ? `<i class="ph-x remove-tag-icon icon" data-tag="${tag}"></i><i class="ph-circle-fill tag-hole"></i>`
               : ""
           }
         </li>
