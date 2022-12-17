@@ -1,15 +1,14 @@
 "use strict";
 
+import * as model from "./model.js";
+import { AUTOSAVE_SEC } from "./config.js";
 import previewView from "./views/previewView.js";
 import sidebarView from "./views/sidebarView.js";
 import noteView from "./views/noteView.js";
 import settingsView from "./views/settingsView.js";
 import welcomeView from "./views/welcomeView.js";
-import { AUTOSAVE_SEC } from "./config.js";
-import * as model from "./model.js";
-import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
-// import { fontArray } from "./init.js";
 import titleView from "./views/titleView.js";
+import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
 // counter for the timer of time spent.
 let saveTimeoutId;
 // For the markdown Export
