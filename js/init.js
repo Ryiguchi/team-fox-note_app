@@ -1,9 +1,8 @@
-import { fontData } from "./model.js";
+import { fontData, state } from "./model.js";
 const googleFontsLink = document.querySelector(".google-fonts-link");
 const fontsStylesheet = document.querySelector(".font-stylesheet");
 const fontList = document.querySelector(".font-list-toolbar");
 
-const state = JSON.parse(localStorage.getItem("state"));
 export const fontArray = state?.fonts;
 
 const loadFont = function (font) {
