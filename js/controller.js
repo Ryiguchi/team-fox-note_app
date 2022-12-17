@@ -48,8 +48,6 @@ function renderAllTagLists() {
   sidebarView.renderTagList(tagListFilter, model.state.userTags);
 }
 
-// UI STATES
-
 const displayMobileView = function () {
   sidebarView.mobileHeader.classList.remove("hidden");
   sidebarView.sidebar.classList.add("hidden");
@@ -265,7 +263,7 @@ const controlAddFont = function (font) {
     settingsView.fontsInput.value = "- Font not found -";
     return;
   }
-  this.fontsInput.value = "";
+  settingsView.fontsInput.value = "";
   model.addCustomFontToState(font);
   model.setLocalStorage(model.state);
   location.reload();
@@ -387,8 +385,6 @@ const controlTemplateModal = function (template) {
     model.state.currentPreviewTitle
   );
 };
-
-// MOBILE VIEW ////////////////////////////////////
 
 // INITIALIZATION ///////////////////
 
