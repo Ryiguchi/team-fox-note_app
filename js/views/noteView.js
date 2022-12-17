@@ -2,7 +2,6 @@
 import View from "./View.js";
 class NoteView extends View {
   noteCreationSection = document.querySelector(".note-creation-section");
-  // #btnNewNote = document.querySelector(".icon-plus");
   #templateModal = document.querySelector(".templateModal");
   #editor = document.querySelector("#editor");
   stickyBox = document.querySelector(".sticky-box");
@@ -118,10 +117,6 @@ class NoteView extends View {
       this.setCounterText();
     });
   }
-
-  // addHandlerOverlay(handler) {
-  //   this.overlay.addEventListener("click", handler);
-  // }
 
   addHandlerMarkdown(handler) {
     [this.#markdownExport, this.#markdownImport].forEach((btn) =>

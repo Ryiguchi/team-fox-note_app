@@ -11,8 +11,6 @@ class SidebarView extends View {
   #btnSettings = document.querySelector(".settings-icon-sidebar");
   sidebar = document.querySelector(".side-header");
   overlaySidebar = document.querySelector(".overlay-sidebar");
-  // tagListSidebar = document.querySelector(".tag-list-sidebar");
-  // btnCaretSidebar = document.querySelector(".caret-contanier");
   mobileHeader = document.querySelector(".mobile-header"); // event delegation
   caretDownMobile = document.querySelector(".caret-down-mobile");
   caretUpMobile = document.querySelector(".caret-up-mobile");

@@ -62,20 +62,6 @@ const displayMobileView = function () {
   sidebarView.overlaySidebar.classList.add("hidden");
 };
 
-// const displayTabView = function () {
-//   this.mobileHeader.classList.add("hidden");
-//   sidebarView.sidebar.classList.remove("hidden");
-//   previewView.previewSectionAll.classList.add("hidden");
-//   this.toolbar.classList.remove("hidden");
-// };
-
-// const displayDesktopView = function () {
-//   this.mobileHeader.classList.add("hidden");
-//   sidebarView.sidebar.classList.remove("hidden");
-//   previewView.previewSectionAll.classList.remove("hidden");
-//   this.toolbar.classList.remove("hidden");
-// };
-
 // WELCOME VIEW /////////////////////////////////
 function toggleWelcome() {
   noteView.noteCreationSection.classList.toggle("hidden");
@@ -141,64 +127,39 @@ const controlRenderNote = function (id) {
   model.moveNoteToFront(index, note);
 };
 
-const controlPreviewSection = function (e) {
-  // return if clicked on search field, header, or empty spacae, or filter
-  if (
-    e.target.classList.contains("searchNotesInput") ||
-    e.target.classList.contains("preview-section-header") ||
-    e.target.classList.contains("notes-preview-section")
-  )
-    return;
+const controlDeleteNote = function (id) {
+  model.deleteNoteFromState(id);
+  previewView.renderPreview(
+    model.state.currentPreview,
+    model.state.currentPreviewTitle
+  );
 
-  const noteID = e.target.closest(".note-preview").dataset.id;
-
-  // if clicked on the star
-  if (e.target.classList.contains("star-icon-preview")) {
-    model.toggleBookmarkState(noteID);
-    previewView.renderPreview(
-      model.state.currentPreview,
-      model.state.currentPreviewTitle
-    );
-    model.setLocalStorage(model.state);
-    // toggle ph-star-fill on toolbar if the active note is bookmarked.
-    model.state.savedNotes[0].bookmarked
-      ? titleView.toggleStar("add")
-      : titleView.toggleStar("remove");
+  if (model.state.savedNotes.length >= 1) {
+    controlRenderNote(model.state.savedNotes[0].id);
+    model.saveNote(quill.getContents(), noteView.inputTitle.value);
   }
-
-  if (e.target.classList.contains("ph-trash-bold")) {
-    // if clicked on delete note button
-    if (!confirm("Are you sure you want to delete this note?")) return;
-    model.deleteNoteFromState(noteID);
-    previewView.renderPreview(
-      model.state.currentPreview,
-      model.state.currentPreviewTitle
-    );
-
-    if (model.state.savedNotes.length >= 1) {
-      controlRenderNote(model.state.savedNotes[0].id);
-      model.saveNote(quill.getContents(), noteView.inputTitle.value);
-    }
-    if (model.state.savedNotes < 1) noteView.createNewNote();
-    return;
-  }
-
-  // If clicked on a note to display
-  if (
-    !e.target.classList.contains(
-      "star-icon-preview",
-      "tag-icon-preview",
-      "delete-note"
-    )
-  ) {
-    controlRenderNote(noteID);
-    if (screen.width <= 600) previewView.togglePreviewSection();
-    if (screen.width <= 450) sidebarView.toggleSidebar();
-  }
+  if (model.state.savedNotes < 1) noteView.createNewNote(quill);
 };
 
-const controlFilterMenu = function (e) {
-  const filterType = e.target.closest("li").dataset.type;
+const controlToggleBookmark = function (id) {
+  model.toggleBookmarkState(id);
+  previewView.renderPreview(
+    model.state.currentPreview,
+    model.state.currentPreviewTitle
+  );
+  model.setLocalStorage(model.state);
+  model.state.savedNotes[0].bookmarked
+    ? titleView.toggleStar("add")
+    : titleView.toggleStar("remove");
+};
+
+const controlDisplayNote = function (id) {
+  controlRenderNote(id);
+  if (screen.width <= 600) previewView.togglePreviewSection();
+  if (screen.width <= 450) sidebarView.toggleSidebar();
+};
+
+const controlFilterMenu = function (filterType) {
   if (filterType === "all") previewView.displayAllNotes(model.state);
   if (filterType === "starred") previewView.displayStarredNotes(model.state);
   if (filterType === "tag") previewView.displayTagSelection();
@@ -210,11 +171,7 @@ const controlFilterMenu = function (e) {
     previewView.displayByDate("descending", model.state);
 };
 
-const controlFilterByTag = function (e) {
-  const chosenTag = e.target
-    .closest(".tag-selection")
-    .dataset.tag.replaceAll("_", " ");
-
+const controlFilterByTag = function (chosenTag) {
   if (chosenTag === "tags") {
     const allNotesWithTags = model.state.savedNotes.filter(
       (note) => note.tags.length > 0
@@ -249,10 +206,6 @@ const controlSearchNotesInput = function () {
   );
 };
 
-const controlSearchNotesInputKeydown = function (e) {
-  if (e.key === "Enter") previewView.setPreviewHeadingToKeyword();
-};
-
 // SETTINGS VIEW /////////////////////////////////
 // opens settings menu
 const controlToggleSettings = function () {
@@ -261,32 +214,19 @@ const controlToggleSettings = function () {
     ? "open"
     : "close";
   const preview = model.state.previewSectionOpen ? "open" : "closed";
-  // if (settings==='closed' && preview === 'open')
 
-  // if (settings === "closed" && preview === "open") {
-  //   sidebarView.toggleCarets();
-  // }
-  if (action === "open") {
-    previewView.previewSectionAll.classList.add("hidden");
-  }
+  if (action === "open") previewView.previewSectionAll.classList.add("hidden");
 
   if (action === "open" && screen.width <= 600)
     noteView.noteCreationSection.classList.add("hidden");
 
-  if (action === "close" && screen.width > 600 && preview === "open") {
+  if (action === "close" && screen.width > 600 && preview === "open")
     previewView.previewSectionAll.classList.remove("hidden");
-    // sidebarView.toggleCarets();
-  }
 
-  if (action === "close" && screen.width <= 600) {
+  if (action === "close" && screen.width <= 600)
     noteView.noteCreationSection.classList.remove("hidden");
-  }
 
-  if (action === "close" && screen.width <= 450) {
-    sidebarView.toggleSidebar();
-  }
-
-  // if (settings ==='open' && screen.width <=600)
+  if (action === "close" && screen.width <= 450) sidebarView.toggleSidebar();
 
   settingsView.toggleSettingsSection();
 };
@@ -463,15 +403,13 @@ const init = function () {
   sidebarView.addHandlerToggleSidebar(controlToggleSidebar);
   sidebarView.addHandlerToggleSettingsSection(controlToggleSettings);
 
-  previewView.addHandlerPreviewSection(controlPreviewSection);
-  previewView.addHandlerFilterBtn();
+  previewView.addHandlerDeleteNote(controlDeleteNote);
+  previewView.addHandlerToggleBookmark(controlToggleBookmark);
+  previewView.addHandlerDisplayNote(controlDisplayNote);
   previewView.addHandlerFilterMenuMain(controlFilterMenu);
   previewView.addHandlerFilterByTag(controlFilterByTag);
-  previewView.addHandlerOverlayFilter();
-  previewView.addHandlerOverlayFilterTags();
   previewView.addHandlerOverlayFilterKeyword(controlOverlayFilterKeyword);
   previewView.addHandlerSearchNotesInput(controlSearchNotesInput);
-  previewView.addHandlerSearchNotesInputKeydown(controlSearchNotesInputKeydown);
 
   settingsView.addHandlerBtnCloseSettings(controlToggleSettings);
   settingsView.addHandlerToggleWordCount(controlToggleWordCount);
@@ -490,10 +428,6 @@ const init = function () {
   noteView.addHandlerTemplateModal(controlTemplateModal);
   noteView.addHandlerMarkdown(controlMarkdown);
   noteView.addHandlerAutosave(controlAutosave);
-
-  // sidebarView.addHandlerBtnCaretToolbarContainer(
-  //   controlBtnCaretToolbarContainer
-  // );
 };
 
 init();
