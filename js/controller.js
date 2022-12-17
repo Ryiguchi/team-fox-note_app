@@ -116,22 +116,6 @@ const controlToggleSidebar = function (open) {
   }
 };
 
-// PREVIEW VIEW ///////////////////////////////
-
-// function highlightNotes(index) {
-//   model.state.savedNotes[index].
-//   // let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
-//   // notesHighlight.forEach((el) =>
-//   //   el.addEventListener("click", (e) => {
-//   //     [...el.parentElement.children].forEach((sib) => {
-//   //       sib.classList.remove("note-Highlights"),
-//   //         el.classList.add("note-Highlights");
-//   //       noteView.counterText.textContent = "";
-//   //     });
-//   //   })
-//   // );
-// }
-
 const controlRenderNote = function (id) {
   const index = model.getNoteIndexByID(id);
   const note = model.state.savedNotes[index];
@@ -376,6 +360,7 @@ const controlTemplateModal = function (template) {
 
   if (template === "empty") {
     titleView.toggleStar("remove");
+    titleView.inputTitle.value = "";
     quill.setContents();
     model.addNewNoteToState();
   }

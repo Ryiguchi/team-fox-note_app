@@ -11,6 +11,10 @@ export let state = {
 
 let timeSpent;
 
+const setInitialStateValues = function () {
+  state.currentPreview = state.savedNotes;
+};
+
 export const updateState = function (newState) {
   state = _.cloneDeep(newState);
 };
@@ -239,6 +243,7 @@ const init = function () {
     timeSpent = localStorage.getItem("timeSpent");
   }
   setInterval(checkTime, 1000);
+  setInitialStateValues();
 };
 
 init();

@@ -33,6 +33,7 @@ class PreviewView {
   }
 
   renderPreview(notesArr, listType = "All Notes") {
+    console.log(notesArr);
     this.changePreviewSectionHeaderText(listType);
     let markup = "";
 
