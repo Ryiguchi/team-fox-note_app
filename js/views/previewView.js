@@ -1,7 +1,6 @@
 "use strict";
 import View from "./View.js";
 import settingsView from "./settingsView.js";
-import sidebarView from "./sidebarView.js";
 import noteView from "./noteView.js";
 
 class PreviewView extends View {
@@ -24,8 +23,6 @@ class PreviewView extends View {
     )
       settingsView.toggleSettings(state);
     this.previewSectionAll.classList.toggle("hidden");
-    sidebarView.btnCaretLeftSidebar.classList.toggle("hidden");
-    sidebarView.btnCaretRightSidebar.classList.toggle("hidden");
   }
 
   changePreviewSectionHeaderText(text) {

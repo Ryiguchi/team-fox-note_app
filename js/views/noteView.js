@@ -45,24 +45,14 @@ class NoteView extends View {
     tagMenuTitleContainer.insertAdjacentHTML("afterend", markup);
   }
 
-  toggleActiveTag(el) {
-    const [...children] = el.closest(".tag-selection").children;
-    children.forEach((el) => el.classList.toggle("hidden"));
-  }
-
-  toggleOverlay() {
-    this.overlay.classList.toggle("hidden");
-  }
-
-  setTitle(note) {
+  #setTitle(note) {
     this.inputTitle.value = note.title;
   }
 
   renderNote(note, quill) {
     this.noteCreationSection.classList.remove("hidden");
     quill.setContents(note.delta.ops);
-    this.setTitle(note);
-    // toolbarView.updateTagListToolbar(note);
+    this.#setTitle(note);
     this.renderNoteTags(note.tags);
   }
 
@@ -76,6 +66,11 @@ class NoteView extends View {
   countWords(str) {
     const arr = str.split(" ");
     return arr.filter((word) => word !== "").length;
+  }
+
+  setCounterText() {
+    const textArea = this.editor.innerText;
+    this.counterText.textContent = `${this.countWords(textArea)}`;
   }
 
   getEditorText() {

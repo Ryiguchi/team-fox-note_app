@@ -57,11 +57,6 @@ export default class View {
     parEl.insertAdjacentHTML("beforeend", markup);
   }
 
-  toggleActiveTag(el) {
-    const [...children] = el.closest(".tag-selection").children;
-    children.forEach((el) => el.classList.toggle("hidden"));
-  }
-
   toggleOverlay() {
     this.overlay.classList.toggle("hidden");
   }

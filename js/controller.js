@@ -3,7 +3,6 @@
 import previewView from "./views/previewView.js";
 import sidebarView from "./views/sidebarView.js";
 import noteView from "./views/noteView.js";
-import mobileView from "./views/mobileView.js";
 import settingsView from "./views/settingsView.js";
 import welcomeView from "./views/welcomeView.js";
 import { AUTOSAVE_SEC } from "./config.js";
@@ -12,7 +11,6 @@ import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
 import { fontArray } from "./init.js";
 import titleView from "./views/titleView.js";
 // counter for the timer of time spent.
-let timeSpent = 0;
 let saveTimeoutId;
 // For the markdown Export
 const turndownService = new TurndownService();
@@ -50,6 +48,34 @@ function renderAllTagLists() {
   sidebarView.renderTagList(tagListFilter, model.state.userTags);
 }
 
+// UI STATES
+
+const displayMobileView = function () {
+  sidebarView.mobileHeader.classList.remove("hidden");
+  sidebarView.sidebar.classList.add("hidden");
+  previewView.previewSectionAll.classList.add("hidden");
+  sidebarView.toolbar.classList.add("hidden");
+  settingsView.settingsSection.classList.add("hidden");
+  noteView.noteCreationSection.classList.remove("hidden");
+  sidebarView.caretDownMobile.classList.remove("hidden");
+  sidebarView.caretUpMobile.classList.add("hidden");
+  sidebarView.overlaySidebar.classList.add("hidden");
+};
+
+// const displayTabView = function () {
+//   this.mobileHeader.classList.add("hidden");
+//   sidebarView.sidebar.classList.remove("hidden");
+//   previewView.previewSectionAll.classList.add("hidden");
+//   this.toolbar.classList.remove("hidden");
+// };
+
+// const displayDesktopView = function () {
+//   this.mobileHeader.classList.add("hidden");
+//   sidebarView.sidebar.classList.remove("hidden");
+//   previewView.previewSectionAll.classList.remove("hidden");
+//   this.toolbar.classList.remove("hidden");
+// };
+
 // WELCOME VIEW /////////////////////////////////
 function toggleWelcome() {
   noteView.noteSection.classList.toggle("hidden");
@@ -64,24 +90,44 @@ const controlWelcomeScreen = function () {
   model.setLocalStorage(model.state);
   toggleWelcome();
   if (screen.width <= 600) previewView.togglePreviewSection();
-  if (screen.width <= 450) mobileView.displayMobileView();
+  if (screen.width <= 450) displayMobileView();
 };
 
 // SIDEBAR VIEW ////////////////////////////////
 
-const controlSidebarCaret = function (e) {
-  if (
-    e.target.classList.contains("ph-caret-double-right") &&
-    screen.width <= 600
-  ) {
-    noteView.noteCreationSection.classList.add("hidden");
-    if (screen.width <= 450)
-      sidebarView.overlaySidebar.classList.remove("hidden");
+const controlNotebookIcon = function () {
+  console.log(model.state.previewSectionOpen);
+  const action = previewView.previewSectionAll.classList.contains("hidden")
+    ? "open"
+    : "close";
+
+  // Mobile
+  if (screen.width <= 450 && action === "close") sidebarView.toggleSidebar();
+
+  // Tab
+  if (screen.width <= 600) {
+    action === "close"
+      ? noteView.noteCreationSection.classList.remove("hidden")
+      : noteView.noteCreationSection.classList.add("hidden");
   }
-  if (e.target.classList.contains("ph-caret-double-left"))
-    noteView.noteCreationSection.classList.remove("hidden");
 
   previewView.togglePreviewSection(model.state);
+
+  model.state.previewSectionOpen =
+    previewView.previewSectionAll.classList.contains("hidden") ? false : true;
+};
+
+const controlToggleSidebar = function (open) {
+  if (open === true) {
+    previewView.previewSectionAll.classList.add("hidden");
+  }
+  if (open === false) {
+    previewView.previewSectionAll.classList.remove("hidden");
+    previewView.renderPreview(
+      model.state.currentPreview,
+      model.state.currentPreviewTitle
+    );
+  }
 };
 
 // PREVIEW VIEW ///////////////////////////////
@@ -208,94 +254,95 @@ const controlSearchNotesInputKeydown = function (e) {
 
 // SETTINGS VIEW /////////////////////////////////
 // opens settings menu
-const controlBtnSettings = function () {
-  settingsView.toggleSettings(model.state);
-};
+const controlToggleSettings = function () {
+  console.log(model.state.previewSectionOpen);
+  const action = settingsView.settingsSection.classList.contains("hidden")
+    ? "open"
+    : "close";
+  const preview = model.state.previewSectionOpen ? "open" : "closed";
+  // if (settings==='closed' && preview === 'open')
 
-const controlSettingsItemClick = function (e) {
-  if (!e.target.closest(".settings-item")) return;
-  const list = e.target.closest(".settings-item").dataset.list;
-  settingsView.toggleStatisticsList(list);
-  if (list === "tags") settingsView.customTagInputFocus();
-  if (list === "fonts") settingsView.googleFontsInputFocus();
-};
-
-const controlStatsListMenu = function (e) {
-  // Toggle words counter and stats section container.
-  if (
-    e.target
-      .closest(".settings-submenu-item")
-      .classList.contains("settings-submenu-item-word-count")
-  ) {
-    settingsView.toggleWordCount();
-    settingsView.setCounterText();
+  // if (settings === "closed" && preview === "open") {
+  //   sidebarView.toggleCarets();
+  // }
+  if (action === "open") {
+    previewView.previewSectionAll.classList.add("hidden");
   }
 
-  if (e.target.classList.contains("settings-submenu-item-overall-statistics")) {
-    if (screen.width <= 600) settingsView.toggleSettings(model.state);
-    settingsView.togglePopup();
-    settingsView.setPopupSize();
-    const data = model.getGraphData();
-    // Create the graph using the Chart.js library
-    const ctx = settingsView.graph.getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: data,
-    });
+  if (action === "open" && screen.width <= 600)
+    noteView.noteCreationSection.classList.add("hidden");
+
+  if (action === "close" && screen.width > 600 && preview === "open") {
+    previewView.previewSectionAll.classList.remove("hidden");
+    // sidebarView.toggleCarets();
   }
-};
 
-const controlThemeSelect = function (e) {
-  const theme = e.target.dataset.theme;
-  settingsView.initThemeSelector(theme);
-};
-
-const controlFontSelect = function (e) {
-  if (e.key === "Enter") {
-    const font = settingsView.getCustomFontValue();
-    if (!model.fontData.items.map((item) => item.family).includes(font)) {
-      settingsView.fontsInput.value = "- Font not found -";
-      return;
-    }
-    settingsView.fontsInput.value = "";
-    model.addCustomFontToState(font);
-    model.setLocalStorage(model.state);
-    location.reload();
+  if (action === "close" && screen.width <= 600) {
+    noteView.noteCreationSection.classList.remove("hidden");
   }
+
+  if (action === "close" && screen.width <= 450) {
+    sidebarView.toggleSidebar();
+  }
+
+  // if (settings ==='open' && screen.width <=600)
+
+  settingsView.toggleSettingsSection();
 };
 
-const controlRemoveFont = function (e) {
-  const font = e.target.closest(".my-fonts-list-item").dataset.font;
+const controlToggleWordCount = function () {
+  noteView.setCounterText();
+};
+
+function togglePopup() {
+  settingsView.popup.classList.toggle("hidden");
+  noteView.noteCreationSection.classList.toggle("hidden");
+}
+
+const controlOverallStatistics = function () {
+  if (screen.width <= 600) settingsView.toggleSettings(model.state);
+  const data = model.getGraphData();
+  togglePopup();
+  settingsView.renderChart(data);
+};
+
+const controlCloseGraph = function () {
+  togglePopup();
+};
+
+const controlAddFont = function (font) {
+  if (!model.fontData.items.map((item) => item.family).includes(font)) {
+    settingsView.fontsInput.value = "- Font not found -";
+    return;
+  }
+  this.fontsInput.value = "";
+  model.addCustomFontToState(font);
+  model.setLocalStorage(model.state);
+  location.reload();
+};
+
+const controlRemoveFont = function (font) {
   model.removeCustomFontToState(font);
   model.setLocalStorage(model.state);
   location.reload();
 };
 
-const controlEnterCustomTag = function (e) {
-  if (e.key === "Enter") {
-    const customTag = settingsView.customTagInput.value;
-    if (!customTag || customTag === "") {
-      return;
-    }
-    settingsView.customTagInput.value = "";
-    if (screen.width <= 600) {
-      mobileView.displayMobileView();
-    }
-
-    // 1. add tag to state
-    if (model.state.userTags.includes(customTag)) return;
-    model.addCustomTagToState(customTag);
-    // 2 rerender tag lists
-    model.toggleTagToNote(customTag);
-    renderAllTagLists();
-    model.setLocalStorage(model.state);
-    controlRenderNote(model.state.savedNotes[0].id);
+const controlAddCustomTag = function (customTag) {
+  if (screen.width <= 600) {
+    displayMobileView();
   }
+
+  // 1. add tag to state
+  if (model.state.userTags.includes(customTag)) return;
+  model.addCustomTagToState(customTag);
+  // 2 rerender tag lists
+  model.toggleTagToNote(customTag);
+  renderAllTagLists();
+  model.setLocalStorage(model.state);
+  controlRenderNote(model.state.savedNotes[0].id);
 };
 
-const controlRemoveTagFromState = function (e) {
-  if (!e.target.classList.contains("remove-font-btn-settings")) return;
-  const tag = e.target.closest(".tag-selection").dataset.tag;
+const controlRemoveTagFromState = function (tag) {
   model.removeTagFromState(tag);
   model.removeTagFromNotes(tag);
   renderAllTagLists();
@@ -382,19 +429,6 @@ const controlTemplateModal = function (e) {
 
 // MOBILE VIEW ////////////////////////////////////
 
-const controlToggleMobileSidebar = function () {
-  sidebarView.sidebar.classList.contains("hidden")
-    ? sidebarView.toggleSidebar()
-    : mobileView.displayMobileView();
-};
-
-const controlBtnCaretToolbarContainer = function () {
-  mobileView.toolbar.classList.toggle("hidden");
-  mobileView.caretsMobileToolbar.forEach((icon) =>
-    icon.classList.toggle("hidden")
-  );
-};
-
 // INITIALIZATION ///////////////////
 
 const init = function () {
@@ -409,11 +443,10 @@ const init = function () {
   // Different layouts for different screen sizes
   if (!model.state.welcomeScreen && screen.width <= 600) {
     previewView.togglePreviewSection();
-    model.togglePreviewSectionOpenState();
+    model.state.previewSectionOpen = false;
   }
 
-  if (!model.state.welcomeScreen && screen.width <= 450)
-    mobileView.displayMobileView();
+  if (!model.state.welcomeScreen && screen.width <= 450) displayMobileView();
 
   // Setting the initial state
   previewView.renderPreview(model.state.savedNotes, "All Notes");
@@ -434,7 +467,9 @@ const init = function () {
 
   welcomeView.addHandlerCloseWelcomeScreen(controlWelcomeScreen);
 
-  sidebarView.addHandlerSidebarCaret(controlSidebarCaret);
+  sidebarView.addHandlerNotebookIcon(controlNotebookIcon);
+  sidebarView.addHandlerToggleSidebar(controlToggleSidebar);
+  sidebarView.addHandlerToggleSettingsSection(controlToggleSettings);
 
   previewView.addHandlerPreviewSection(controlPreviewSection);
   previewView.addHandlerFilterBtn();
@@ -446,15 +481,14 @@ const init = function () {
   previewView.addHandlerSearchNotesInput(controlSearchNotesInput);
   previewView.addHandlerSearchNotesInputKeydown(controlSearchNotesInputKeydown);
 
-  settingsView.addHandlerBtnSettings(controlBtnSettings);
-  settingsView.addHandlerSettingsItem(controlSettingsItemClick);
-  settingsView.addHandlerStatsListMenu(controlStatsListMenu);
-  settingsView.addHandlerCloseGraph();
-  settingsView.addHandlerThemeSelect(controlThemeSelect);
-  settingsView.addHandlerFontSelect(controlFontSelect);
-  settingsView.addHandlerRemoveFont(controlRemoveFont);
-  settingsView.addHandlerEnterCustomTag(controlEnterCustomTag);
+  settingsView.addHandlerBtnCloseSettings(controlToggleSettings);
+  settingsView.addHandlerToggleWordCount(controlToggleWordCount);
+  settingsView.addHandlerOverallStatistics(controlOverallStatistics);
+  settingsView.addHandlerCloseGraph(controlCloseGraph);
+  settingsView.addHandlerAddCustomTag(controlAddCustomTag);
   settingsView.addHandlerRemoveTagFromState(controlRemoveTagFromState);
+  settingsView.addHandlerAddFont(controlAddFont);
+  settingsView.addHandlerRemoveFont(controlRemoveFont);
 
   titleView.addHandlerToggleBookmark(controlToggleTitleBookmark);
   titleView.addHandlerTagMenuCustom(controlTagMenuCustom);
@@ -468,10 +502,9 @@ const init = function () {
   noteView.addHandlerAutosave(controlAutosave);
   noteView.addHandlerTemplateModal(controlTemplateModal);
 
-  mobileView.addHandlerToggleMobileSidebar(controlToggleMobileSidebar);
-  mobileView.addHandlerBtnCaretToolbarContainer(
-    controlBtnCaretToolbarContainer
-  );
+  // sidebarView.addHandlerBtnCaretToolbarContainer(
+  //   controlBtnCaretToolbarContainer
+  // );
 };
 
 init();

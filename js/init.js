@@ -1,4 +1,3 @@
-("use strict");
 import { fontData } from "./model.js";
 const googleFontsLink = document.querySelector(".google-fonts-link");
 const fontsStylesheet = document.querySelector(".font-stylesheet");
