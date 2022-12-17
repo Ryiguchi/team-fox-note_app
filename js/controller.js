@@ -60,6 +60,44 @@ const displayMobileView = function () {
   sidebarView.overlaySidebar.classList.add("hidden");
 };
 
+function toggleSettings() {
+  settingsView.settingsSection.classList.toggle("hidden");
+  if (
+    screen.width > 600 &&
+    !settingsView.settingsSection.classList.contains("hidden")
+  )
+    previewView.previewSectionAll.classList.add("hidden");
+  else if (
+    screen.width > 600 &&
+    model.state.previewSectionOpen === true &&
+    previewView.previewSectionAll.classList.contains("hidden")
+  )
+    previewView.previewSectionAll.classList.remove("hidden");
+  else if (
+    screen.width <= 600 &&
+    !settingsView.settingsSection.classList.contains("hidden")
+  ) {
+    noteView.noteCreationSection.classList.add("hidden");
+    previewView.previewSectionAll.classList.add("hidden");
+  } else if (
+    screen.width <= 600 &&
+    settingsView.settingsSection.classList.contains("hidden")
+  ) {
+    noteView.noteCreationSection.classList.remove("hidden");
+    previewView.previewSectionAll.classList.add("hidden");
+    sidebarView.overlaySidebar.classList.add("hidden");
+  }
+  document
+    .querySelectorAll(".settings-menu")
+    .forEach((el) => el.classList.add("hidden"));
+  document
+    .querySelectorAll(".settings-section .ph-caret-down-bold")
+    .forEach((el) => el.classList.remove("hidden"));
+  document
+    .querySelectorAll(".settings-section .ph-caret-up-bold")
+    .forEach((el) => el.classList.add("hidden"));
+}
+
 // WELCOME VIEW /////////////////////////////////
 function toggleWelcome() {
   noteView.toggleWelcomeNoteView();
@@ -74,7 +112,7 @@ function togglePreviewSection(state) {
     previewView.previewSectionAll.classList.contains("hidden") &&
     !settingsView.settingsSection.classList.contains("hidden")
   )
-    settingsView.toggleSettings(state);
+    toggleSettings();
   previewView.previewSectionAll.classList.toggle("hidden");
 }
 
@@ -248,7 +286,7 @@ function togglePopup() {
 }
 
 const controlOverallStatistics = function () {
-  if (screen.width <= 600) settingsView.toggleSettings(model.state);
+  if (screen.width <= 600) toggleSettings();
   const data = model.getGraphData();
   togglePopup();
   settingsView.renderChart(data);
@@ -335,7 +373,7 @@ function addRemoveTagFromNote(tag) {
 }
 
 const controlTagMenuCustom = function () {
-  settingsView.toggleSettings(model.state);
+  toggleSettings();
   settingsView.toggleStatisticsList("tags", "remove");
   settingsView.customTagInputFocus();
   if (screen.width <= 600) mobileView.toggleSidebar("open");

@@ -76,44 +76,6 @@ class SettingsView {
     this.#myFontsList.insertAdjacentHTML("beforeend", html);
   }
 
-  toggleSettings(state) {
-    this.settingsSection.classList.toggle("hidden");
-    if (
-      screen.width > 600 &&
-      !this.settingsSection.classList.contains("hidden")
-    )
-      previewView.previewSectionAll.classList.add("hidden");
-    else if (
-      screen.width > 600 &&
-      state.previewSectionOpen === true &&
-      previewView.previewSectionAll.classList.contains("hidden")
-    )
-      previewView.previewSectionAll.classList.remove("hidden");
-    else if (
-      screen.width <= 600 &&
-      !this.settingsSection.classList.contains("hidden")
-    ) {
-      noteView.noteCreationSection.classList.add("hidden");
-      previewView.previewSectionAll.classList.add("hidden");
-    } else if (
-      screen.width <= 600 &&
-      this.settingsSection.classList.contains("hidden")
-    ) {
-      noteView.noteCreationSection.classList.remove("hidden");
-      previewView.previewSectionAll.classList.add("hidden");
-      sidebarView.overlaySidebar.classList.add("hidden");
-    }
-    document
-      .querySelectorAll(".settings-menu")
-      .forEach((el) => el.classList.add("hidden"));
-    document
-      .querySelectorAll(".settings-section .ph-caret-down-bold")
-      .forEach((el) => el.classList.remove("hidden"));
-    document
-      .querySelectorAll(".settings-section .ph-caret-up-bold")
-      .forEach((el) => el.classList.add("hidden"));
-  }
-
   customTagInputFocus() {
     this.#customTagInput.focus();
     this.#customTagInput.value = "";
