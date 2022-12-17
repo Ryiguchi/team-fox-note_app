@@ -283,27 +283,7 @@
 
       <main class="note-creation-section">
         <!-- welcome pop-up -->
-        <div class="welcome-pop-up hidden">
-          <div class="welcome-pop-up-text">
-            <h1>Welcome to Fox Notes</h1>
-            <p class="welcome-description">
-              Fox Notes helps you easily keep track of your notes! You can mark
-              notes as "favorites" as well as give your notes searchable "tags"
-              to organize them, which you'll find in the tag-list in the
-              sidebar. All notes are autosaved, time- and date tracked; easily
-              filtred by your words and displayed in different themes of your
-              choise - you'll find a light-, dark- and Swedish theme. <br />
-              <br />
-              The application of course offers the fundamental actions as text
-              styling, image- and video compatibility, website linking and input
-              of code blocks. <br />
-              <br />
-              We also added a print function that scale downs your notes to make
-              effective prints without wasting color.
-            </p>
-          </div>
-          <button class="welcome-close-btn btn">Dismiss</button>
-        </div>
+
         <!-- toolbar -->
         <div id="toolbar">
           <!-- Add font size dropdown -->
@@ -341,10 +321,13 @@
           <button class="ql-image" title="Import image"></button>
           <button class="ql-video" title="Import video"></button>
           <button class="ql-clean" title="Clean text style"></button>
-          <button class="markdownImport" title="Convert to HTML">
+          <button class="markdownImport markdown-btn" title="Convert to HTML">
             <i class="ph-file-html icon-toolbar"></i>
           </button>
-          <button class="markdownExport" title="Convert to Markdown">
+          <button
+            class="markdownExport markdown-btn"
+            title="Convert to Markdown"
+          >
             <i class="ph-export icon-toolbar"></i>
           </button>
 
@@ -392,7 +375,45 @@
           </div>
           <div id="editor"></div>
         </div>
+        <!-- Sticky box -->
+        <div class="sticky-box">
+          <div class="word-count-box countSpan hidden">
+            <div class="word-count">
+              <p id="counter">0</p>
+            </div>
+            <p>Words</p>
+          </div>
+          <div class="note-saved-box">
+            <div class="spinner hidden"></div>
+            <i class="ph-floppy-disk-bold sticky-box-icon saved-note-icon"></i>
+            <div class="autosave-msg"></div>
+          </div>
+          <div class="new-note-box icon-plus icon">
+            <i class="ph-plus icon-side-bar icon" id="plussNewNote"></i>
+          </div>
+        </div>
       </main>
+      <div class="welcome-pop-up hidden">
+        <div class="welcome-pop-up-text">
+          <h1>Welcome to Fox Notes</h1>
+          <p class="welcome-description">
+            Fox Notes helps you easily keep track of your notes! You can mark
+            notes as "favorites" as well as give your notes searchable "tags" to
+            organize them, which you'll find in the tag-list in the sidebar. All
+            notes are autosaved, time- and date tracked; easily filtred by your
+            words and displayed in different themes of your choise - you'll find
+            a light-, dark- and Swedish theme. <br />
+            <br />
+            The application of course offers the fundamental actions as text
+            styling, image- and video compatibility, website linking and input
+            of code blocks. <br />
+            <br />
+            We also added a print function that scale downs your notes to make
+            effective prints without wasting color.
+          </p>
+        </div>
+        <button class="welcome-close-btn btn">Dismiss</button>
+      </div>
     </div>
     <div class="overlay hidden"></div>
     <div class="overlay-sidebar hidden"></div>
@@ -400,28 +421,11 @@
     <div class="overlay-filter-tags hidden"></div>
     <div class="overlay-filter-keyword hidden"></div>
 
-    <!-- Sticky box -->
-    <div class="sticky-box">
-      <div class="word-count-box countSpan hidden">
-        <div class="word-count">
-          <p id="counter">0</p>
-        </div>
-        <p>Words</p>
-      </div>
-      <div class="note-saved-box">
-        <div class="spinner hidden"></div>
-        <i class="ph-floppy-disk-bold sticky-box-icon saved-note-icon"></i>
-        <div class="autosave-msg"></div>
-      </div>
-      <div class="new-note-box icon-plus icon">
-        <i class="ph-plus icon-side-bar icon" id="plussNewNote"></i>
-      </div>
-    </div>
     <!-- Template modal -->
     <div class="templateModal hidden">
       <div class="template-container">
         <h1>Select a Template</h1>
-        <div class="template-1 template">
+        <div class="template-1 template" data-template="empty">
           <h2>Empty Template</h2>
           <img
             src="./img/empty.png"
@@ -429,7 +433,7 @@
             class="template-empty"
           />
         </div>
-        <div class="template-2 template">
+        <div class="template-2 template" data-template="resume">
           <h2>Resume Template</h2>
 
           <img
@@ -438,7 +442,7 @@
             class="template-resume"
           />
         </div>
-        <div class="template-3 template">
+        <div class="template-3 template" data-template="recipe">
           <h2>Recipe Template</h2>
           <img
             src="./img/recipe.png"
@@ -446,7 +450,7 @@
             class="template-recipe"
           />
         </div>
-        <div class="template-4 template">
+        <div class="template-4 template" data-template="letter">
           <h2>Letter Template</h2>
 
           <img

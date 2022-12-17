@@ -78,10 +78,11 @@ const displayMobileView = function () {
 
 // WELCOME VIEW /////////////////////////////////
 function toggleWelcome() {
-  noteView.noteSection.classList.toggle("hidden");
-  mobileView.toolbar.classList.toggle("hidden");
+  noteView.noteCreationSection.classList.toggle("hidden");
+  sidebarView.toolbar.classList.toggle("hidden");
   previewView.previewSectionAll.classList.toggle("hidden");
   noteView.stickyBox.classList.toggle("hidden");
+  welcomeView.togglePopup();
   if (screen.width <= 450) sidebarView.sidebar.classList.add("hidden");
 }
 
@@ -363,18 +364,18 @@ const controlToggleTitleBookmark = function () {
 
 // NOTE VIEW //////////////////////////////////////
 
-const controlMarkdownExport = function () {
-  const editorValue = noteView.getEditorText();
-  quill.setContents([{ insert: turndownService.turndown(editorValue) }]);
-  model.saveNote(quill.getContents(), noteView.inputTitle.value);
-};
+const controlMarkdown = function (action, editorValue) {
+  if (action === "export") {
+    quill.setContents([{ insert: turndownService.turndown(editorValue) }]);
+    model.saveNote(quill.getContents(), noteView.inputTitle.value);
+  }
 
-const controlMarkdownImport = function () {
-  const editorValue = noteView.getEditorText();
-  const converter = new showdown.Converter();
-  const html = converter.makeHtml(editorValue);
-  quill.setContents([{ insert: html }]);
-  model.saveNote(quill.getContents());
+  if (action === "import") {
+    const converter = new showdown.Converter();
+    const html = converter.makeHtml(editorValue);
+    quill.setContents([{ insert: html }]);
+    model.saveNote(quill.getContents());
+  }
 };
 
 function addRemoveTagFromNote(tag) {
@@ -393,7 +394,6 @@ const controlTagMenuCustom = function () {
   if (screen.width <= 600) mobileView.toggleSidebar("open");
 };
 
-// /////////////////////////////////BUG//////////////////////////////
 const controlAutosave = function () {
   // clear the timeout as the user is typing/editing
   if (saveTimeoutId) window.clearTimeout(saveTimeoutId);
@@ -410,19 +410,16 @@ const controlAutosave = function () {
   }, AUTOSAVE_SEC * 1000); // saveTimeoutId timeout
 };
 
-const controlTemplateModal = function (e) {
-  if (e.target.classList.contains("template-resume"))
-    quill.setContents(resumeTemplate);
+const controlTemplateModal = function (template) {
+  if (template === "resume") quill.setContents(resumeTemplate);
 
-  if (e.target.classList.contains("template-recipe"))
-    quill.setContents(recipeTemplate);
+  if (template === "recipe") quill.setContents(recipeTemplate);
 
-  if (e.target.classList.contains("template-letter"))
-    quill.setContents(letterTemplate);
+  if (template === "letter") quill.setContents(letterTemplate);
 
-  if (e.target.classList.contains("template-empty")) {
+  if (template === "empty") {
     titleView.toggleStar("remove");
-    noteView.createNewNote(quill);
+    quill.setContents();
     model.addNewNoteToState();
   }
 };
@@ -433,12 +430,7 @@ const controlTemplateModal = function (e) {
 
 const init = function () {
   // Welcome screen
-  if (model.state.welcomeScreen && screen.width <= 450) {
-    welcomeView.toggleWelcome();
-  }
-
-  if (model.state.welcomeScreen && screen.width > 450)
-    welcomeView.toggleWelcome();
+  if (model.state.welcomeScreen) toggleWelcome();
 
   // Different layouts for different screen sizes
   if (!model.state.welcomeScreen && screen.width <= 600) {
@@ -495,12 +487,9 @@ const init = function () {
   titleView.addHandlerTagMenuItems(addRemoveTagFromNote);
   titleView.addHandlerRemoveTag(addRemoveTagFromNote);
 
-  noteView.addHandlerOpenNewNote();
-  noteView.addHandlerEditor();
-  noteView.addHandlerMarkdownExport(controlMarkdownExport);
-  noteView.addHandlerMarkdownImport(controlMarkdownImport);
-  noteView.addHandlerAutosave(controlAutosave);
   noteView.addHandlerTemplateModal(controlTemplateModal);
+  noteView.addHandlerMarkdown(controlMarkdown);
+  noteView.addHandlerAutosave(controlAutosave);
 
   // sidebarView.addHandlerBtnCaretToolbarContainer(
   //   controlBtnCaretToolbarContainer
