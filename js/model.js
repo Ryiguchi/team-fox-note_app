@@ -1,4 +1,10 @@
 import { G_FONTS_API_URL, DEFAULT_TAGS, DEFAULT_THEME } from "./config.js";
+
+const googleFontsLink = document.querySelector(".google-fonts-link");
+const fontsStylesheet = document.querySelector(".font-stylesheet");
+const fontList = document.querySelector(".font-list-toolbar");
+let timeSpent;
+
 export let state = {
   savedNotes: [],
   userTags: [...DEFAULT_TAGS],
@@ -9,7 +15,81 @@ export let state = {
   welcomeScreen: true,
 };
 
-let timeSpent;
+// Google Fonts
+export const fetchGoogleFontsList = async function () {
+  try {
+    const res = await fetch(G_FONTS_API_URL);
+    if (!res.ok) throw new Error("Can't get fonts");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const fontData = await fetchGoogleFontsList();
+
+const loadFont = function (font) {
+  const capitalize = function (str) {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+  const hyphenate = function (str) {
+    return str.split(" ").join("-");
+  };
+
+  const addPlus = function (str) {
+    return str.replace(" ", "+");
+  };
+
+  const setGoogleFontsLink = function (font) {
+    let fontString = addPlus(capitalize(font));
+    font;
+    const fontObj = fontData.items.find((obj) => obj.family === font);
+
+    if (fontObj.variants.includes("italic") && fontObj.variants.includes("700"))
+      fontString += ":ital,wght@0,400;0,700;1,400";
+    if (
+      fontObj.variants.includes("italic") &&
+      !fontObj.variants.includes("700")
+    )
+      fontString += ":ital@0;1";
+    if (
+      !fontObj.variants.includes("italic") &&
+      fontObj.variants.includes("700")
+    )
+      fontString += ":wght@400;700";
+
+    let href = googleFontsLink.getAttribute("href");
+    href = `${href.slice(0, -12)}family=${fontString}&display=swap`;
+    googleFontsLink.setAttribute("href", href);
+  };
+
+  const setFontsStylesheet = function (font) {
+    const style = `
+    #toolbar-container .ql-font span[data-label="${capitalize(font)}"]::before {
+      font-family: "${capitalize(font)}";
+    }
+    .ql-font-${hyphenate(font)} {
+      font-family: "${capitalize(font)}";
+    }
+  `;
+    fontsStylesheet.insertAdjacentHTML("afterbegin", style);
+  };
+
+  const setFontList = function (font) {
+    const html = `<option value="${hyphenate(font)}">${capitalize(
+      font
+    )}</option>`;
+    fontList.insertAdjacentHTML("beforeend", html);
+  };
+
+  setGoogleFontsLink(font);
+  setFontsStylesheet(font);
+  setFontList(font);
+};
 
 const setInitialStateValues = function () {
   state.currentPreview = state.savedNotes;
@@ -69,31 +149,7 @@ export const getGraphData = function () {
   };
 };
 
-// Google Fonts
-export const fetchGoogleFontsList = async function () {
-  try {
-    const res = await fetch(G_FONTS_API_URL);
-    if (!res.ok) throw new Error("Can't get fonts");
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    return err;
-  }
-};
-
-export const fontData = await fetchGoogleFontsList();
-
-// export const fontData = fetchGoogleFontsList().then((res) =>
-//   settingsView.renderFontsList(res)
-// );
-
 // LOCAL STORAGE /////////////////////////////////////////
-/**
- * This function saves data to Local Storage
- * @param {Object | Object[]} data Pass in the state object to be saved for the user (e.g. bookmarks, tags, etc.)
- * @author Ryan Iguchi
- * @
- */
 export const setLocalStorage = function (data) {
   data.savedNotes.forEach((note, i) => {
     if (!note.delta && i !== 0) data.savedNotes.splice(i, 1);
@@ -101,11 +157,6 @@ export const setLocalStorage = function (data) {
   localStorage.setItem("state", JSON.stringify(state));
 };
 
-/**
- * This function gets a deep clone of the saved object in Local Storage
- * @returns {Object | Object[]} The users saved settings (e.g. bookmarks, tags, etc.)
- * @author Ryan Iguchi
- */
 const getLocalStorage = function () {
   return _.cloneDeep(JSON.parse(localStorage.getItem("state")));
 };
@@ -237,6 +288,7 @@ const init = function () {
     state = getLocalStorage();
     state.currentPreview = state.savedNotes;
     state.currentPreviewTitle = "All Notes";
+    if (state.fonts.length > 0) state.fonts.forEach((font) => loadFont(font));
   }
   // timer
   if (localStorage.getItem("timeSpent")) {

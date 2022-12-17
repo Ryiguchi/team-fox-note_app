@@ -8,7 +8,7 @@ import welcomeView from "./views/welcomeView.js";
 import { AUTOSAVE_SEC } from "./config.js";
 import * as model from "./model.js";
 import { letterTemplate, recipeTemplate, resumeTemplate } from "./templates.js";
-import { fontArray } from "./init.js";
+// import { fontArray } from "./init.js";
 import titleView from "./views/titleView.js";
 // counter for the timer of time spent.
 let saveTimeoutId;
@@ -19,7 +19,8 @@ const turndownService = new TurndownService();
 const hyphenate = function (str) {
   return str.split(" ").join("-");
 };
-const fontArrayHyphen = fontArray?.map((font) => hyphenate(font));
+
+const fontArrayHyphen = model.state.fonts?.map((font) => hyphenate(font));
 
 if (fontArrayHyphen) {
   let Font = Quill.import("formats/font");
