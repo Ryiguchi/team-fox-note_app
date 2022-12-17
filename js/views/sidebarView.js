@@ -18,6 +18,11 @@ class SidebarView {
     this.#addHandlerBtnCaretToolbarContainer();
   }
 
+  toggleWelcomeSidebarView() {
+    this.toolbar.classList.toggle("hidden");
+    if (screen.width <= 450) this.sidebar.classList.add("hidden");
+  }
+
   toggleSidebar() {
     this.sidebar.classList.toggle("hidden");
     this.overlaySidebar.classList.toggle("hidden");

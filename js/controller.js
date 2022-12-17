@@ -64,19 +64,27 @@ const displayMobileView = function () {
 
 // WELCOME VIEW /////////////////////////////////
 function toggleWelcome() {
-  noteView.noteCreationSection.classList.toggle("hidden");
-  sidebarView.toolbar.classList.toggle("hidden");
-  previewView.previewSectionAll.classList.toggle("hidden");
-  noteView.stickyBox.classList.toggle("hidden");
+  noteView.toggleWelcomeNoteView();
+  previewView.toggleWelcomePreviewView();
+  sidebarView.toggleWelcomeSidebarView();
   welcomeView.togglePopup();
-  if (screen.width <= 450) sidebarView.sidebar.classList.add("hidden");
+  if (screen.width <= 600) model.state.previewSectionOpen = false;
+}
+
+function togglePreviewSection(state) {
+  if (
+    previewView.previewSectionAll.classList.contains("hidden") &&
+    !settingsView.settingsSection.classList.contains("hidden")
+  )
+    settingsView.toggleSettings(state);
+  previewView.previewSectionAll.classList.toggle("hidden");
 }
 
 const controlWelcomeScreen = function () {
   model.toggleStateWelcomeScreen();
   model.setLocalStorage(model.state);
   toggleWelcome();
-  if (screen.width <= 600) previewView.togglePreviewSection();
+  if (screen.width <= 600) togglePreviewSection();
   if (screen.width <= 450) displayMobileView();
 };
 
@@ -97,7 +105,7 @@ const controlNotebookIcon = function () {
       : noteView.noteCreationSection.classList.add("hidden");
   }
 
-  previewView.togglePreviewSection(model.state);
+  togglePreviewSection(model.state);
 
   model.state.previewSectionOpen =
     previewView.previewSectionAll.classList.contains("hidden") ? false : true;
@@ -157,7 +165,7 @@ const controlToggleBookmark = function (id) {
 
 const controlDisplayNote = function (id) {
   controlRenderNote(id);
-  if (screen.width <= 600) previewView.togglePreviewSection();
+  if (screen.width <= 600) togglePreviewSection();
   if (screen.width <= 450) sidebarView.toggleSidebar();
 };
 
@@ -352,18 +360,27 @@ const controlAutosave = function () {
 };
 
 const controlTemplateModal = function (template) {
-  if (template === "resume") quill.setContents(resumeTemplate);
+  if (template === "resume") {
+    quill.setContents(resumeTemplate);
+    titleView.inputTitle.value = "Untitled Resume";
+  }
 
-  if (template === "recipe") quill.setContents(recipeTemplate);
+  if (template === "recipe") {
+    quill.setContents(recipeTemplate);
+    titleView.inputTitle.value = "Untitled Recipe";
+  }
 
-  if (template === "letter") quill.setContents(letterTemplate);
+  if (template === "letter") {
+    quill.setContents(letterTemplate);
+    titleView.inputTitle.value = "Untitled Letter";
+  }
 
   if (template === "empty") {
-    titleView.toggleStar("remove");
     titleView.inputTitle.value = "";
+    titleView.toggleStar("remove");
     quill.setContents();
-    model.addNewNoteToState();
   }
+  model.addNewNoteToState();
   model.removeDisplayingOnNotes();
   previewView.renderPreview(
     model.state.currentPreview,
@@ -381,7 +398,6 @@ const init = function () {
 
   // Different layouts for different screen sizes
   if (!model.state.welcomeScreen && screen.width <= 600) {
-    previewView.togglePreviewSection();
     model.state.previewSectionOpen = false;
   }
 

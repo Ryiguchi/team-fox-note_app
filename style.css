@@ -900,18 +900,18 @@ select.themeSelect {
 }
 
 .template-1:hover {
-  transform: translate(20%, 20%) scale(140%);
+  transform: translate(5%, 5%) scale(110%);
 }
 
 .template-2:hover {
-  transform: translate(-20%, 20%) scale(140%);
+  transform: translate(-5%, 10%) scale(110%);
 }
 .template-3:hover {
-  transform: translate(20%, -20%) scale(140%);
+  transform: translate(5%, -5%) scale(110%);
 }
 
 .template-4:hover {
-  transform: translate(-20%, -20%) scale(140%);
+  transform: translate(-5%, -5%) scale(110%);
 }
 
 .templateModal {
@@ -1101,7 +1101,7 @@ select.themeSelect {
   }
 
   .welcome-pop-up {
-    width: 75%;
+    width: 90%;
   }
 
   .filter-select,

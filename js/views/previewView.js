@@ -19,13 +19,9 @@ class PreviewView {
     this.#addHandlerSearchNotesInputKeydown();
   }
 
-  togglePreviewSection(state) {
-    if (
-      this.previewSectionAll.classList.contains("hidden") &&
-      !settingsView.settingsSection.classList.contains("hidden")
-    )
-      settingsView.toggleSettings(state);
+  toggleWelcomePreviewView() {
     this.previewSectionAll.classList.toggle("hidden");
+    if (screen.width <= 600) this.previewSectionAll.classList.add("hidden");
   }
 
   changePreviewSectionHeaderText(text) {
@@ -33,7 +29,6 @@ class PreviewView {
   }
 
   renderPreview(notesArr, listType = "All Notes") {
-    console.log(notesArr);
     this.changePreviewSectionHeaderText(listType);
     let markup = "";
 

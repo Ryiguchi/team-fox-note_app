@@ -19,6 +19,11 @@ class NoteView {
 
   // METHODS
 
+  toggleWelcomeNoteView() {
+    this.noteCreationSection.classList.toggle("hidden");
+    this.stickyBox.classList.toggle("hidden");
+  }
+
   #removeAllSiblingsAfter(el) {
     let nextSibling = el.nextElementSibling;
     while (nextSibling) {
