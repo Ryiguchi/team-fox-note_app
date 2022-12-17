@@ -1,7 +1,6 @@
 "use strict";
-import View from "./View.js";
 
-class SidebarView extends View {
+class SidebarView {
   #burger = document.querySelector(".ph-list");
   toolbar = document.querySelector("#toolbar");
   #btnCaretToolbarContainer = document.querySelector(
@@ -16,13 +15,29 @@ class SidebarView extends View {
   caretUpMobile = document.querySelector(".caret-up-mobile");
 
   constructor() {
-    super();
     this.#addHandlerBtnCaretToolbarContainer();
   }
 
   toggleSidebar() {
     this.sidebar.classList.toggle("hidden");
     this.overlaySidebar.classList.toggle("hidden");
+  }
+
+  renderTagList(parEl, tags) {
+    parEl.innerHTML = "";
+    let markup = "";
+    tags?.forEach((tag) => {
+      const newTag = tag.replaceAll(/\s+/g, "_");
+      markup += `
+       
+        <li class="tag-selection tag-selection-${newTag} tag-selection-filter" data-tag="${newTag}"
+        >
+          ${tag}       
+        </li>
+      `;
+    });
+
+    parEl.insertAdjacentHTML("beforeend", markup);
   }
 
   // HANDLERS

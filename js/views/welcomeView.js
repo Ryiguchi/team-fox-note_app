@@ -1,6 +1,5 @@
 "use strict";
-import View from "./View.js";
-class WelcomeView extends View {
+class WelcomeView {
   #welcomePopUp = document.querySelector(".welcome-pop-up");
   #btnCloseWelcomeScreen = document.querySelector(".welcome-close-btn");
 

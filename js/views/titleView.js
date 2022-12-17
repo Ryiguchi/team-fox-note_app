@@ -1,16 +1,14 @@
 "use strict";
-import View from "./View.js";
-
-class TitleView extends View {
+class TitleView {
   #titleContainer = document.querySelector(".title-container");
   #bookmarkFillIcon = document.querySelector(".ph-star-fill-toolbar");
   #bookmarkEmptyIcon = document.querySelector(".ph-star-toolbar");
   #tagMenuContainer = document.querySelector(".tag-selection-container-title");
   #tagMenu = document.querySelector(".tag-list-title-all");
   inputTitle = document.querySelector(".input-title");
+  #overlay = document.querySelector(".overlay");
 
   constructor() {
-    super();
     this.#addHandlerToggleTagMenu();
     this.#addHandlerInputTitleFocus();
     this.#addHandlerOverlay();
@@ -74,19 +72,23 @@ class TitleView extends View {
 
   #toggleTagMenu() {
     this.#tagMenuContainer.classList.toggle("hidden");
-    this.toggleOverlay();
+    this.#toggleOverlay();
   }
 
   updateCurrentNoteBookmark(note) {
     note.bookmarked ? this.toggleStar("add") : this.toggleStar("remove");
   }
 
+  #toggleOverlay() {
+    this.#overlay.classList.toggle("hidden");
+  }
+
   // HANDLERS
 
   #addHandlerOverlay() {
-    this.overlay.addEventListener("click", () => {
+    this.#overlay.addEventListener("click", () => {
       this.#tagMenuContainer.classList.add("hidden");
-      this.overlay.classList.add("hidden");
+      this.#overlay.classList.add("hidden");
     });
   }
 
@@ -111,7 +113,7 @@ class TitleView extends View {
     this.#titleContainer.addEventListener("click", (e) => {
       const tag = e.target.closest(".tag-selection-title-list")?.dataset.tag;
       if (!tag || tag !== "custom") return;
-      this.toggleOverlay();
+      this.#toggleOverlay();
       this.#toggleTagMenu();
       handler();
     });

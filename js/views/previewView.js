@@ -1,7 +1,6 @@
 "use strict";
-import View from "./View.js";
 
-class PreviewView extends View {
+class PreviewView {
   previewSectionAll = document.querySelector(".preview-section");
   #previewSection = document.querySelector(".notes-preview-section");
   #filterMenuMain = document.querySelector(".filter-menu");
@@ -14,7 +13,6 @@ class PreviewView extends View {
   #tagMenuSidebar = document.querySelector(".tag-selection-container-sidebar");
 
   constructor() {
-    super();
     this.#addHandlerFilterBtn();
     this.#addHandlerOverlayFilter();
     this.#addHandlerOverlayFilterTags();
@@ -34,19 +32,6 @@ class PreviewView extends View {
     this.#previewSectionHeader.innerHTML = text;
   }
 
-  highlightNotes() {
-    let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
-    notesHighlight.forEach((el) =>
-      el.addEventListener("click", (e) => {
-        [...el.parentElement.children].forEach((sib) => {
-          sib.classList.remove("note-Highlights"),
-            el.classList.add("note-Highlights");
-          noteView.counterText.textContent = "";
-        });
-      })
-    );
-  }
-
   renderPreview(notesArr, listType = "All Notes") {
     this.changePreviewSectionHeaderText(listType);
     let markup = "";
@@ -58,7 +43,9 @@ class PreviewView extends View {
       .forEach((note) => {
         markup += `
      
-      <div class="note-preview" data-id="${note.id}">
+      <div class="note-preview ${
+        note.displaying ? "current-note" : ""
+      }" data-id="${note.id}" >
        
 
         <div class="note-preview--date">${note.date}</div>
@@ -81,7 +68,8 @@ class PreviewView extends View {
       });
     this.#previewSection.append(this.#searchNotesInput);
     this.#previewSection.insertAdjacentHTML("afterbegin", markup);
-    this.highlightNotes();
+
+    // this.highlightNotes();
   }
 
   closeFilterList() {

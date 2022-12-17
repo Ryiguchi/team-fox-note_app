@@ -1,6 +1,5 @@
 "use strict";
-import View from "./View.js";
-class NoteView extends View {
+class NoteView {
   noteCreationSection = document.querySelector(".note-creation-section");
   #templateModal = document.querySelector(".templateModal");
   #editor = document.querySelector("#editor");
@@ -14,19 +13,26 @@ class NoteView extends View {
   #markdownImport = document.querySelector(".markdownImport");
 
   constructor() {
-    super();
     this.#addHandlerOpenNewNote();
     this.#addHandlerEditor();
   }
 
   // METHODS
 
+  #removeAllSiblingsAfter(el) {
+    let nextSibling = el.nextElementSibling;
+    while (nextSibling) {
+      nextSibling.remove();
+      nextSibling = el.nextElementSibling;
+    }
+  }
+
   renderNoteTags(tags) {
     ///moved to title
     const tagMenuTitleContainer = document.querySelector(
       ".tag-menu-title-container"
     );
-    this.removeAllSiblingsAfter(tagMenuTitleContainer);
+    this.#removeAllSiblingsAfter(tagMenuTitleContainer);
     let markup = "";
     tags?.forEach((tag, i) => {
       const newTag = tag.replaceAll(/\s+/g, "_");

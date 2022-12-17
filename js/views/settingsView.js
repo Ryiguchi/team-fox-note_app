@@ -1,6 +1,5 @@
 "use strict";
-import View from "./View.js";
-class SettingsView extends View {
+class SettingsView {
   settingsSection = document.querySelector(".settings-section");
   #settingsMenus = document.querySelectorAll(".settings-menu");
   #caretsDownSettingsection = document.querySelectorAll(
@@ -21,11 +20,10 @@ class SettingsView extends View {
   #fontsDataList = document.querySelector(".fonts-search-list");
   fontsInput = document.querySelector(".search-fonts-input");
   #myFontsList = document.querySelector(".my-fonts-list");
-  myTagsList = document.querySelector(".tag-list-sidebar");
+  #myTagsList = document.querySelector(".tag-list-sidebar");
   #customTagInput = document.querySelector(".custom-tag-input");
 
   constructor() {
-    super();
     this.#addHandlerSettingsItem();
     this.#addHandlerThemeSelect();
   }
@@ -37,6 +35,22 @@ class SettingsView extends View {
       el.classList.remove("hidden")
     );
     this.#caretsUpSettingsection.forEach((el) => el.classList.add("hidden"));
+  }
+
+  renderTagList(tags) {
+    this.#myTagsList.innerHTML = "";
+    let markup = "";
+    tags?.forEach((tag, i) => {
+      const newTag = tag.replaceAll(/\s+/g, "_");
+      markup += `
+        <li class="tag-selection tag-selection-${newTag} tag-selection-settings" data-tag="${newTag}"
+        >
+          ${tag}
+          <i class="ph-minus-circle-bold remove-font-btn-settings icon"></i>
+        </li>
+      `;
+    });
+    this.#myTagsList.insertAdjacentHTML("beforeend", markup);
   }
 
   renderFontsList(fonts) {
@@ -230,7 +244,8 @@ class SettingsView extends View {
   addHandlerRemoveTagFromState(handler) {
     this.settingsSection.addEventListener("click", (e) => {
       const tag = e.target.closest(".tag-selection")?.dataset.tag;
-      if (!tag) return;
+      if (!tag || !e.target.classList.contains("remove-font-btn-settings"))
+        return;
       handler(tag);
     });
   }

@@ -43,7 +43,7 @@ let quill = new Quill("#editor", {
 
 function renderAllTagLists() {
   const tagListFilter = document.querySelector(".tag-list-filter");
-  settingsView.renderTagList(settingsView.myTagsList, model.state.userTags);
+  settingsView.renderTagList(model.state.userTags);
   titleView.renderTagMenu(model.state.userTags);
   sidebarView.renderTagList(tagListFilter, model.state.userTags);
 }
@@ -83,7 +83,6 @@ const controlWelcomeScreen = function () {
 // SIDEBAR VIEW ////////////////////////////////
 
 const controlNotebookIcon = function () {
-  console.log(model.state.previewSectionOpen);
   const action = previewView.previewSectionAll.classList.contains("hidden")
     ? "open"
     : "close";
@@ -119,12 +118,31 @@ const controlToggleSidebar = function (open) {
 
 // PREVIEW VIEW ///////////////////////////////
 
+// function highlightNotes(index) {
+//   model.state.savedNotes[index].
+//   // let notesHighlight = [...document.body.querySelectorAll(".note-preview")];
+//   // notesHighlight.forEach((el) =>
+//   //   el.addEventListener("click", (e) => {
+//   //     [...el.parentElement.children].forEach((sib) => {
+//   //       sib.classList.remove("note-Highlights"),
+//   //         el.classList.add("note-Highlights");
+//   //       noteView.counterText.textContent = "";
+//   //     });
+//   //   })
+//   // );
+// }
+
 const controlRenderNote = function (id) {
   const index = model.getNoteIndexByID(id);
   const note = model.state.savedNotes[index];
+  model.setDisplayingOnNote(index);
   noteView.renderNote(note, quill);
   titleView.updateCurrentNoteBookmark(note);
   model.moveNoteToFront(index, note);
+  previewView.renderPreview(
+    model.state.currentPreview,
+    model.state.currentPreviewTitle
+  );
 };
 
 const controlDeleteNote = function (id) {
@@ -209,7 +227,6 @@ const controlSearchNotesInput = function () {
 // SETTINGS VIEW /////////////////////////////////
 // opens settings menu
 const controlToggleSettings = function () {
-  console.log(model.state.previewSectionOpen);
   const action = settingsView.settingsSection.classList.contains("hidden")
     ? "open"
     : "close";
@@ -362,6 +379,11 @@ const controlTemplateModal = function (template) {
     quill.setContents();
     model.addNewNoteToState();
   }
+  model.removeDisplayingOnNotes();
+  previewView.renderPreview(
+    model.state.currentPreview,
+    model.state.currentPreviewTitle
+  );
 };
 
 // MOBILE VIEW ////////////////////////////////////

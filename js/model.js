@@ -31,8 +31,18 @@ export const initNoteValues = function () {
     bookmarked: false,
     saved: false,
     title: "Untitled note",
+    displaying: true,
   };
   return newNote;
+};
+
+export const removeDisplayingOnNotes = function () {
+  state.savedNotes.forEach((note) => (note.displaying = false));
+};
+
+export const setDisplayingOnNote = function (index) {
+  removeDisplayingOnNotes();
+  state.savedNotes[index].displaying = true;
 };
 
 // Create the data for the graph
@@ -119,6 +129,7 @@ export const saveNote = function (contents, title) {
   if (!state.savedNotes[0]) {
     state.savedNotes[0] = initNoteValues();
   }
+
   const note = state.savedNotes[0];
   note.delta = _.cloneDeep(contents);
 
@@ -127,6 +138,7 @@ export const saveNote = function (contents, title) {
     : (note.title = title);
 
   note.preview = getPreview(note);
+  setDisplayingOnNote(0);
   setLocalStorage(state);
 };
 
