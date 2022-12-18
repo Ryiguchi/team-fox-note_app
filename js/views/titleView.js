@@ -34,11 +34,19 @@ class TitleView {
     this.#tagMenu.insertAdjacentHTML("beforeend", markup);
   }
 
+  #removeAllSiblingsAfter(el) {
+    let nextSibling = el.nextElementSibling;
+    while (nextSibling) {
+      nextSibling.remove();
+      nextSibling = el.nextElementSibling;
+    }
+  }
+
   renderNoteTags(tags) {
     const tagMenuTitleContainer = document.querySelector(
       ".tag-menu-title-container"
     );
-    this.removeAllSiblingsAfter(tagMenuTitleContainer);
+    this.#removeAllSiblingsAfter(tagMenuTitleContainer);
     let markup = "";
     tags?.forEach((tag, i) => {
       const newTag = tag.replaceAll(/\s+/g, "_");

@@ -41,7 +41,7 @@ class NoteView {
     let markup = "";
     tags?.forEach((tag, i) => {
       const newTag = tag.replaceAll(/\s+/g, "_");
-      markup += `           
+      markup += `
         <div class="tag-selection-title-container">
           <div class="triangle-left"></div>
           <li class="tag-selection tag-selection-${newTag} tag-selection-title" data-tag="${newTag}">
